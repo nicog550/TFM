@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <title>TFM</title>
+    <link rel="stylesheet" href="stylesheets/bootstrap.min.css" type="text/css" media="screen" charset="utf-8">
+    <link rel="stylesheet" href="stylesheets/bootstrap-theme.min.css" type="text/css" media="screen" charset="utf-8">
+    <link rel="stylesheet" href="stylesheets/style.css" type="text/css" media="screen" charset="utf-8">
+    <link rel="stylesheet" href="stylesheets/estilos.css" type="text/css" media="screen" charset="utf-8">
+    <script src="javascripts/jquery-2.1.3.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="javascripts/sockets.js" type="text/javascript" charset="utf-8"></script>
+    <script src="javascripts/constants.js" type="text/javascript" charset="utf-8"></script>
+    <script src="javascripts/main.js" type="text/javascript" charset="utf-8"></script>
+</head>
+
+<body>
+<!--<div class="container">-->
+    <!--<div class="main">-->
+        <!--<h1>Welcome</h1>-->
+        <!--<p class="lead">There are <span id="connected-users">0</span> users connected.</p>-->
+    <!--</div>-->
+<!--</div>-->
+<div id="game-container">
+    <div id="game-screen" style="display: none;">
+        <canvas id="game-canvas" width="640" height="480"></canvas>
+        <div class="turno">
+            Eres el jugador <span id="player-id">1</span><br>
+            <span id="player-turn">1</span>
+        </div>
+    </div>
+
+    <div id="welcome-screen" class="gamelayer" style="display: none;">
+        <ul id="nav">
+            <li class="play-button"><span>Jugar</span></li>
+        </ul>
+    </div>
+
+    <div id="loading-screen">
+        <div class="message">Cargando...</div>
+    </div>
+
+    <div id="ending-screen" class="gamelayer" style="display: none;">
+        <div class="message">
+            <h4>
+                Partida terminada<br>
+                <span id="winner-name"></span>
+            </h4>
+            <span class="play-button">Volver a jugar</span>
+        </div>
+    </div>
+    <div style="display: none;">
+        <img id="avatar1" src="images/player1.png">
+        <img id="avatar2" src="images/player2.png">
+    </div>
+</div>
+</body>
+</html>

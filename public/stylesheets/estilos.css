@@ -1,0 +1,83 @@
+#game-container {
+    background: url('../images/background.jpg') center no-repeat;
+    width: 800px;
+    height: 480px;
+}
+.gamelayer {
+    width:640px;
+    height:480px;
+    position:absolute;
+}
+#welcome-screen {
+    padding-top:250px;
+    text-align:center;
+}
+#welcome-screen img {
+    margin:10px;
+    cursor:pointer;
+}
+
+#nav {
+    margin-left: 100px;
+}
+
+#nav li {
+    padding: 10px;
+    border-radius: 20px;
+    border: 2px solid;
+    background-color: #FFF;
+    margin:auto;
+    width: 200px;
+    height: 40px;
+    cursor:pointer;
+    list-style-type: none;
+}
+
+#nav li span {
+    font-size: 36px;
+}
+
+canvas {
+    background: url(../images/grid.jpg);
+    height: 480px;
+    width: 480px;
+    position: relative;
+    margin: auto;
+    display: block;
+}
+
+#settings {
+    float: right;
+    padding: 20px;
+}
+
+#loading-screen {
+    width: inherit;
+    height: inherit;
+    position: relative;
+}
+
+div.message {
+    position: absolute;
+    color: white;
+    bottom: 10px;
+    font-size: 24px;
+    margin-left: 250px;
+    text-align: center;
+}
+
+div.turno {
+    float: right;
+    margin-top: -420px;
+    color: white;
+    font-size: 24px;
+    text-align: right;
+}
+
+label {
+    color: white;
+}
+
+.play-button {
+    cursor: pointer;
+}
