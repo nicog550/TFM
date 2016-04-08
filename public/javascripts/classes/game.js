@@ -2,9 +2,9 @@
 /**
  * Class responsible for the game logic
  */
-var Game = function(){
+var Game = function() {
     /** Jugadas con las que se gana una partida */
-    var $canvas = $("#game-canvas"),
+    var canvas = document.getElementById("game-canvas"),
         combinacionesGanadoras = [
             [0, 1, 2], [0, 3, 6], [0, 4, 8], [1, 4, 7], [2, 4, 6], [2, 5, 8], [3, 4, 5], [6, 7, 8]
         ],
@@ -20,14 +20,13 @@ var Game = function(){
         fichasJ2 = [0, 0, 0, 0, 0, 0, 0, 0, 0],
         /** Reference to the Main class */
         selector = "game-screen",
-        sockets = Sockets(),
         /** Fichas colocadas sobre el tablero */
         tablero = [0, 0, 0, 0, 0, 0, 0, 0, 0];
     return {
-        init: function(main) {
+        init: function(main, sockets) {
             var that = this;
             graphicBoard.init(main);
-            $canvas.on('click', function(e) {
+            $(canvas).on('click', function(e) {
                 var posiciones = obtenerFilaYColumna(dimensionCasilla, this.obtenerCoordenadas(e));
                 var casilla = obtenerCasilla(posiciones.fila, posiciones.columna);
                 if (movimientoEsValido(casilla, main)) {
@@ -63,7 +62,7 @@ var Game = function(){
 
     function completeTurn(newBoard) {
         tablero = newBoard;
-        graphicBoard.repaintBoard($canvas[0]);
+        graphicBoard.repaintBoard(canvas);
         changeTurn();
     }
 
@@ -96,8 +95,7 @@ var Game = function(){
      * Prepara el canvas y el tablero para una nueva partida
      */
     function initGame() {
-        var canvas = document.getElementById(canvasSelector),
-            ctx = canvas.getContext("2d");
+        var ctx = canvas.getContext("2d");
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         tablero = [0, 0, 0, 0, 0, 0, 0, 0, 0];
         imagenJugador1 = document.getElementById("avatar1");

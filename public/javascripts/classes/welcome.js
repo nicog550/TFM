@@ -1,7 +1,7 @@
 /**
  * Class responsible for the welcome screen
  */
-var Welcome = function(){
+var Welcome = function() {
     var selector = "welcome-screen";
     return {
         init: function(main) {

@@ -2,7 +2,7 @@
 /**
  * Class responsible for the waiting room screen
  */
-var WaitingRoom = function(){
+var WaitingRoom = function() {
     var game = Game(),
         main,
         selector = "waiting-room-screen",

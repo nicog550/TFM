@@ -2,7 +2,7 @@
 /**
  * Class responsible for the sockets
  */
-var Sockets = function (){
+var Sockets = function() {
     var ioSocket = io(),
         game,
         gameOver = GameOver(),
@@ -13,14 +13,15 @@ var Sockets = function (){
             USER_LEFT: 'user left',
             USER_JOINED: 'user joined'
         },
-        main = Main(),
+        main,
         waitingRoom = WaitingRoom();
     return {
-        init: function(gameRef) {
+        init: function(mainRef, gameRef) {
+            main = mainRef;
             game = gameRef;
             waitingRoom.init(main);
-            // connect();
-            // recibirMovimiento();
+            connect();
+            recibirMovimiento();
         },
         messages: messages,
         send: send,
@@ -34,12 +35,11 @@ var Sockets = function (){
     function connect() {
         // Whenever the server emits 'login', log the login message
         ioSocket.on(messages.LOGIN, function (data) {
-            console.log("logged in")
-            // waitingRoom.checkNumUsers(data.numUsers);
-            // main.miTurno = data.numUsers % 2; // Este valor puede ser mayor que 2, por lo que usamos el módulo
-            // if (main.miTurno === 0) Main.miTurno = 2;
-            // $("#player-id").text(main.miTurno);
-            // game.changeTurn();
+            waitingRoom.checkNumUsers(data.numUsers);
+            main.miTurno = data.numUsers % 2; // Este valor puede ser mayor que 2, por lo que usamos el módulo
+            if (main.miTurno === 0) Main.miTurno = 2;
+            $("#player-id").text(main.miTurno);
+            game.changeTurn();
         });
 
         // Whenever the server emits 'user joined', log it in the chat body
