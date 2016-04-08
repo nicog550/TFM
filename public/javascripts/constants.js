@@ -2,6 +2,6 @@
  * Simple object containing main constant values
  */
 var Constants = {
-    minUsers: 3,
+    minUsers: 2,
     maxUsers: 4
 };

@@ -1,49 +1,65 @@
+"use strict";
 /**
  * Class responsible for the waiting room screen
  */
-var WaitingRoom = {
-    selector: "waiting-room-screen",
+var WaitingRoom = function(){
+    var game = Game(),
+        main,
+        selector = "waiting-room-screen",
+        $connectedUsers = $("#connected-users"),
+        $excessiveUsers = $("#excessive-users"),
+        $insufficientUsers = $("#insufficient-users"),
+        $minUsers = $("#min-users"),
+        $maxUsers = $("#max-users");
+    return {
+        init: function(mainRef) {
+            main = mainRef;
+        },
+        selector: selector,
+        checkNumUsers: checkNumUsers
+    };
 
     /**
      * Checks whether the amount of connected users is within the room limits
      * @param numUsers The current amount of connected users
      */
-    checkNumUsers: function(numUsers) {
-        if (numUsers < Constants.minUsers) notifyInsufficientPlayers();
-        else if (numUsers <= Constants.maxUsers) numberWithinLimits(this);
-        else notifyExcessivePlayers();
+    function checkNumUsers(numUsers) {
+        if (numUsers < Constants.minUsers) _notifyInsufficientPlayers(numUsers);
+        else if (numUsers <= Constants.maxUsers) _numberWithinLimits(this);
+        else _notifyExcessivePlayers(numUsers);
 
-        /**
-         * Displays a message indicating to the user that the room is full
-         */
-        function notifyExcessivePlayers() {
-            $("#connected-users").text(numUsers);
-            $("#max-users").text(Constants.maxUsers);
-            $("#insufficient-users").hide();
-            $("#excessive-users").show();
-        }
+    }
 
-        /**
-         * Displays a message indicating to the user that there are not enough users connected yet
-         */
-        function notifyInsufficientPlayers() {
-            $("#connected-users").text(numUsers);
-            $("#min-users").text(Constants.minUsers);
-            $("#excessive-users").hide(Constants.maxUsers);
-            $("#insufficient-users").show();
-        }
+    /**
+     * Displays a message indicating to the user that the room is full
+     */
+    function _notifyExcessivePlayers(numUsers) {
+        $connectedUsers.text(numUsers);
+        $maxUsers.text(Constants.maxUsers);
+        $insufficientUsers.hide();
+        $excessiveUsers.show();
+    }
 
-        /**
-         * Starts the game
-         */
-        function numberWithinLimits(waitingRoom) {
-            Game.inicializarJuego();
-            Main.switchScreen(waitingRoom, Game);
-            //Force the current screen to be hidden, since the switchScreen() method performs a fadeOut() which is not
-            //synchronized with a previous call to itself, and so, doesn't remove the current screen
-            setTimeout(function() {
-                $("#" + waitingRoom.selector).hide();
-            }, 420); //400 is the delay of the fadeOut() function, so a higher value will work
-        }
+    /**
+     * Displays a message indicating to the user that there are not enough users connected yet
+     */
+    function _notifyInsufficientPlayers(numUsers) {
+        $connectedUsers.text(numUsers);
+        $minUsers.text(Constants.minUsers);
+        $excessiveUsers.hide(Constants.maxUsers);
+        $insufficientUsers.show();
+    }
+
+    /**
+     * Starts the game
+     */
+    function _numberWithinLimits(waitingRoom) {
+        game.initGame();
+        main.switchScreen(waitingRoom, game);
+        //Force the current screen to be hidden, since the switchScreen() method performs a fadeOut() which is not
+        //synchronized with a previous call to itself, and so, doesn't remove the current screen
+        setTimeout(function() {
+            $("#" + waitingRoom.selector).hide();
+        }, 420); //400 is the delay of the fadeOut() function, so a higher value will work
     }
 };
