@@ -1,8 +1,9 @@
 "use strict";
 var GraphicBoard = function() {
-    var main;
+    var game, main;
     return {
-        init: function(mainRef) {
+        init: function(mainRef, gameRef) {
+            game = gameRef;
             main = mainRef;
         },
         moverFicha: movePiece,
@@ -39,9 +40,8 @@ var GraphicBoard = function() {
     }
 
     function repaintBoard(canvas) {
-        var juego = main.Juego,
-            tablero = juego.tablero,
-            dimension = juego.dimensionCasilla,
+        var tablero = game.tablero,
+            dimension = game.dimensionCasilla,
             ctx = canvas.getContext("2d"),
             fila,
             columna;
@@ -52,7 +52,7 @@ var GraphicBoard = function() {
         for (var i = 0; i < tablero.length; i++) {
             fila = parseInt(i / 3);
             columna = i % 3;
-            _dibujar(tablero[i], fila, columna, dimension, juego, ctx);
+            _dibujar(tablero[i], fila, columna, dimension, game, ctx);
         }
 
 

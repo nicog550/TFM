@@ -20,7 +20,7 @@ var Main = function() {
             game.init(this, sockets);
         },
         getGameReference: getGameReference,
-        miTurno: myTurn,
+        myTurn: myTurn,
         turn: turn,
         switchScreen: switchScreen
     };

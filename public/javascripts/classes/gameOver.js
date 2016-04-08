@@ -12,7 +12,7 @@ var GameOver = function(){
     };
     function displayWinner(ganador) {
         var msg;
-        if (ganador === Main.miTurno) msg = "Has ganado";
+        if (ganador === Main.myTurn) msg = "Has ganado";
         else msg = "Has perdido, perdedor";
         $("#winner-name").text(msg);
     }

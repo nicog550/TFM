@@ -21,47 +21,52 @@ var Game = function() {
         /** Reference to the Main class */
         selector = "game-screen",
         /** Fichas colocadas sobre el tablero */
-        tablero = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+        logicBoard = [0, 0, 0, 0, 0, 0, 0, 0, 0];
     return {
         init: function(main, sockets) {
             var that = this;
-            graphicBoard.init(main);
-            $(canvas).on('click', function(e) {
-                var posiciones = obtenerFilaYColumna(dimensionCasilla, this.obtenerCoordenadas(e));
-                var casilla = obtenerCasilla(posiciones.fila, posiciones.columna);
-                if (movimientoEsValido(casilla, main)) {
-                    // Si se ha colocado una ficha nueva
-                    if (graphicBoard.moverFicha(casilla, this, main.turn, tablero)) {
-                        // Si el jugador ha ganado la partida, mostramos la pantalla final
-                        if (haGanadoPartida(main.turn, tablero)) {
-                            gameOver.indicarGanador(main.turn);
-                            main.switchScreen(that, gameOver);
-                            sockets.sendGameOver();
-                        } else { // Si el jugador no ha ganado aún, el turn cambia
-                            sockets.sendMovement(tablero);
-                            changeTurn();
-                        }
-                    }
-                }
-            });
+            graphicBoard.init(main, this);
+            canvas.onclick = function(e) {
+                boardClick(main, sockets, e, that, this);
+            };
         },
+        tablero: logicBoard,
         changeTurn: changeTurn,
         initGame: initGame,
         selector: selector,
         completeTurn: completeTurn
     };
 
+    function boardClick(main, sockets, event, game, canvas) {
+        var posiciones = obtenerFilaYColumna(dimensionCasilla, canvas.obtenerCoordenadas(event));
+        var casilla = obtenerCasilla(posiciones.fila, posiciones.columna);
+        if (movimientoEsValido(casilla, main)) {
+            // Si se ha colocado una ficha nueva
+            if (graphicBoard.moverFicha(casilla, canvas, main.turn, logicBoard)) {
+                // Si el jugador ha ganado la partida, mostramos la pantalla final
+                if (haGanadoPartida(main.turn, logicBoard)) {
+                    gameOver.indicarGanador(main.turn);
+                    main.switchScreen(game, gameOver);
+                    sockets.sendGameOver();
+                } else { // Si el jugador no ha ganado aún, el turn cambia
+                    sockets.sendMovement(logicBoard);
+                    changeTurn();
+                }
+            }
+        }
+    }
+
     function changeTurn() {
         var textoTurno;
         if (this.turn === 1) this.turn = 2;
         else this.turn = 1;
-        if (this.turn === this.miTurno) textoTurno = "Es tu turno";
+        if (this.turn === this.myTurn) textoTurno = "Es tu turno";
         else textoTurno = "Turno del Jugador " + this.turn;
         $("#player-turn").text(textoTurno);
     }
 
     function completeTurn(newBoard) {
-        tablero = newBoard;
+        logicBoard = newBoard;
         graphicBoard.repaintBoard(canvas);
         changeTurn();
     }
@@ -97,7 +102,7 @@ var Game = function() {
     function initGame() {
         var ctx = canvas.getContext("2d");
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        tablero = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+        logicBoard = [0, 0, 0, 0, 0, 0, 0, 0, 0];
         imagenJugador1 = document.getElementById("avatar1");
         imagenJugador2 = document.getElementById("avatar2");
     }
@@ -106,8 +111,8 @@ var Game = function() {
      * Determina si el jugador puede mover y si la casilla en la que se intenta colocar una ficha está libre
      */
     function movimientoEsValido(casilla, main) {
-        var valor = tablero[casilla];
-        return main.turn === main.miTurno && (valor === 0 || valor === main.turn);
+        var valor = logicBoard[casilla];
+        return main.turn === main.myTurn && (valor === 0 || valor === main.turn);
     }
 
     /**
