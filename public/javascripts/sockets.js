@@ -24,12 +24,11 @@ var Sockets = function() {
             game = gameRef;
             waitingRoom = waitingRoomRef;
             connect();
-            recibirMovimiento();
+            receive();
             disconnect();
         },
         messages: messages,
         send: send,
-        sendGameOver: sendGameOver,
         sendMovement: sendMovement
     };
 
@@ -42,7 +41,6 @@ var Sockets = function() {
             main.myTurn = data.numUsers % 2; // Este valor puede ser mayor que 2, por lo que usamos el módulo
             if (main.myTurn === 0) main.myTurn = 2;
             $("#player-id").text(main.myTurn);
-            game.changeTurn();
         });
 
         ioSocket.on(messages.USER_JOINED, function (data) {
@@ -54,7 +52,11 @@ var Sockets = function() {
         });
 
         ioSocket.on(messages.NEW_GAME, function(data) {
-            console.log("new game:", data)
+            game.drawBoard(data['board']);
+        });
+
+        ioSocket.on(messages.GAME_OVER, function(data) {
+            main.switchScreen(game, gameOver);
         });
     }
 
@@ -62,13 +64,6 @@ var Sockets = function() {
         window.onbeforeunload = function() {
             send(messages.LOGOUT, {});
         };
-    }
-
-    /**
-     * Indicates other players that the game has ended
-     */
-    function sendGameOver() {
-        send(messages.NEW_MESSAGE, gameOver.gameOverToken);
     }
 
     /**
@@ -83,15 +78,10 @@ var Sockets = function() {
     /**
      * Recibe el mensaje de que se ha efectuado un nuevo movimiento
      */
-    function recibirMovimiento() {
+    function receive() {
         ioSocket.on(messages.NEW_MESSAGE, function (data) {
-            console.log("recibido", data.message.reduce(function(a, b) {return a + b;}));
-            if (data.message === gameOver.gameOverToken) {
-                gameOver.indicarGanador(main.turn);
-                main.switchScreen(game, gameOver);
-            } else {
-                game.completeTurn(data.message);
-            }
+            console.log("recibido", data.message);
+            //TODO
         });
     }
 

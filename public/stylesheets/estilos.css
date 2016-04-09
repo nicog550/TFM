@@ -8,15 +8,6 @@
     font-size: 36px;
 }
 
-canvas {
-    background: url(../images/Grid.jpg);
-    height: 480px;
-    width: 480px;
-    position: relative;
-    margin: auto;
-    display: block;
-}
-
 #settings {
     float: right;
     padding: 20px;

@@ -12,7 +12,6 @@
     <script src="javascripts/sockets.js" type="text/javascript" charset="utf-8"></script>
     <script src="javascripts/constants.js" type="text/javascript" charset="utf-8"></script>
     <script src="javascripts/main.js" type="text/javascript" charset="utf-8"></script>
-    <script src="javascripts/classes/graphicBoard.js" type="text/javascript" charset="utf-8"></script>
     <script src="javascripts/classes/game.js" type="text/javascript" charset="utf-8"></script>
     <script src="javascripts/classes/gameOver.js" type="text/javascript" charset="utf-8"></script>
     <script src="javascripts/classes/loading.js" type="text/javascript" charset="utf-8"></script>
@@ -21,6 +20,7 @@
 </head>
 
 <body>
+<!-- Welcome screens -->
 <div class="container">
     <div class="main">
         <div id="loading-screen">
@@ -47,9 +47,14 @@
         </div>
     </div>
 </div>
+<!-- Game screens -->
 <div class="main">
     <div id="game-screen" style="display: none;">
-        <canvas id="game-canvas" width="640" height="480"></canvas>
+        <table>
+            <tbody>
+                <tr id="game-board"></tr>
+            </tbody>
+        </table>
         <div class="turno">
             Eres el jugador <span id="player-id">1</span><br>
             <span id="player-turn">1</span>
@@ -64,10 +69,6 @@
             </h4>
             <span class="play-button">Volver a jugar</span>
         </div>
-    </div>
-    <div style="display: none;">
-        <img id="avatar1" src="images/player1.png">
-        <img id="avatar2" src="images/player2.png">
     </div>
 </div>
 </body>

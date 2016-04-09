@@ -55,7 +55,6 @@ var WaitingRoom = function() {
      * Starts the game
      */
     function _numberWithinLimits(waitingRoom, numUsers) {
-        game.initGame();
         main.switchScreen(waitingRoom, game);
         //Force the current screen to be hidden, since the switchScreen() method performs a fadeOut() which is not
         //synchronized with a previous call to itself, and so, doesn't remove the current screen

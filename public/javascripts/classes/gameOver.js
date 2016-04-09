@@ -3,10 +3,8 @@
  * Clase responsible for the end of game screen
  */
 var GameOver = function(){
-    var gameOverToken = "GAME_OVER",
-        selector = "ending-screen";
+    var selector = "ending-screen";
     return {
-        gameOverToken: gameOverToken,
         indicarGanador: displayWinner,
         selector: selector
     };

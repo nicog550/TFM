@@ -19,18 +19,18 @@ var gameGenerator = function() {
     function _generateGame() {
         var word = [];
         for (var i = 0; i < constants.wordLength; i++) word.push(Math.floor(Math.random() * constants.optionsCount));
-        _broadcastMessage(word);
+        _broadcastMessage('new game', {board: word});
         setTimeout(_endGame, constants.gameDuration);
     }
 
     function _endGame() {
-        _broadcastMessage('game over');
+        _broadcastMessage('game over', {});
     }
 
-    function _broadcastMessage(message) {
+    function _broadcastMessage(token, message) {
         for (var socket in sockets) {
             if (sockets.hasOwnProperty(socket)) {
-                sockets[socket].broadcast.emit('new game', message);
+                sockets[socket].broadcast.emit(token, message);
             }
         }
 
