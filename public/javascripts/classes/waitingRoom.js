@@ -3,7 +3,7 @@
  * Class responsible for the waiting room screen
  */
 var WaitingRoom = function() {
-    var game = Game(),
+    var game,
         main,
         selector = "waiting-room-screen",
         $connectedUsers = $("#connected-users"),
@@ -12,8 +12,9 @@ var WaitingRoom = function() {
         $minUsers = $("#min-users"),
         $maxUsers = $("#max-users");
     return {
-        init: function(mainRef) {
+        init: function(mainRef, gameRef) {
             main = mainRef;
+            game = gameRef;
         },
         selector: selector,
         checkNumUsers: checkNumUsers
@@ -56,10 +57,6 @@ var WaitingRoom = function() {
     function _numberWithinLimits(waitingRoom, numUsers) {
         game.initGame();
         main.switchScreen(waitingRoom, game);
-        main.myTurn = numUsers % 2; // Este valor puede ser mayor que 2, por lo que usamos el módulo
-        if (main.myTurn === 0) main.myTurn = 2;
-        $("#player-id").text(main.myTurn);
-        game.changeTurn();
         //Force the current screen to be hidden, since the switchScreen() method performs a fadeOut() which is not
         //synchronized with a previous call to itself, and so, doesn't remove the current screen
         setTimeout(function() {

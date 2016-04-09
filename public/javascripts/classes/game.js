@@ -12,19 +12,21 @@ var Game = function() {
         dimensionCasilla = 160,
         gameOver = GameOver(),
         graphicBoard = GraphicBoard(),
-        imagenJugador1 = null,
-        imagenJugador2 = null,
+        imagenJugador1 = document.getElementById("avatar1"),
+        imagenJugador2 = document.getElementById("avatar2"),
         /** Fichas colocadas por el jugador 1 */
         fichasJ1 = [0, 0, 0, 0, 0, 0, 0, 0, 0],
         /** Fichas colocadas por el jugador 2 */
         fichasJ2 = [0, 0, 0, 0, 0, 0, 0, 0, 0],
         /** Reference to the Main class */
+        main,
         selector = "game-screen",
         /** Fichas colocadas sobre el tablero */
         logicBoard = [0, 0, 0, 0, 0, 0, 0, 0, 0];
     return {
-        init: function(main, sockets) {
+        init: function(mainRef, sockets) {
             var that = this;
+            main = mainRef;
             graphicBoard.init(main, this);
             canvas.onclick = function(e) {
                 boardClick(main, sockets, e, that, this);
@@ -32,6 +34,8 @@ var Game = function() {
         },
         tablero: logicBoard,
         changeTurn: changeTurn,
+        imagenJugador1: imagenJugador1,
+        imagenJugador2: imagenJugador2,
         initGame: initGame,
         selector: selector,
         completeTurn: completeTurn
@@ -58,10 +62,11 @@ var Game = function() {
 
     function changeTurn() {
         var textoTurno;
-        if (this.turn === 1) this.turn = 2;
-        else this.turn = 1;
-        if (this.turn === this.myTurn) textoTurno = "Es tu turno";
-        else textoTurno = "Turno del Jugador " + this.turn;
+        console.log("main:", main)
+        if (main.turn === 1) main.turn = 2;
+        else main.turn = 1;
+        if (main.turn === main.myTurn) textoTurno = "Es tu turno";
+        else textoTurno = "Turno del Jugador " + main.turn;
         $("#player-turn").text(textoTurno);
     }
 
@@ -103,8 +108,6 @@ var Game = function() {
         var ctx = canvas.getContext("2d");
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         logicBoard = [0, 0, 0, 0, 0, 0, 0, 0, 0];
-        imagenJugador1 = document.getElementById("avatar1");
-        imagenJugador2 = document.getElementById("avatar2");
     }
 
     /**

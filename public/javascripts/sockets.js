@@ -14,12 +14,12 @@ var Sockets = function() {
             USER_JOINED: 'user joined'
         },
         main,
-        waitingRoom = WaitingRoom();
+        waitingRoom;
     return {
-        init: function(mainRef, gameRef) {
+        init: function(mainRef, gameRef, waitingRoomRef) {
             main = mainRef;
             game = gameRef;
-            waitingRoom.init(main);
+            waitingRoom = waitingRoomRef;
             connect();
             recibirMovimiento();
         },
@@ -33,18 +33,18 @@ var Sockets = function() {
      * Connection to the room
      */
     function connect() {
-        // Whenever the server emits 'login', log the login message
         ioSocket.on(messages.LOGIN, function (data) {
-            console.log("data", data);
             waitingRoom.checkNumUsers(data.numUsers);
+            main.myTurn = data.numUsers % 2; // Este valor puede ser mayor que 2, por lo que usamos el módulo
+            if (main.myTurn === 0) main.myTurn = 2;
+            $("#player-id").text(main.myTurn);
+            game.changeTurn();
         });
 
-        // Whenever the server emits 'user joined', log it in the chat body
         ioSocket.on(messages.USER_JOINED, function (data) {
             waitingRoom.checkNumUsers(data.numUsers);
         });
 
-        // Whenever the server emits 'user left', log it in the chat body
         ioSocket.on(messages.USER_LEFT, function (data) {
             waitingRoom.checkNumUsers(data.numUsers);
         });

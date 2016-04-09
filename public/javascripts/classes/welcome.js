@@ -4,11 +4,10 @@
 var Welcome = function() {
     var selector = "welcome-screen";
     return {
-        init: function(main) {
-            var that = this,
-                sockets = Sockets();
+        init: function(main, game, sockets, waitingRoom) {
+            var that = this;
             $("#play-button").on('click', function() {
-                main.switchScreen(that, WaitingRoom());
+                main.switchScreen(that, waitingRoom);
                 sockets.send(sockets.messages.ADD_USER, new Date());
             });
         },

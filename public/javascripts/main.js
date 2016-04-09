@@ -7,27 +7,24 @@ var Main = function() {
         turn = 2, // Inicializamos a 2 porque al conectarse haremos un cambio de turno y se pondrá a 1
         game = Game(),
         sockets = Sockets(),
+        waitingRoom = WaitingRoom(),
         welcomeScreen = Welcome();
     /**
      * Initial tasks
      */
     return {
         init: function() {
-            sockets.init(this, game);
+            sockets.init(this, game, waitingRoom);
+            game.init(this, sockets);
+            waitingRoom.init(this, game);
+            welcomeScreen.init(this, game, sockets, waitingRoom);
             switchScreen(Loading(), welcomeScreen);
             inicializarCanvas();
-            welcomeScreen.init(this);
-            game.init(this, sockets);
         },
-        getGameReference: getGameReference,
         myTurn: myTurn,
         turn: turn,
         switchScreen: switchScreen
     };
-
-    function getGameReference() {
-        return game;
-    }
 
     /**
      * Asigna al canvas la funcionalidad de obtener las coordenadas de un clic sobre él
