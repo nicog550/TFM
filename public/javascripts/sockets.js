@@ -8,7 +8,10 @@ var Sockets = function() {
         gameOver = GameOver(),
         messages = {
             ADD_USER: 'add user',
+            GAME_OVER: 'game over',
             LOGIN: 'login',
+            LOGOUT: 'disconnect',
+            NEW_GAME: 'new game',
             NEW_MESSAGE: 'new message',
             USER_LEFT: 'user left',
             USER_JOINED: 'user joined'
@@ -22,6 +25,7 @@ var Sockets = function() {
             waitingRoom = waitingRoomRef;
             connect();
             recibirMovimiento();
+            disconnect();
         },
         messages: messages,
         send: send,
@@ -48,6 +52,16 @@ var Sockets = function() {
         ioSocket.on(messages.USER_LEFT, function (data) {
             waitingRoom.checkNumUsers(data.numUsers);
         });
+
+        ioSocket.on(messages.NEW_GAME, function(data) {
+            console.log("new game:", data)
+        });
+    }
+
+    function disconnect() {
+        window.onbeforeunload = function() {
+            send(messages.LOGOUT, {});
+        };
     }
 
     /**
