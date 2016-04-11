@@ -33,6 +33,7 @@ var Main = function() {
     }
 };
 
-window.onload = function() {
+$(document).ready(function() {
     Main().init();
-};
+    setTimeout("$('#play-button').trigger('click');", 500); //TODO: remove this
+});

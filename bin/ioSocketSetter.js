@@ -29,13 +29,14 @@ var ioSocketSetter = function() {
             socket.on('add user', function (username) {
                 // we store the username in the socket session for this client
                 socket.username = username;
-                gameGenerator.addSocket(socket);
+                var remainingTime = gameGenerator.addSocket(socket);
                 // add the client's username to the global list
                 usernames[username] = username;
                 ++numUsers;
                 addedUser = true;
                 socket.emit('login', {
-                    numUsers: numUsers
+                    numUsers: numUsers,
+                    waitingTime: remainingTime
                 });
                 // echo globally (all clients) that a person has connected
                 socket.broadcast.emit('user joined', {

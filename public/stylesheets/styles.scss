@@ -1,15 +1,17 @@
 $box-size: 70px;
 $font-size: 64px;
-$text-color: rgb(151, 151, 151);
+$text-color: rgb(121, 121, 121);
 body {
   padding-top: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
   background-color: #000000;
+  color: $text-color;
 }
 
 a {
   color: #00B7FF;
 }
+
 .main {
   padding: 40px 15px;
   text-align: center;
@@ -44,14 +46,6 @@ div.message {
   text-align: center;
 }
 
-div.turno {
-  float: right;
-  margin-top: -420px;
-  color: cadetblue;
-  font-size: 24px;
-  text-align: right;
-}
-
 label {
   color: deepskyblue;
 }
@@ -62,7 +56,6 @@ label {
 
 #game-board {
   td {
-    color: $text-color;
     font-size: $font-size;
     font-family: 'Roboto';
     border: $text-color 5px solid;

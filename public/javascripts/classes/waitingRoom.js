@@ -17,7 +17,8 @@ var WaitingRoom = function() {
             game = gameRef;
         },
         selector: selector,
-        checkNumUsers: checkNumUsers
+        checkNumUsers: checkNumUsers,
+        displayRemainingTime: displayRemainingTime
     };
 
     /**
@@ -61,5 +62,17 @@ var WaitingRoom = function() {
         setTimeout(function() {
             $("#" + waitingRoom.selector).hide();
         }, 420); //400 is the delay of the fadeOut() function, so a higher value will work
+    }
+    
+    function displayRemainingTime(remainingTime) {
+        console.log(remainingTime, typeof remainingTime)
+        var interval = setInterval(function() {
+            updateDOM(remainingTime--);
+            if (remainingTime == 0) clearInterval(interval);
+        }, 1000);
+
+        function updateDOM() {
+            $("#remaining-time").text(remainingTime);
+        }
     }
 };

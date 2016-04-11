@@ -38,9 +38,7 @@ var Sockets = function() {
     function connect() {
         ioSocket.on(messages.LOGIN, function (data) {
             waitingRoom.checkNumUsers(data.numUsers);
-            main.myTurn = data.numUsers % 2; // Este valor puede ser mayor que 2, por lo que usamos el módulo
-            if (main.myTurn === 0) main.myTurn = 2;
-            $("#player-id").text(main.myTurn);
+            waitingRoom.displayRemainingTime(data.waitingTime);
         });
 
         ioSocket.on(messages.USER_JOINED, function (data) {
