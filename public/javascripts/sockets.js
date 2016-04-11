@@ -5,7 +5,7 @@
 var Sockets = function() {
     var ioSocket = io(),
         game,
-        gameOver = GameOver(),
+        loggedIn = false,
         messages = {
             ADD_USER: 'add user',
             GAME_OVER: 'game over',
@@ -29,7 +29,8 @@ var Sockets = function() {
         },
         messages: messages,
         send: send,
-        sendMovement: sendMovement
+        sendLogout: sendLogout,
+        sendMove: sendMove
     };
 
     /**
@@ -37,39 +38,46 @@ var Sockets = function() {
      */
     function connect() {
         ioSocket.on(messages.LOGIN, function (data) {
+            console.log("RECEIVED LOGIN")
+            loggedIn = true;
             waitingRoom.checkNumUsers(data.numUsers);
             waitingRoom.displayRemainingTime(data.waitingTime);
         });
 
         ioSocket.on(messages.USER_JOINED, function (data) {
-            waitingRoom.checkNumUsers(data.numUsers);
+            console.log("RECEIVED USER JOINED")
+            if (loggedIn) waitingRoom.checkNumUsers(data.numUsers);
         });
 
         ioSocket.on(messages.USER_LEFT, function (data) {
-            waitingRoom.checkNumUsers(data.numUsers);
+            console.log("RECEIVED USER LEFT")
+            if (loggedIn) waitingRoom.checkNumUsers(data.numUsers);
         });
 
         ioSocket.on(messages.NEW_GAME, function(data) {
-            game.drawBoard(data['board']);
-            // main.switchScreen(waitingRoom, game);
+            console.log("RECEIVED NEW GAME")
+            if (loggedIn) game.startGame(data.board, data.gameDuration / 1000);
         });
 
         ioSocket.on(messages.GAME_OVER, function(data) {
-            // main.switchScreen(game, gameOver);
+            console.log("RECEIVED GAME OVER")
+            if (loggedIn) game.finishGame(data.waitingTime / 1000);
         });
     }
 
     function disconnect() {
-        window.onbeforeunload = function() {
-            send(messages.LOGOUT, {});
-        };
+        window.onbeforeunload = sendLogout();
+    }
+    
+    function sendLogout() {
+        send(messages.LOGOUT, {});
     }
 
     /**
      * Envía al otro participante el movimiento realizado por el jugador
      * @param {Array} tablero
      */
-    function sendMovement(tablero) {
+    function sendMove(tablero) {
         console.log("enviado", tablero.reduce(function(a, b) {return a + b;}));
         send(messages.NEW_MESSAGE, tablero);
     }

@@ -6,20 +6,25 @@ body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
   background-color: #000000;
   color: $text-color;
+  text-align: center;
 }
 
 a {
   color: #00B7FF;
 }
 
+button {
+  width: 120px;
+  height: 70px;
+  font-size: 26px;
+  background-color: transparent;
+  text-transform: uppercase;
+  border: $text-color 7px solid;
+}
+
 .main {
   padding: 40px 15px;
   text-align: center;
-}
-.gamelayer {
-  width:640px;
-  height:480px;
-  position:absolute;
 }
 
 #nav li span {
@@ -37,29 +42,22 @@ a {
   position: relative;
 }
 
-div.message {
-  position: absolute;
-  color: purple;
-  bottom: 10px;
-  font-size: 24px;
-  margin-left: 250px;
-  text-align: center;
-}
-
-label {
-  color: deepskyblue;
-}
 
 .play-button {
   cursor: pointer;
 }
 
-#game-board {
-  td {
-    font-size: $font-size;
-    font-family: 'Roboto';
-    border: $text-color 5px solid;
-    width: $box-size;
-    height: $box-size;
+#game-screen {
+  table {
+    margin: auto;
+    #game-board {
+      td {
+        font-size: $font-size;
+        font-family: 'Roboto';
+        border: $text-color 5px solid;
+        width: $box-size;
+        height: $box-size;
+      }
+    }
   }
 }

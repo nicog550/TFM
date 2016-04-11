@@ -4,10 +4,11 @@
  * Socket.io features
  */
 // usernames which are currently connected to the chat
-var usernames = {};
-var numUsers = 0;
 var ioSocketSetter = function() {
-    var gameGenerator;
+    var gameGenerator,
+        usernames = {},
+        numUsers = 0,
+        constants = require('./constants');
     return {
         setup: socketSetup
     };
@@ -36,7 +37,8 @@ var ioSocketSetter = function() {
                 addedUser = true;
                 socket.emit('login', {
                     numUsers: numUsers,
-                    waitingTime: remainingTime
+                    //If a new game starts just now, make the player wait for a whole turn passes
+                    waitingTime: remainingTime > 0 ? remainingTime : constants.gameDuration + constants.gamePause
                 });
                 // echo globally (all clients) that a person has connected
                 socket.broadcast.emit('user joined', {

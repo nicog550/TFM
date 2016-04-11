@@ -56,23 +56,10 @@ var WaitingRoom = function() {
      * Starts the game
      */
     function _numberWithinLimits(waitingRoom, numUsers) {
-        main.switchScreen(waitingRoom, game);
-        //Force the current screen to be hidden, since the switchScreen() method performs a fadeOut() which is not
-        //synchronized with a previous call to itself, and so, doesn't remove the current screen
-        setTimeout(function() {
-            $("#" + waitingRoom.selector).hide();
-        }, 420); //400 is the delay of the fadeOut() function, so a higher value will work
+        // main.toggleScreen(waitingRoom, game);
     }
     
     function displayRemainingTime(remainingTime) {
-        console.log(remainingTime, typeof remainingTime)
-        var interval = setInterval(function() {
-            updateDOM(remainingTime--);
-            if (remainingTime == 0) clearInterval(interval);
-        }, 1000);
-
-        function updateDOM() {
-            $("#remaining-time").text(remainingTime);
-        }
+        main.displayCountdown(remainingTime, $("#remaining-time"));
     }
 };

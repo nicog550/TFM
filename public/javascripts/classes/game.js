@@ -5,29 +5,44 @@
 var Game = function() {
     var gameBoard = document.getElementById("game-board"),
         gameOver = GameOver(),
-        selector = "game-screen";
+        main,
+        selector = "game-screen",
+        waitingRoom;
     return {
-        init: function(sockets) {
+        init: function(mainRef, socketsRef, waitingRoomRef) {
+            main = mainRef;
+            waitingRoom = waitingRoomRef;
+            gameOver.init(main, socketsRef);
         },
-        drawBoard: drawBoard,
-        selector: selector
+        selector: selector,
+        finishGame: finishGame,
+        startGame: startGame
     };
 
     function boardClick(sockets) {
         //TODO
-        sockets.sendMovement(null);
+        sockets.sendMove(null);
     }
     
-    function drawBoard(board) {
-        _emptyBoard();
+    function finishGame(waitingTime) {
+        main.toggleScreen(gameOver);
+        gameOver.displayRemainingTime(waitingTime);
+    }
+
+    function startGame(board, duration) {
+        if (document.getElementById("keep-playing").checked) {
+            _drawBoard(board);
+            main.toggleScreen(this);
+            main.displayCountdown(duration, $("#game-time"));
+        }
+    }
+    
+    function _drawBoard(board) {
+        while (gameBoard.firstChild) gameBoard.removeChild(gameBoard.firstChild); //Empty board
         for (var i = 0; i < board.length; i++) {
             var box = document.createElement('td');
             box.innerText = board[i];
             gameBoard.appendChild(box);
         }
-    }
-
-    function _emptyBoard() {
-        while (gameBoard.firstChild) gameBoard.removeChild(gameBoard.firstChild);
     }
 };

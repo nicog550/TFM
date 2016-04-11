@@ -20,20 +20,20 @@
 </head>
 
 <body>
-<!-- Welcome screens -->
 <div class="container">
     <div class="main">
-        <div id="loading-screen">
-            <div class="message">Loading...</div>
+        <!-- Loading screen -->
+        <div id="loading-screen" class="screen">
+            <h1>Loading...</h1>
         </div>
-
-        <div id="welcome-screen" style="display: none;">
+        <!-- Welcome screen -->
+        <div id="welcome-screen" class="screen hidden">
             <h1>Welcome</h1>
             <p class="lead">Press the button to enter the game room</p>
-            <button id="play-button" class="btn btn-default btn-lg">Play</button>
+            <button id="play-button">Play</button>
         </div>
-
-        <div id="waiting-room-screen" style="display: none;">
+        <!-- Waiting room screen -->
+        <div id="waiting-room-screen" class="screen hidden">
             <h1>Waiting room</h1>
             <p class="lead">
                 There are <span id="connected-users"></span> players connected.<br>
@@ -42,29 +42,28 @@
                 </span>
                 <span id="excessive-users" style="display: none;">
                     The room is limited to a maximum of <span id="max-users"></span> players, so you cannot access it at the moment.
-                </span>
+                </span><br>
                 <span>Time remaining for next game: <span id="remaining-time"></span> seconds</span>
             </p>
         </div>
-    </div>
-</div>
-<!-- Game screens -->
-<div class="main">
-    <div id="game-screen" style="/*display: none;*/">
-        <table>
-            <tbody>
+        <!-- Game screen -->
+        <div id="game-screen" class="screen hidden">
+            <span>Remaining time: <span id="game-time"></span> seconds</span>
+            <table>
+                <tbody>
                 <tr id="game-board"></tr>
-            </tbody>
-        </table>
-    </div>
-
-    <div id="ending-screen" class="gamelayer" style="display: none;">
-        <div class="message">
-            <h4>
-                Partida terminada<br>
-                <span id="winner-name"></span>
-            </h4>
-            <span class="play-button">Volver a jugar</span>
+                </tbody>
+            </table>
+        </div>
+        <!-- Game over screen -->
+        <div id="ending-screen" class="screen hidden">
+            <div class="message">
+                <h4>
+                    Game over<br>
+                    <span>Time remaining for next game: <span id="waiting-time"></span> seconds</span>
+                </h4>
+                <button id="logout">Disconnect</button>
+            </div>
         </div>
     </div>
 </div>

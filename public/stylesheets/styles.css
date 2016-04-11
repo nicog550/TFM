@@ -2,19 +2,23 @@ body {
   padding-top: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
   background-color: #000000;
-  color: #797979; }
+  color: #797979;
+  text-align: center; }
 
 a {
   color: #00B7FF; }
 
+button {
+  width: 120px;
+  height: 70px;
+  font-size: 26px;
+  background-color: transparent;
+  text-transform: uppercase;
+  border: #797979 7px solid; }
+
 .main {
   padding: 40px 15px;
   text-align: center; }
-
-.gamelayer {
-  width: 640px;
-  height: 480px;
-  position: absolute; }
 
 #nav li span {
   font-size: 36px; }
@@ -28,25 +32,16 @@ a {
   height: inherit;
   position: relative; }
 
-div.message {
-  position: absolute;
-  color: purple;
-  bottom: 10px;
-  font-size: 24px;
-  margin-left: 250px;
-  text-align: center; }
-
-label {
-  color: deepskyblue; }
-
 .play-button {
   cursor: pointer; }
 
-#game-board td {
-  font-size: 64px;
-  font-family: 'Roboto';
-  border: #797979 5px solid;
-  width: 70px;
-  height: 70px; }
+#game-screen table {
+  margin: auto; }
+  #game-screen table #game-board td {
+    font-size: 64px;
+    font-family: 'Roboto';
+    border: #797979 5px solid;
+    width: 70px;
+    height: 70px; }
 
 /*# sourceMappingURL=styles.css.map */

@@ -13,27 +13,46 @@ var Main = function() {
     return {
         init: function() {
             sockets.init(this, game, waitingRoom);
-            game.init(sockets);
+            game.init(this, sockets, waitingRoom);
             waitingRoom.init(this, game);
             welcomeScreen.init(this, game, sockets, waitingRoom);
-            switchScreen(Loading(), welcomeScreen);
+            toggleScreen(welcomeScreen);
         },
-        switchScreen: switchScreen
+        displayCountdown: displayCountdown,
+        toggleScreen: toggleScreen
     };
 
     /**
-     * Hides a screen and replaces it with another one
-     * @param {Object} oldOne Class from which to hide the screen
-     * @param {Object} newOne Class from which to display the screen
+     * Displays a countdown of seconds
+     * @param startTime Timeout starting seconds
+     * @param $target jQuery object where the timeout will be displayed
      */
-    function switchScreen(oldOne, newOne) {
-        $("#" + oldOne.selector).fadeOut(function() {
-            $("#" + newOne.selector).fadeIn();
-        });
+    function displayCountdown(startTime, $target) {
+        updateDOM();
+        var interval = setInterval(function() {
+            updateDOM();
+            if (startTime <= 0) clearInterval(interval);
+        }, 1000);
+
+        function updateDOM() {
+            $target.text(--startTime);
+        }
+    }
+
+    /**
+     * Hides the currently visible screen and replaces it with another one
+     * @param {Object} newOne Class from which to display the screen
+     * @param {Function} [callback] (Optional) Callback to be called after switching screens
+     */
+    function toggleScreen(newOne, callback) {
+        $(".screen:not(.hidden)").fadeOut(function() {
+            $(this).addClass('hidden');
+            $("#" + newOne.selector).removeClass('hidden').fadeIn();
+        }, callback);
     }
 };
 
 $(document).ready(function() {
     Main().init();
-    setTimeout("$('#play-button').trigger('click');", 500); //TODO: remove this
+    // setTimeout("$('#play-button').trigger('click');", 500); //TODO: remove this
 });

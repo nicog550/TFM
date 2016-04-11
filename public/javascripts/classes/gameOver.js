@@ -1,17 +1,29 @@
 "use strict";
 /**
- * Clase responsible for the end of game screen
+ * Class responsible for the end of game screen
  */
 var GameOver = function(){
-    var selector = "ending-screen";
+    var selector = "ending-screen",
+        main,
+        sockets;
     return {
-        indicarGanador: displayWinner,
-        selector: selector
+        init: function(mainRef, socketsRef) {
+            main = mainRef;
+            sockets = socketsRef;
+            logout();
+        },
+        selector: selector,
+        displayRemainingTime: displayRemainingTime
     };
-    function displayWinner(ganador) {
-        var msg;
-        if (ganador === Main.myTurn) msg = "Has ganado";
-        else msg = "Has perdido, perdedor";
-        $("#winner-name").text(msg);
+
+    function displayRemainingTime(remainingTime) {
+        main.displayCountdown(remainingTime, $("#waiting-time"));
+    }
+
+    function logout() {
+        $("#logout").on('click', function() {
+            sockets.sendLogout();
+            $(this).remove();
+        });
     }
 };
