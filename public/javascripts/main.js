@@ -31,11 +31,11 @@ var Main = function() {
         updateDOM();
         var interval = setInterval(function() {
             updateDOM();
-            if (startTime <= 0) clearInterval(interval);
+            if (startTime < 0) clearInterval(interval);
         }, 1000);
 
         function updateDOM() {
-            $target.text(--startTime);
+            $target.text(startTime--);
         }
     }
 

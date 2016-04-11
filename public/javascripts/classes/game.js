@@ -7,11 +7,14 @@ var Game = function() {
         gameOver = GameOver(),
         main,
         selector = "game-screen",
+        sockets,
         waitingRoom;
     return {
         init: function(mainRef, socketsRef, waitingRoomRef) {
             main = mainRef;
+            sockets = socketsRef;
             waitingRoom = waitingRoomRef;
+            boardClick();
             gameOver.init(main, socketsRef);
         },
         selector: selector,
@@ -19,8 +22,8 @@ var Game = function() {
         startGame: startGame
     };
 
-    function boardClick(sockets) {
-        //TODO
+    function boardClick() {
+        $("#test-btn").on('click', sockets.sendLogout);//TODO
         sockets.sendMove(null);
     }
     

@@ -61,15 +61,16 @@ var Sockets = function() {
 
         ioSocket.on(messages.GAME_OVER, function(data) {
             console.log("RECEIVED GAME OVER")
-            if (loggedIn) game.finishGame(data.waitingTime / 1000);
+            if (loggedIn && !$("#" + game.selector).hasClass('hidden')) game.finishGame(data.waitingTime / 1000);
         });
     }
 
     function disconnect() {
-        window.onbeforeunload = sendLogout();
+        window.onbeforeunload = sendLogout;
     }
     
     function sendLogout() {
+        console.log("sends logout")
         send(messages.LOGOUT, {});
     }
 
@@ -78,8 +79,8 @@ var Sockets = function() {
      * @param {Array} tablero
      */
     function sendMove(tablero) {
-        console.log("enviado", tablero.reduce(function(a, b) {return a + b;}));
-        send(messages.NEW_MESSAGE, tablero);
+        // console.log("enviado", tablero.reduce(function(a, b) {return a + b;}));
+        // send(messages.NEW_MESSAGE, tablero);
     }
 
     /**

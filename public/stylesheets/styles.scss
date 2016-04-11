@@ -1,9 +1,8 @@
 $box-size: 70px;
-$font-size: 64px;
 $text-color: rgb(121, 121, 121);
 body {
   padding-top: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font: 14px "Roboto", Helvetica, Arial, sans-serif;
   background-color: #000000;
   color: $text-color;
   text-align: center;
@@ -27,33 +26,12 @@ button {
   text-align: center;
 }
 
-#nav li span {
-  font-size: 36px;
-}
-
-#settings {
-  float: right;
-  padding: 20px;
-}
-
-#loading-screen {
-  width: inherit;
-  height: inherit;
-  position: relative;
-}
-
-
-.play-button {
-  cursor: pointer;
-}
-
 #game-screen {
   table {
     margin: auto;
     #game-board {
       td {
-        font-size: $font-size;
-        font-family: 'Roboto';
+        font-size: 64px;
         border: $text-color 5px solid;
         width: $box-size;
         height: $box-size;

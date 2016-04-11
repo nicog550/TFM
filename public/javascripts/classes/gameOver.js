@@ -23,7 +23,9 @@ var GameOver = function(){
     function logout() {
         $("#logout").on('click', function() {
             sockets.sendLogout();
-            $(this).remove();
+            $(this).fadeOut(function() {
+                $(this).remove();
+            });
         });
     }
 };

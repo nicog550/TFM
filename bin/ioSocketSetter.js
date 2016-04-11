@@ -15,7 +15,6 @@ var ioSocketSetter = function() {
     function socketSetup(ioSocket, gameGeneratorRef) {
         gameGenerator = gameGeneratorRef;
         ioSocket.on('connection', function (socket) {
-            var addedUser = false;
 
             // when the client emits 'new message', this listens and executes
             socket.on('new message', function (data) {
@@ -34,7 +33,6 @@ var ioSocketSetter = function() {
                 // add the client's username to the global list
                 usernames[username] = username;
                 ++numUsers;
-                addedUser = true;
                 socket.emit('login', {
                     numUsers: numUsers,
                     //If a new game starts just now, make the player wait for a whole turn passes
@@ -49,18 +47,17 @@ var ioSocketSetter = function() {
 
             // when the user disconnects.. perform this
             socket.on('disconnect', function () {
+                console.log("received logout");
                 // remove the username from global usernames list
-                if (addedUser) {
-                    gameGenerator.removeSocket(socket);
-                    delete usernames[socket.username];
-                    --numUsers;
+                gameGenerator.removeSocket(socket);
+                delete usernames[socket.username];
+                --numUsers;
 
-                    // echo globally that this client has left
-                    socket.broadcast.emit('user left', {
-                        username: socket.username,
-                        numUsers: numUsers
-                    });
-                }
+                // echo globally that this client has left
+                socket.broadcast.emit('user left', {
+                    username: socket.username,
+                    numUsers: numUsers
+                });
             });
 
             // // when the client emits 'typing', we broadcast it to others
