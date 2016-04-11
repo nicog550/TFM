@@ -9,12 +9,12 @@ a {
   color: #00B7FF; }
 
 button {
-  width: 120px;
-  height: 70px;
+  min-width: 120px;
   font-size: 26px;
   background-color: transparent;
   text-transform: uppercase;
-  border: #797979 7px solid; }
+  border: #797979 7px solid;
+  padding: 10px; }
 
 .main {
   padding: 40px 15px;

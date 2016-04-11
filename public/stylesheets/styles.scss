@@ -14,12 +14,12 @@ a {
 }
 
 button {
-  width: 120px;
-  height: 70px;
+  min-width: 120px;
   font-size: 26px;
   background-color: transparent;
   text-transform: uppercase;
   border: $text-color 7px solid;
+  padding: 10px;
 }
 
 .main {

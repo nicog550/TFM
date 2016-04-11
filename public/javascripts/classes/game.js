@@ -30,11 +30,9 @@ var Game = function() {
     }
 
     function startGame(board, duration) {
-        if (document.getElementById("keep-playing").checked) {
-            _drawBoard(board);
-            main.toggleScreen(this);
-            main.displayCountdown(duration, $("#game-time"));
-        }
+        _drawBoard(board);
+        main.toggleScreen(this);
+        main.displayCountdown(duration, $("#game-time"));
     }
     
     function _drawBoard(board) {

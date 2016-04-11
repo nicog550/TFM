@@ -40,7 +40,7 @@ var gameGenerator = function() {
         for (var socket in sockets) {
             if (sockets.hasOwnProperty(socket)) {
                 console.log("broadcasts", socket, token, message)
-                sockets[socket].broadcast.emit(token, message);
+                sockets[socket].emit(token, message);
             }
         }
 
