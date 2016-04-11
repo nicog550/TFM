@@ -19,7 +19,11 @@ var gameGenerator = function() {
     function _generateGame() {
         var word = [];
         for (var i = 0; i < constants.wordLength; i++) word.push(Math.floor(Math.random() * constants.optionsCount));
-        _broadcastMessage('new game', {board: word});
+        var gameSettings = {
+            board: word,
+            options: constants.optionsCount
+        };
+        _broadcastMessage('new game', gameSettings);
         setTimeout(_endGame, constants.gameDuration);
     }
 

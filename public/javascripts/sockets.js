@@ -53,10 +53,11 @@ var Sockets = function() {
 
         ioSocket.on(messages.NEW_GAME, function(data) {
             game.drawBoard(data['board']);
+            // main.switchScreen(waitingRoom, game);
         });
 
         ioSocket.on(messages.GAME_OVER, function(data) {
-            main.switchScreen(game, gameOver);
+            // main.switchScreen(game, gameOver);
         });
     }
 
