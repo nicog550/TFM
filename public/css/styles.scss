@@ -1,0 +1,64 @@
+$box-size: 100px;
+$text-color: rgb(121, 121, 121);
+$hover-color: rgba(121, 121, 121, 0.6);
+body {
+  padding-top: 50px;
+  font: 14px "Roboto", Helvetica, Arial, sans-serif;
+  background-color: #000000;
+  color: $text-color;
+  text-align: center;
+}
+
+a {
+  color: #00B7FF;
+}
+
+button {
+  font-size: 26px;
+  background-color: transparent;
+  border: none;
+  padding: 10px;
+  &.default-button {
+    min-width: 120px;
+    text-transform: uppercase;
+    border: $text-color 7px solid;
+  }
+}
+
+.main {
+  padding: 40px 15px;
+  text-align: center;
+}
+
+#game-screen {
+  table {
+    margin: auto;
+    #game-board {
+      td {
+        border: $text-color 8px solid;
+        width: $box-size;
+        height: $box-size;
+        button {
+          font-size: 64px;
+        }
+        ul.dropdown-menu {
+          min-width: $box-size;
+          background: transparent;
+          border: none;
+          left: -2px;
+          text-align: center;
+          li {
+            a {
+              font-size: 42px;
+              color: $text-color;
+              &:hover, &:focus {
+                outline: none;
+                background: $hover-color none;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

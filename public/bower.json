@@ -1,0 +1,22 @@
+{
+  "name": "public",
+  "homepage": "https://github.com/nicog550/TFM",
+  "authors": [
+    "Nico G <nicog.trm@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "^2.2.3",
+    "bootstrap": "^3.3.6"
+  }
+}

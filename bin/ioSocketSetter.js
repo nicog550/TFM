@@ -3,7 +3,6 @@
 /**
  * Socket.io features
  */
-// usernames which are currently connected to the chat
 var ioSocketSetter = function() {
     var gameGenerator,
         usernames = {},

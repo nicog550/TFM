@@ -56,7 +56,7 @@ var Sockets = function() {
 
         ioSocket.on(messages.NEW_GAME, function(data) {
             console.log("RECEIVED NEW GAME")
-            if (loggedIn) game.startGame(data.board, data.gameDuration / 1000);
+            if (loggedIn) game.startGame(data.board, data.gameDuration / 1000, data.options);
         });
 
         ioSocket.on(messages.GAME_OVER, function(data) {
@@ -66,7 +66,7 @@ var Sockets = function() {
     }
 
     function disconnect() {
-        window.onbeforeunload = sendLogout;
+        // window.onbeforeunload = sendLogout;
     }
     
     function sendLogout() {
@@ -76,11 +76,12 @@ var Sockets = function() {
 
     /**
      * Envía al otro participante el movimiento realizado por el jugador
-     * @param {Array} tablero
+     * @param {int} position The position at the board
+     * @param {int} value The new value
      */
-    function sendMove(tablero) {
-        // console.log("enviado", tablero.reduce(function(a, b) {return a + b;}));
-        // send(messages.NEW_MESSAGE, tablero);
+    function sendMove(position, value) {
+        console.log("sends", position, value);
+        send(messages.NEW_MESSAGE, {position: position, value: value});
     }
 
     /**

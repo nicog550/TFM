@@ -3,20 +3,21 @@
 <head>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8">
     <title>TFM</title>
-    <link rel="stylesheet" href="stylesheets/bootstrap.min.css" type="text/css" media="screen" charset="utf-8">
-    <link rel="stylesheet" href="stylesheets/bootstrap-theme.min.css" type="text/css" media="screen" charset="utf-8">
-    <link rel="stylesheet" href="stylesheets/roboto.css" type="text/css" media="screen" charset="utf-8">
-    <link rel="stylesheet" href="stylesheets/styles.css" type="text/css" media="screen" charset="utf-8">
-    <script src="javascripts/jquery-2.1.3.min.js" type="text/javascript" charset="utf-8"></script>
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css" type="text/css" media="screen" charset="utf-8">
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap-theme.min.css" type="text/css" media="screen" charset="utf-8">
+    <link rel="stylesheet" href="css/roboto.css" type="text/css" media="screen" charset="utf-8">
+    <link rel="stylesheet" href="css/styles.css" type="text/css" media="screen" charset="utf-8">
+    <script src="bower_components/jquery/dist/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="/socket.io/socket.io.js"></script>
-    <script src="javascripts/sockets.js" type="text/javascript" charset="utf-8"></script>
-    <script src="javascripts/constants.js" type="text/javascript" charset="utf-8"></script>
-    <script src="javascripts/main.js" type="text/javascript" charset="utf-8"></script>
-    <script src="javascripts/classes/game.js" type="text/javascript" charset="utf-8"></script>
-    <script src="javascripts/classes/gameOver.js" type="text/javascript" charset="utf-8"></script>
-    <script src="javascripts/classes/loading.js" type="text/javascript" charset="utf-8"></script>
-    <script src="javascripts/classes/waitingRoom.js" type="text/javascript" charset="utf-8"></script>
-    <script src="javascripts/classes/welcome.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/constants.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/sockets.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/classes/game.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/classes/gameOver.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/classes/loading.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/classes/waitingRoom.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/classes/welcome.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/main.js" type="text/javascript" charset="utf-8"></script>
 </head>
 
 <body>
@@ -30,7 +31,7 @@
         <div id="welcome-screen" class="screen hidden">
             <h1>Welcome</h1>
             <p class="lead">Press the button to enter the game room</p>
-            <button id="play-button">Play</button>
+            <button id="play-button" class="default-button">Play</button>
         </div>
         <!-- Waiting room screen -->
         <div id="waiting-room-screen" class="screen hidden">
@@ -51,10 +52,10 @@
             Remaining time: <span id="game-time"></span> seconds
             <table>
                 <tbody>
-                <tr id="game-board"></tr>
+                <tr id="game-board" class="dropdown"></tr>
                 </tbody>
             </table>
-            <button id="test-btn">Test logout</button>
+            <button id="test-btn" class="default-button">Test logout</button>
         </div>
         <!-- Game over screen -->
         <div id="ending-screen" class="screen hidden">
@@ -63,7 +64,7 @@
                     Game over<br>
                     <span>Time remaining for next game: <span id="waiting-time"></span> seconds</span>
                 </h4>
-                <button id="logout">Disconnect</button>
+                <button id="logout" class="default-button">Disconnect</button>
             </div>
         </div>
     </div>

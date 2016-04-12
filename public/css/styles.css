@@ -1,0 +1,46 @@
+body {
+  padding-top: 50px;
+  font: 14px "Roboto", Helvetica, Arial, sans-serif;
+  background-color: #000000;
+  color: #797979;
+  text-align: center; }
+
+a {
+  color: #00B7FF; }
+
+button {
+  font-size: 26px;
+  background-color: transparent;
+  border: none;
+  padding: 10px; }
+  button.default-button {
+    min-width: 120px;
+    text-transform: uppercase;
+    border: #797979 7px solid; }
+
+.main {
+  padding: 40px 15px;
+  text-align: center; }
+
+#game-screen table {
+  margin: auto; }
+  #game-screen table #game-board td {
+    border: #797979 8px solid;
+    width: 100px;
+    height: 100px; }
+    #game-screen table #game-board td button {
+      font-size: 64px; }
+    #game-screen table #game-board td ul.dropdown-menu {
+      min-width: 100px;
+      background: transparent;
+      border: none;
+      left: -2px;
+      text-align: center; }
+      #game-screen table #game-board td ul.dropdown-menu li a {
+        font-size: 42px;
+        color: #797979; }
+        #game-screen table #game-board td ul.dropdown-menu li a:hover, #game-screen table #game-board td ul.dropdown-menu li a:focus {
+          outline: none;
+          background: rgba(121, 121, 121, 0.6) none; }
+
+/*# sourceMappingURL=styles.css.map */
