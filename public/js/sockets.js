@@ -12,7 +12,7 @@ var Sockets = function() {
             LOGIN: 'login',
             LOGOUT: 'disconnect',
             NEW_GAME: 'new game',
-            NEW_MESSAGE: 'new message',
+            NEW_MOVE: 'new move',
             USER_LEFT: 'user left',
             USER_JOINED: 'user joined'
         },
@@ -24,13 +24,10 @@ var Sockets = function() {
             game = gameRef;
             waitingRoom = waitingRoomRef;
             connect();
-            receive();
-            disconnect();
         },
-        messages: messages,
-        send: send,
-        sendLogout: sendLogout,
-        sendMove: sendMove
+        login: login,
+        logout: logout,
+        newMove: sendMove
     };
 
     /**
@@ -58,6 +55,10 @@ var Sockets = function() {
             console.log("RECEIVED NEW GAME")
             if (loggedIn) game.startGame(data.board, data.gameDuration / 1000, data.options);
         });
+        ioSocket.on(messages.NEW_MOVE, function (data) {
+            console.log("recibido", data.message);
+            //TODO
+        });
 
         ioSocket.on(messages.GAME_OVER, function(data) {
             console.log("RECEIVED GAME OVER")
@@ -65,41 +66,32 @@ var Sockets = function() {
         });
     }
 
-    function disconnect() {
-        // window.onbeforeunload = sendLogout;
+    function login() {
+        _send(messages.ADD_USER, main.username);
     }
-    
-    function sendLogout() {
-        console.log("sends logout")
-        send(messages.LOGOUT, {});
+
+    function logout() {
+        console.log("sends ", messages.LOGOUT)
+        _send(messages.LOGOUT, main.username);
     }
 
     /**
-     * Envía al otro participante el movimiento realizado por el jugador
+     * Sends a new move
      * @param {int} position The position at the board
      * @param {int} value The new value
      */
     function sendMove(position, value) {
         console.log("sends", position, value);
-        send(messages.NEW_MESSAGE, {position: position, value: value});
-    }
-
-    /**
-     * Recibe el mensaje de que se ha efectuado un nuevo movimiento
-     */
-    function receive() {
-        ioSocket.on(messages.NEW_MESSAGE, function (data) {
-            console.log("recibido", data.message);
-            //TODO
-        });
+        _send(messages.NEW_MOVE, {position: position, value: value});
     }
 
     /**
      * Sends a message via socket
      * @param {string} code The code of the message to emit
      * @param {Object} message The message to emit
+     * @private
      */
-    function send(code, message) {
+    function _send(code, message) {
         ioSocket.emit(code, message);
     }
 };

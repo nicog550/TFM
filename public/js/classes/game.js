@@ -18,7 +18,7 @@ var Game = function() {
             waitingRoom = waitingRoomRef;
             _performMove();
             gameOver.init(main, socketsRef);
-            $("#test-btn").on('click', sockets.sendLogout)
+            $("#test-btn").on('click', sockets.logout)
         },
         selector: selector,
         finishGame: finishGame,
@@ -87,7 +87,7 @@ var Game = function() {
             var newValue = $(this).text(),
                 position = $(this).data('position');
             $("." + buttonsClass + "[data-position=" + position + "]").text(newValue);
-            sockets.sendMove(position, parseInt(newValue));
+            sockets.newMove(position, parseInt(newValue));
         });
     }
 };

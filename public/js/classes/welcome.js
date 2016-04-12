@@ -7,7 +7,7 @@ var Welcome = function() {
         init: function(main, game, sockets, waitingRoom) {
             $("#play-button").on('click', function() {
                 main.toggleScreen(waitingRoom);
-                sockets.send(sockets.messages.ADD_USER, new Date());
+                sockets.login();
             });
         },
         selector: selector

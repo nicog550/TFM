@@ -1,7 +1,7 @@
 /**
  * Simple object containing main constant values
  */
-var gameDuration = 10000;
+var gameDuration = 4000;
 module.exports = {
     gameDuration: gameDuration, //Game duration in milliseconds
     gamePause: 1000, //gameDuration, //Waiting time between games

@@ -22,7 +22,7 @@ var GameOver = function(){
 
     function logout() {
         $("#logout").on('click', function() {
-            sockets.sendLogout();
+            sockets.logout();
             $(this).fadeOut(function() {
                 $(this).remove();
             });

@@ -5,6 +5,7 @@
 var Main = function() {
     var game = Game(),
         sockets = Sockets(),
+        username = makeid(), //TODO
         waitingRoom = WaitingRoom(),
         welcomeScreen = Welcome();
     /**
@@ -19,8 +20,16 @@ var Main = function() {
             toggleScreen(welcomeScreen);
         },
         displayCountdown: displayCountdown,
-        toggleScreen: toggleScreen
+        toggleScreen: toggleScreen,
+        username: username
     };
+
+    function makeid() {
+        var text = "";
+        var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        for (var i = 0; i < 5; i++) text += possible.charAt(Math.floor(Math.random() * possible.length));
+        return text;
+    }
 
     /**
      * Displays a countdown of seconds
