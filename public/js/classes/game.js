@@ -5,6 +5,7 @@
 var Game = function() {
     var buttonsClass = 'game-button',
         choicesClass = 'choice',
+        debugGame =  false,
         gameBoard = document.getElementById("game-board"),
         gameOver = GameOver(),
         main,
@@ -25,9 +26,9 @@ var Game = function() {
     };
     
     function finishGame(waitingTime) {
-        //TODO: uncomment the following lines
-        // main.toggleScreen(gameOver);
-        // gameOver.displayRemainingTime(waitingTime);
+        if (debugGame) return;
+        main.toggleScreen(gameOver);
+        gameOver.displayRemainingTime(waitingTime);
     }
 
     function startGame(board, duration, options) {
@@ -37,7 +38,7 @@ var Game = function() {
     }
     
     function _drawBoard(board, options) {
-        if (gameBoard.firstChild) return; //TODO: remove this line
+        if (debugGame && gameBoard.firstChild) return;
         while (gameBoard.firstChild) gameBoard.removeChild(gameBoard.firstChild); //Empty board
         for (var i = 0; i < board.length; i++) {
             gameBoard.appendChild(_createDropdown(board[i], i, options));
