@@ -19,16 +19,44 @@ var gameGenerator = function() {
      */
     function _generateGame() {
         gameActive = true;
+        _sendGamesToPlayers(_generateGamesForPlayers());
+        timeout = setTimeout(_endGame, constants.gameDuration);
+    }
+
+    function _generateGamesForPlayers() {
+        var games = {};
+        for (var socket in sockets) {
+            if (sockets.hasOwnProperty(socket)) {
+                for (var i = 0; i < Object.keys(sockets).length; i++) games[socket] = _generateGameForPlayer();
+            }
+        }
+        return games;
+    }
+
+    function _generateGameForPlayer() {
         var word = [];
         for (var i = 0; i < constants.wordLength; i++) word.push(Math.floor(Math.random() * constants.optionsCount));
+        return word;
+    }
+
+    function _sendGamesToPlayers(games) {
         var gameSettings = {
-            board: word,
             gameDuration: constants.gameDuration,
-            options: constants.optionsCount,
-            players: Object.keys(sockets).length
+            options: constants.optionsCount
         };
-        _broadcastMessage('new game', gameSettings);
-        timeout = setTimeout(_endGame, constants.gameDuration);
+        for (var currentSocket in games) {
+            if (games.hasOwnProperty(currentSocket)) {
+                gameSettings['board'] = games[currentSocket];
+                var otherBoards = {};
+                for (var otherSocket in games) {
+                    if (otherSocket != currentSocket && games.hasOwnProperty(otherSocket)) {
+                        otherBoards[otherSocket] = games[otherSocket];
+                    }
+                }
+                gameSettings['otherPlayers'] = otherBoards;
+                sockets[currentSocket].emit('new game', gameSettings);
+            }
+        }
     }
 
     function _endGame() {
@@ -47,7 +75,6 @@ var gameGenerator = function() {
     }
 
     function addSocket(socket) {
-        console.log("adds", socket.id);
         sockets[socket.id] = socket;
         //Calculate the remaining game time in seconds
         var remaining = Math.floor((timeout._idleStart + timeout._idleTimeout - Date.now()) / 1000);

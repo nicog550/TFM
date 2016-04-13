@@ -5,7 +5,7 @@
 var Game = function() {
     var buttonsClass = 'game-button',
         choicesClass = 'choice',
-        debugGame =  true,
+        debugGame =  false,
         gameBoard = document.getElementById("game-board"),
         gameOver = GameOver(),
         main,
@@ -32,9 +32,9 @@ var Game = function() {
         gameOver.displayRemainingTime(waitingTime);
     }
 
-    function startGame(board, duration, options, players) {
+    function startGame(board, duration, options, otherPlayers) {
         _drawBoard(board, options);
-        _displayOtherPlayers(players, board.length, options);
+        _displayOtherPlayers(otherPlayers);
         main.toggleScreen(this);
         main.displayCountdown(duration, $("#game-time"));
     }
@@ -47,20 +47,25 @@ var Game = function() {
         }
     }
 
-    function _displayOtherPlayers(count, wordLength, options) {
+    function _displayOtherPlayers(otherPlayers) {
         if (debugGame && otherPlayersBoard.firstChild) return;
         while (otherPlayersBoard.firstChild) otherPlayersBoard.removeChild(otherPlayersBoard.firstChild); //Empty board
-        for (var i = 0; i < count; i++) {
-            var row = document.createElement('tr');
-            for (var j = 0; j < wordLength; j++) {
-                var box = document.createElement('td');
-                box.innerText = parseInt(Math.random() * options);
-                row.appendChild(box);
+        for (var player in otherPlayers) {
+            if (otherPlayers.hasOwnProperty(player)) {
+                var row = document.createElement('tr');
+                var nameBox = document.createElement('td');
+                nameBox.innerText = player;
+                row.appendChild(nameBox);
+                for (var j = 0; j < otherPlayers[player].length; j++) {
+                    var box = document.createElement('td');
+                    box.innerText = otherPlayers[player][j];
+                    row.appendChild(box);
+                }
+                otherPlayersBoard.appendChild(row);
+                var spacer = document.createElement('tr');
+                spacer.className = 'spacer';
+                otherPlayersBoard.appendChild(spacer);
             }
-            otherPlayersBoard.appendChild(row);
-            var spacer = document.createElement('tr');
-            spacer.className = 'spacer';
-            otherPlayersBoard.appendChild(spacer);
         }
     }
 
