@@ -56,7 +56,11 @@ var gameGenerator = function() {
     
     function removeSocket(socket) {
         console.log("removes", socket.id);
-        delete sockets[socket.id];
+        if (sockets.hasOwnProperty(socket.id)) {
+            delete sockets[socket.id];
+            return true;
+        }
+        return false;
     }
 };
 

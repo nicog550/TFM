@@ -28,6 +28,7 @@ var ioSocketSetter = function() {
             // add the client's username to the global list
             usernames[username] = username;
             ++numUsers;
+            console.log("numUsers:", numUsers)
             socket.emit('login', {
                 numUsers: numUsers,
                 //If a new game starts just now, make the player wait for a whole turn passes
@@ -58,15 +59,16 @@ var ioSocketSetter = function() {
 
         function performLogout() {
             // remove the username from global usernames list
-            gameGenerator.removeSocket(socket);
-            delete usernames[socket.username];
-            --numUsers;
+            if (gameGenerator.removeSocket(socket)) {
+                delete usernames[socket.username];
+                --numUsers;
 
-            // echo globally that this client has left
-            socket.broadcast.emit('user left', {
-                username: socket.username,
-                numUsers: numUsers
-            });
+                // echo globally that this client has left
+                socket.broadcast.emit('user left', {
+                    username: socket.username,
+                    numUsers: numUsers
+                });
+            }
         }
     }
 };

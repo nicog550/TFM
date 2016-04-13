@@ -35,7 +35,7 @@ var Sockets = function() {
      */
     function connect() {
         ioSocket.on(messages.LOGIN, function (data) {
-            console.log("RECEIVED LOGIN")
+            console.log("RECEIVED LOGIN. Users:", data.numUsers)
             loggedIn = true;
             waitingRoom.checkNumUsers(data.numUsers);
             waitingRoom.displayRemainingTime(data.waitingTime);

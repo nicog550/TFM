@@ -27,7 +27,7 @@ var WaitingRoom = function() {
      */
     function checkNumUsers(numUsers) {
         if (numUsers < Constants.minUsers) _notifyInsufficientPlayers(numUsers);
-        else if (numUsers <= Constants.maxUsers) _numberWithinLimits(this, numUsers);
+        else if (numUsers <= Constants.maxUsers) _numberWithinLimits();
         else _notifyExcessivePlayers(numUsers);
 
     }
@@ -55,8 +55,11 @@ var WaitingRoom = function() {
     /**
      * Starts the game
      */
-    function _numberWithinLimits(waitingRoom, numUsers) {
-        // main.toggleScreen(waitingRoom, game);
+    function _numberWithinLimits() {
+        $("#correct-users").hide();
+        $maxUsers.hide();
+        $insufficientUsers.hide();
+        $excessiveUsers.hide();
     }
     
     function displayRemainingTime(remainingTime) {
