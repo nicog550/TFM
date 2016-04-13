@@ -18,7 +18,6 @@ var Game = function() {
             waitingRoom = waitingRoomRef;
             _performMove();
             gameOver.init(main, socketsRef);
-            $("#test-btn").on('click', sockets.logout)
         },
         selector: selector,
         finishGame: finishGame,

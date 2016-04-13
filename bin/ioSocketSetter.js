@@ -53,8 +53,10 @@ var ioSocketSetter = function() {
     }
 
     function _removeUser(socket) {
-        socket.on('disconnect', function () {
-            console.log("received logout");
+        socket.on('logout', performLogout);
+        socket.on('disconnect', performLogout);
+
+        function performLogout() {
             // remove the username from global usernames list
             gameGenerator.removeSocket(socket);
             delete usernames[socket.username];
@@ -65,7 +67,7 @@ var ioSocketSetter = function() {
                 username: socket.username,
                 numUsers: numUsers
             });
-        });
+        }
     }
 };
 module.exports = ioSocketSetter;

@@ -10,7 +10,7 @@ var Sockets = function() {
             ADD_USER: 'add user',
             GAME_OVER: 'game over',
             LOGIN: 'login',
-            LOGOUT: 'disconnect',
+            LOGOUT: 'logout',
             NEW_GAME: 'new game',
             NEW_MOVE: 'new move',
             USER_LEFT: 'user left',
@@ -71,7 +71,7 @@ var Sockets = function() {
     }
 
     function logout() {
-        console.log("sends ", messages.LOGOUT)
+        loggedIn = false;
         _send(messages.LOGOUT, main.username);
     }
 
