@@ -5,10 +5,11 @@
 var Game = function() {
     var buttonsClass = 'game-button',
         choicesClass = 'choice',
-        debugGame =  false,
+        debugGame =  true,
         gameBoard = document.getElementById("game-board"),
         gameOver = GameOver(),
         main,
+        otherPlayersBoard = document.getElementById('other-players'),
         selector = "game-screen",
         sockets,
         waitingRoom;
@@ -31,8 +32,9 @@ var Game = function() {
         gameOver.displayRemainingTime(waitingTime);
     }
 
-    function startGame(board, duration, options) {
+    function startGame(board, duration, options, players) {
         _drawBoard(board, options);
+        _displayOtherPlayers(players, board.length, options);
         main.toggleScreen(this);
         main.displayCountdown(duration, $("#game-time"));
     }
@@ -42,6 +44,23 @@ var Game = function() {
         while (gameBoard.firstChild) gameBoard.removeChild(gameBoard.firstChild); //Empty board
         for (var i = 0; i < board.length; i++) {
             gameBoard.appendChild(_createDropdown(board[i], i, options));
+        }
+    }
+
+    function _displayOtherPlayers(count, wordLength, options) {
+        if (debugGame && otherPlayersBoard.firstChild) return;
+        while (otherPlayersBoard.firstChild) otherPlayersBoard.removeChild(otherPlayersBoard.firstChild); //Empty board
+        for (var i = 0; i < count; i++) {
+            var row = document.createElement('tr');
+            for (var j = 0; j < wordLength; j++) {
+                var box = document.createElement('td');
+                box.innerText = parseInt(Math.random() * options);
+                row.appendChild(box);
+            }
+            otherPlayersBoard.appendChild(row);
+            var spacer = document.createElement('tr');
+            spacer.className = 'spacer';
+            otherPlayersBoard.appendChild(spacer);
         }
     }
 

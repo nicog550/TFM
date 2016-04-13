@@ -3,9 +3,9 @@
 var gameGenerator = function() {
     var constants = require('./constants'),
         gameActive = false,
-        timeout,
         /** Contains the socket of each connected user */
-        sockets = {};
+        sockets = {},
+        timeout;
     return {
         init: function() {
             _generateGame();
@@ -24,7 +24,8 @@ var gameGenerator = function() {
         var gameSettings = {
             board: word,
             gameDuration: constants.gameDuration,
-            options: constants.optionsCount
+            options: constants.optionsCount,
+            players: Object.keys(sockets).length
         };
         _broadcastMessage('new game', gameSettings);
         timeout = setTimeout(_endGame, constants.gameDuration);

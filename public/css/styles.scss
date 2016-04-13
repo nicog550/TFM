@@ -32,30 +32,49 @@ button {
 
 #game-screen {
   table {
-    margin: auto;
-    #game-board {
-      td {
-        border: $text-color 8px solid;
-        width: $box-size;
-        height: $box-size;
-        button {
-          font-size: 64px;
-        }
-        ul.dropdown-menu {
-          min-width: $box-size;
-          background: transparent;
-          border: none;
-          left: -2px;
-          text-align: center;
-          li {
-            a {
-              font-size: 42px;
-              color: $text-color;
-              &:hover, &:focus {
-                outline: none;
-                background: $hover-color none;
+    &#own-game {
+      margin: auto;
+      #game-board {
+        td {
+          border: $text-color 8px solid;
+          width: $box-size;
+          height: $box-size;
+          button {
+            font-size: 64px;
+          }
+          ul.dropdown-menu {
+            min-width: $box-size;
+            background: transparent;
+            border: none;
+            left: -2px;
+            text-align: center;
+            li {
+              a {
+                font-size: 42px;
+                color: $text-color;
+                &:hover, &:focus {
+                  outline: none;
+                  background: $hover-color none;
+                }
               }
             }
+          }
+        }
+      }
+    }
+    &:not(#own-game) {
+      float: right;
+      margin: 20px 91px 0 0;
+      #other-players {
+        tr {
+          &.spacer {
+            height: 10px;
+          }
+          td {
+            border: $text-color 5px solid;
+            width: 50px;
+            height: 50px;
+            color: $text-color;
           }
         }
       }
