@@ -28,7 +28,6 @@ var ioSocketSetter = function() {
             // add the client's username to the global list
             usernames[username] = username;
             ++numUsers;
-            console.log("numUsers:", numUsers)
             socket.emit('login', {
                 numUsers: numUsers,
                 //If a new game starts just now, make the player wait for a whole turn passes
@@ -44,7 +43,6 @@ var ioSocketSetter = function() {
 
     function _receiveMove(socket) {
         socket.on('new move', function (data) {
-            console.log("received move:", data)
             // we tell the client to execute 'new message'
             socket.broadcast.emit('new move', {
                 username: socket.username,

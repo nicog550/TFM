@@ -27,7 +27,8 @@ var gameGenerator = function() {
         var games = {};
         for (var socket in sockets) {
             if (sockets.hasOwnProperty(socket)) {
-                for (var i = 0; i < Object.keys(sockets).length; i++) games[socket] = _generateGameForPlayer();
+                for (var i = 0; i < Object.keys(sockets).length; i++)
+                    games[socket] = {board: _generateGameForPlayer(), username: sockets[socket].username};
             }
         }
         return games;
@@ -46,7 +47,7 @@ var gameGenerator = function() {
         };
         for (var currentSocket in games) {
             if (games.hasOwnProperty(currentSocket)) {
-                gameSettings['board'] = games[currentSocket];
+                gameSettings['board'] = games[currentSocket]['board'];
                 var otherBoards = {};
                 for (var otherSocket in games) {
                     if (otherSocket != currentSocket && games.hasOwnProperty(otherSocket)) {
@@ -83,7 +84,6 @@ var gameGenerator = function() {
     }
     
     function removeSocket(socket) {
-        console.log("removes", socket.id);
         if (sockets.hasOwnProperty(socket.id)) {
             delete sockets[socket.id];
             return true;

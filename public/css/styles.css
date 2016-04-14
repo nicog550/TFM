@@ -54,7 +54,6 @@ button {
     color: #797979; }
     #game-screen table:not(#own-game) #other-players tr td:first-child {
       border: none;
-      padding-right: 20px;
-      font-size: 20px; }
+      padding-right: 20px; }
 
 /*# sourceMappingURL=styles.css.map */

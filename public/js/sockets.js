@@ -34,19 +34,19 @@ var Sockets = function() {
      * Connection to the room
      */
     function connect() {
-        ioSocket.on(messages.LOGIN, function (data) {
+        ioSocket.on(messages.LOGIN, function(data) {
             console.log("RECEIVED LOGIN. Users:", data.numUsers)
             loggedIn = true;
             waitingRoom.checkNumUsers(data.numUsers);
             waitingRoom.displayRemainingTime(data.waitingTime);
         });
 
-        ioSocket.on(messages.USER_JOINED, function (data) {
+        ioSocket.on(messages.USER_JOINED, function(data) {
             console.log("RECEIVED USER JOINED")
             if (loggedIn) waitingRoom.checkNumUsers(data.numUsers);
         });
 
-        ioSocket.on(messages.USER_LEFT, function (data) {
+        ioSocket.on(messages.USER_LEFT, function(data) {
             console.log("RECEIVED USER LEFT")
             if (loggedIn) waitingRoom.checkNumUsers(data.numUsers);
         });
@@ -55,9 +55,9 @@ var Sockets = function() {
             console.log("RECEIVED NEW GAME", data)
             if (loggedIn) game.startGame(data.board, data.gameDuration / 1000, data.options, data.otherPlayers);
         });
-        ioSocket.on(messages.NEW_MOVE, function (data) {
-            console.log("recibido", data.message);
-            //TODO
+        ioSocket.on(messages.NEW_MOVE, function(data) {
+            console.log("recibido", data);
+            game.drawMove(data.username, data.message.position, data.message.value);
         });
 
         ioSocket.on(messages.GAME_OVER, function(data) {

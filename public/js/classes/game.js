@@ -22,6 +22,7 @@ var Game = function() {
             gameOver.init(main, socketsRef);
         },
         selector: selector,
+        drawMove: drawMove,
         finishGame: finishGame,
         startGame: startGame
     };
@@ -50,15 +51,18 @@ var Game = function() {
     function _displayOtherPlayers(otherPlayers) {
         if (debugGame && otherPlayersBoard.firstChild) return;
         while (otherPlayersBoard.firstChild) otherPlayersBoard.removeChild(otherPlayersBoard.firstChild); //Empty board
+        console.log("other players:", otherPlayers)
         for (var player in otherPlayers) {
             if (otherPlayers.hasOwnProperty(player)) {
                 var row = document.createElement('tr');
+                row.dataset['player'] = otherPlayers[player]['username'];
                 var nameBox = document.createElement('td');
-                nameBox.innerText = player;
+                nameBox.innerText = otherPlayers[player]['username'];
                 row.appendChild(nameBox);
-                for (var j = 0; j < otherPlayers[player].length; j++) {
+                for (var j = 0; j < otherPlayers[player]['board'].length; j++) {
                     var box = document.createElement('td');
-                    box.innerText = otherPlayers[player][j];
+                    box.innerText = otherPlayers[player]['board'][j];
+                    box.dataset['position'] = j;
                     row.appendChild(box);
                 }
                 otherPlayersBoard.appendChild(row);
@@ -113,5 +117,10 @@ var Game = function() {
             $("." + buttonsClass + "[data-position=" + position + "]").text(newValue);
             sockets.newMove(position, parseInt(newValue));
         });
+    }
+    
+    function drawMove(player, position, newValue) {
+        console.log("draws", $("[data-player=" + player + "]").find("[data-position=" + position + "]"));
+        $("[data-player=" + player + "]").find("[data-position=" + position + "]").text(newValue);
     }
 };
