@@ -3,7 +3,7 @@
  * Main class, application launcher
  */
 var Main = function() {
-    var game = Game(),
+    var game = new Game(),
         sockets = Sockets(),
         username = makeid(), //TODO
         waitingRoom = WaitingRoom(),

@@ -79,6 +79,9 @@ button {
               border: none;
               padding-right: 20px;
             }
+            &.updated {
+              background-color: #ffb615;
+            }
           }
         }
       }
