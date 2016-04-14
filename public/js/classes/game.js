@@ -51,7 +51,6 @@ var Game = function() {
     function _displayOtherPlayers(otherPlayers) {
         if (debugGame && otherPlayersBoard.firstChild) return;
         while (otherPlayersBoard.firstChild) otherPlayersBoard.removeChild(otherPlayersBoard.firstChild); //Empty board
-        console.log("other players:", otherPlayers)
         for (var player in otherPlayers) {
             if (otherPlayers.hasOwnProperty(player)) {
                 var row = document.createElement('tr');
