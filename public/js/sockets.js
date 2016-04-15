@@ -36,6 +36,7 @@ var Sockets = function() {
     function connect() {
         ioSocket.on(messages.LOGIN, function(data) {
             loggedIn = true;
+            main.toggleScreen(waitingRoom);
             waitingRoom.checkNumUsers(data.numUsers);
             waitingRoom.displayRemainingTime(data.waitingTime);
         });

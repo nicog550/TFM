@@ -28,17 +28,37 @@ var ioSocketSetter = function() {
             // add the client's username to the global list
             usernames[username] = username;
             ++numUsers;
+            emitLogin(remainingTime);
+            notifyOtherPlayers();
+        });
+
+        function emitLogin(remainingTime) {
+            if (remainingTime > 0) sendLogin(remainingTime);
+            //Else, wait for the "new game" message is sent before sending the "login" one in order to avoid the game to
+            //start for the user immediatly on login
+            else {
+                var waitingTime = 1000;
+                setTimeout(function() {
+                    sendLogin((constants.gameDuration + constants.gamePause - waitingTime) / 1000);
+                }, waitingTime);
+            }
+        }
+
+        function sendLogin(remainingTime) {
             socket.emit('login', {
                 numUsers: numUsers,
                 //If a new game starts just now, make the player wait for a whole turn passes
-                waitingTime: remainingTime > 0 ? remainingTime : constants.gameDuration + constants.gamePause
+                waitingTime: remainingTime > 0 ? remainingTime : (constants.gameDuration + constants.gamePause) / 1000
             });
+        }
+
+        function notifyOtherPlayers() {
             // echo globally (all clients) that a person has connected
             socket.broadcast.emit('user joined', {
                 username: socket.username,
                 numUsers: numUsers
             });
-        });
+        }
     }
 
     function _receiveMove(socket) {

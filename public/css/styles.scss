@@ -18,10 +18,15 @@ button {
   background-color: transparent;
   border: none;
   padding: 10px;
+  outline: none;
   &.default-button {
     min-width: 120px;
     text-transform: uppercase;
     border: $text-color 7px solid;
+  }
+  &.disabled {
+    background-color: $text-color;
+    color: #000000;
   }
 }
 

@@ -12,11 +12,15 @@ button {
   font-size: 26px;
   background-color: transparent;
   border: none;
-  padding: 10px; }
+  padding: 10px;
+  outline: none; }
   button.default-button {
     min-width: 120px;
     text-transform: uppercase;
     border: #797979 7px solid; }
+  button.disabled {
+    background-color: #797979;
+    color: #000000; }
 
 input {
   padding: 0;

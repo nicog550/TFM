@@ -4,15 +4,16 @@
  */
 var Welcome = function() {
     return {
-        init: function(main, game, sockets, waitingRoom) {
+        init: function(main, game, sockets) {
             $("#play-button").on('click', function() {
                 var username = $("#username").val();
                 if (username == "") {
                     if (game.debug()) username = makeid();
                     else return;
                 }
+                $(this).attr('disabled');
+                $(this).addClass('disabled', 'disabled');
                 main.setUsername(username);
-                main.toggleScreen(waitingRoom);
                 sockets.login();
             });
         },
