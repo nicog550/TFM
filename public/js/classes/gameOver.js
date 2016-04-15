@@ -3,8 +3,7 @@
  * Class responsible for the end of game screen
  */
 var GameOver = function(){
-    var selector = "ending-screen",
-        main,
+    var main,
         sockets;
     return {
         init: function(mainRef, socketsRef) {
@@ -12,7 +11,7 @@ var GameOver = function(){
             sockets = socketsRef;
             logout();
         },
-        selector: selector,
+        selector: "ending-screen",
         displayRemainingTime: displayRemainingTime
     };
 

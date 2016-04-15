@@ -5,7 +5,6 @@
 var WaitingRoom = function() {
     var game,
         main,
-        selector = "waiting-room-screen",
         $connectedUsers = $("#connected-users"),
         $excessiveUsers = $("#excessive-users"),
         $insufficientUsers = $("#insufficient-users"),
@@ -16,7 +15,7 @@ var WaitingRoom = function() {
             main = mainRef;
             game = gameRef;
         },
-        selector: selector,
+        selector: "waiting-room-screen",
         checkNumUsers: checkNumUsers,
         displayRemainingTime: displayRemainingTime
     };

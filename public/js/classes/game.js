@@ -8,7 +8,6 @@ var Game = function() {
         main,
         otherPlayersBoard = this.otherUsers(debugGame),
         playerBoard = this.player(debugGame),
-        selector = "game-screen",
         sockets,
         waitingRoom;
     return {
@@ -20,7 +19,7 @@ var Game = function() {
             gameOver.init(main, socketsRef);
         },
         debug: function() {return debugGame;},
-        selector: selector,
+        selector: "game-screen",
         drawMove: otherPlayersBoard.drawMove,
         finishGame: finishGame,
         startGame: startGame
