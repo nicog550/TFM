@@ -36,7 +36,7 @@ var ioSocketSetter = function() {
         function emitLogin(remainingTime) {
             if (remainingTime > 0) sendLogin(remainingTime);
             //Else, wait for the "new game" message is sent before sending the "login" one in order to avoid the game to
-            //start for the user immediatly on login
+            //start for the user immediately on login
             else {
                 var waitingTime = 1000;
                 setTimeout(function() {
