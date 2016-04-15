@@ -3,7 +3,7 @@
  * Class responsible for the game logic
  */
 var Game = function() {
-    var debugGame = true,
+    var debugGame = false,
         gameOver = GameOver(),
         main,
         otherPlayersBoard = this.otherUsers(debugGame),
