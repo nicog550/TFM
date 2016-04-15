@@ -38,7 +38,7 @@ var gameGenerator = function() {
     function _generateGamesForPlayers() {
         var games = {};
         for (var socket in sockets) {
-            if (sockets.hasOwnProperty(socket)) {
+            if (sockets.hasOwnProperty(socket) && sockets[socket].isLoggedIn) {
                 for (var i = 0; i < Object.keys(sockets).length; i++)
                     games[socket] = {board: _generateGameForPlayer(), username: sockets[socket].username};
             }

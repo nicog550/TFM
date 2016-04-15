@@ -14,6 +14,7 @@ var ioSocketSetter = function() {
     function socketSetup(ioSocket, gameGeneratorRef) {
         gameGenerator = gameGeneratorRef;
         ioSocket.on('connection', function (socket) {
+            socket.isLoggedIn = false;
             _receiveMove(socket);
             _addUser(socket);
             _removeUser(socket);
@@ -45,6 +46,7 @@ var ioSocketSetter = function() {
         }
 
         function sendLogin(remainingTime) {
+            socket.isLoggedIn = true;
             socket.emit('login', {
                 numUsers: numUsers,
                 //If a new game starts just now, make the player wait for a whole turn passes
