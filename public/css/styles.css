@@ -32,6 +32,8 @@ input {
   border-bottom: 2px #797979 solid;
   outline: none; }
 
+#game-screen .remaining-time {
+  margin-bottom: 20px; }
 #game-screen table.own-game {
   margin: auto; }
   #game-screen table.own-game .game-board td {

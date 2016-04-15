@@ -41,6 +41,9 @@ input {
 }
 
 #game-screen {
+  .remaining-time {
+    margin-bottom: 20px;
+  }
   table {
     &.own-game {
       margin: auto;
