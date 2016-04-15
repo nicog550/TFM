@@ -50,11 +50,7 @@
         <!-- Game screen -->
         <div id="game-screen" class="screen hidden">
             Remaining time: <span id="game-time"></span> seconds
-            <table id="own-game">
-                <tbody>
-                <tr id="game-board" class="dropdown"></tr>
-                </tbody>
-            </table>
+            <div id="own-game-container"></div>
             <table>
                 <tbody id="other-players"></tbody>
             </table>
@@ -69,6 +65,25 @@
                 <button id="logout" class="default-button">Disconnect</button>
             </div>
         </div>
+    </div>
+</div>
+<!-- Templates -->
+<div class="hidden">
+    <div id="board-template">
+        <table class="own-game">
+            <tbody>
+                <tr class="game-board dropdown">
+                    <td class="dropdown box">
+                        <button class="game-button dropdown-toggle" data-position="" data-toggle="dropdown" type="button"></button>
+                        <ul class="dropdown-menu">
+                            <li class="dropdown-option">
+                                <a href="#" class="choice" data-position=""></a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </div>
 </body>

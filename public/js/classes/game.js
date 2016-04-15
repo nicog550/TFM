@@ -3,11 +3,11 @@
  * Class responsible for the game logic
  */
 var Game = function() {
-    var debugGame =  false,
+    var debugGame =  true,
         gameOver = GameOver(),
         main,
         otherPlayersBoard = this.otherUsers(debugGame),
-        playerBoard = this.player(debugGame, sockets),
+        playerBoard = this.player(debugGame),
         selector = "game-screen",
         sockets,
         waitingRoom;
@@ -19,6 +19,7 @@ var Game = function() {
             playerBoard.performMove(sockets);
             gameOver.init(main, socketsRef);
         },
+        debug: function() {return debugGame;},
         selector: selector,
         drawMove: otherPlayersBoard.drawMove,
         finishGame: finishGame,
@@ -47,87 +48,56 @@ var Game = function() {
 Game.prototype.player = function(debugGame) {
     var buttonsClass = 'game-button',
         choicesClass = 'choice',
-        gameBoard = document.getElementById("game-board");
+        $gameBoardContainer = $("#own-game-container");
     return {
         drawBoard: drawBoard,
         performMove: performMove
     };
 
     /**
-     * Empties the board if it was already populated and creates in it a structure like the following one:
-     * <table id="own-game">
-     *  <tbody>
-     *      <tr id="game-board" class="dropdown">
-     *         <td class="dropdown">
-     *             <button class="game-button dropdown-toggle" data-position="0" data-toggle="dropdown" type="button">
-     *                 3
-     *             </button>
-     *             <ul class="dropdown-menu">
-     *                 <li>
-     *                     <a href="#" class="choice" data-position="0">0</a>
-     *                 </li>
-     *                 ...
-     *                 <li>
-     *                     <a href="#" class="choice" data-position="n">3</a>
-     *                 </li>
-     *             </ul>
-     *         </td>
-     *         ...
-     *         <td class="dropdown">
-     *             ...
-     *         </td>
-     *     </tr>
-     *  </tbody>
-     * </table>
+     * Empties the board if it already had content and populates it again
      * @param board The values for the player's board
      * @param options
      */
     function drawBoard(board, options) {
-        if (debugGame && gameBoard.firstChild) return;
-        while (gameBoard.firstChild) gameBoard.removeChild(gameBoard.firstChild); //Empty board
+        if (debugGame && $gameBoardContainer.children().length > 0) return;
+        $gameBoardContainer.empty();
+        var $boardTemplate = $($("#board-template").children()[0]).clone(),
+            $rowTemplate = $boardTemplate.find(".game-board"),
+            $boxTemplate = $rowTemplate.find(".box").detach();
         for (var i = 0; i < board.length; i++) {
-            gameBoard.appendChild(_createDropdown(board[i], i, options));
+            $rowTemplate.append(_createDropdown($boxTemplate, board[i], i, options));
         }
+        $gameBoardContainer.append($boardTemplate);
     }
 
-    function _createDropdown(boardValue, boardPosition, options) {
-        //Create the <td>
-        var box = document.createElement('td');
-        box.className = 'dropdown';
-        box.appendChild(createButton());
-        box.appendChild(createUl());
-        return box;
+    function _createDropdown($baseTemplate, boardValue, boardPosition, options) {
+        var $template = $baseTemplate.clone(true);
+        createButton();
+        createList();
+        return $template;
 
         function createButton() {
-            var button = document.createElement('button');
-            button.className = buttonsClass + ' dropdown-toggle';
-            button.dataset['position'] = boardPosition;
-            button.dataset['toggle'] = 'dropdown';
-            button.innerText = boardValue;
-            button.type = 'button';
-            return button;
+            var $button = $template.find("button");
+            $button.text(boardValue);
+            $button[0].dataset['position'] = boardPosition; //jQuery data() not working here...
         }
 
-        function createUl() {
-            var ul = document.createElement('ul');
-            ul.className = 'dropdown-menu';
+        function createList() {
+            var $ul = $template.find(".dropdown-menu"),
+                $li = $ul.find(".dropdown-option").detach();
             for (var i = 0; i < options; i++) {
-                //Create the <li><a></a><li> structure and append it to the <ul>
-                var li = document.createElement('li'),
-                    a = document.createElement('a');
-                a.href = '#';
-                a.className = choicesClass;
-                a.innerText = i;
-                a.dataset['position'] = boardPosition;
-                li.appendChild(a);
-                ul.appendChild(li);
+                var $newLi = $li.clone(),
+                    $a = $newLi.find("." + choicesClass);
+                $a.text(i);
+                $a.data('position', boardPosition);
+                $ul.append($newLi);
             }
-            return ul;
         }
     }
 
     function performMove(sockets) {
-        $(document).on('click', '.' + choicesClass, function(e) {
+        $("body").on('click', '.' + choicesClass, function(e) {
             e.preventDefault();
             var newValue = $(this).text(),
                 position = $(this).data('position');

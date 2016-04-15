@@ -32,9 +32,9 @@ button {
 
 #game-screen {
   table {
-    &#own-game {
+    &.own-game {
       margin: auto;
-      #game-board {
+      .game-board {
         td {
           border: $text-color 8px solid;
           width: $box-size;
@@ -62,7 +62,7 @@ button {
         }
       }
     }
-    &:not(#own-game) {
+    &:not(.own-game) {
       float: right;
       margin: 20px 91px 0 0;
       #other-players {
