@@ -22,46 +22,46 @@
 
 <body>
 <div class="container">
-    <div class="main">
-        <!-- Loading screen -->
-        <div id="loading-screen" class="screen">
-            <h1>Loading...</h1>
-        </div>
-        <!-- Welcome screen -->
-        <div id="welcome-screen" class="screen hidden">
-            <h1>Welcome</h1>
-            <p class="lead">Press the button to enter the game room</p>
-            <button id="play-button" class="default-button">Play</button>
-        </div>
-        <!-- Waiting room screen -->
-        <div id="waiting-room-screen" class="screen hidden">
-            <h1>Waiting room</h1>
-            <p class="lead">
-                <span id="correct-users">There are <span id="connected-users"></span> players connected.<br></span>
-                <span id="insufficient-users">
-                    When <span id="min-users"></span> players connect the game will start automatically.
-                </span>
-                <span id="excessive-users" style="display: none;">
-                    The room is limited to a maximum of <span id="max-users"></span> players, so you cannot access it at the moment.
-                </span><br>
-                <span>Time remaining for next game: <span id="remaining-time"></span> seconds</span>
-            </p>
-        </div>
-        <!-- Game screen -->
-        <div id="game-screen" class="screen hidden">
-            Remaining time: <span id="game-time"></span> seconds
-            <div id="own-game-container"></div>
-            <div id="other-players-container"></div>
-        </div>
-        <!-- Game over screen -->
-        <div id="ending-screen" class="screen hidden">
-            <div class="message">
-                <h4>
-                    Game over<br>
-                    <span>Time remaining for next game: <span id="waiting-time"></span> seconds</span>
-                </h4>
-                <button id="logout" class="default-button">Disconnect</button>
-            </div>
+    <!-- Loading screen -->
+    <div id="loading-screen" class="screen">
+        <h1>Loading...</h1>
+    </div>
+    <!-- Welcome screen -->
+    <div id="welcome-screen" class="screen hidden">
+        <h1>Welcome</h1>
+        <label for="username" class="lead">Insert your name to start the game:</label>
+        <br>
+        <input id="username" maxlength="12">
+        <button id="play-button" class="default-button">Play</button>
+    </div>
+    <!-- Waiting room screen -->
+    <div id="waiting-room-screen" class="screen hidden">
+        <h1>Waiting room</h1>
+        <p class="lead">
+            <span id="correct-users">There are <span id="connected-users"></span> players connected.<br></span>
+            <span id="insufficient-users">
+                When <span id="min-users"></span> players connect the game will start automatically.
+            </span>
+            <span id="excessive-users" style="display: none;">
+                The room is limited to a maximum of <span id="max-users"></span> players, so you cannot access it at the moment.
+            </span><br>
+            <span>Time remaining for next game: <span id="remaining-time"></span> seconds</span>
+        </p>
+    </div>
+    <!-- Game screen -->
+    <div id="game-screen" class="screen hidden">
+        Remaining time: <span id="game-time"></span> seconds
+        <div id="own-game-container"></div>
+        <div id="other-players-container"></div>
+    </div>
+    <!-- Game over screen -->
+    <div id="ending-screen" class="screen hidden">
+        <div class="message">
+            <h4>
+                Game over<br>
+                <span>Time remaining for next game: <span id="waiting-time"></span> seconds</span>
+            </h4>
+            <button id="logout" class="default-button">Disconnect</button>
         </div>
     </div>
 </div>

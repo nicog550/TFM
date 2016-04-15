@@ -1,3 +1,4 @@
+"use strict";
 /**
  * Class responsible for the loading screen
  * @unused

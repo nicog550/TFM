@@ -2,7 +2,7 @@ $box-size: 100px;
 $text-color: rgb(121, 121, 121);
 $hover-color: rgba(121, 121, 121, 0.6);
 body {
-  padding-top: 50px;
+  padding: 90px 15px;
   font: 14px "Roboto", Helvetica, Arial, sans-serif;
   background-color: #000000;
   color: $text-color;
@@ -25,9 +25,14 @@ button {
   }
 }
 
-.main {
-  padding: 40px 15px;
-  text-align: center;
+input {
+  padding-left: 20px;
+  width: 200px;
+  height: 64px;
+  background: transparent;
+  color: $text-color;
+  border: 5px $text-color solid;
+  font-size: 26px;
 }
 
 #game-screen {
@@ -64,7 +69,7 @@ button {
     }
     &:not(.own-game) {
       float: right;
-      margin: 20px 91px 0 0;
+      margin: 20px 105px 0 0;
       .other-players {
         tr {
           &.spacer {

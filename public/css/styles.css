@@ -1,5 +1,5 @@
 body {
-  padding-top: 50px;
+  padding: 90px 15px;
   font: 14px "Roboto", Helvetica, Arial, sans-serif;
   background-color: #000000;
   color: #797979;
@@ -18,9 +18,14 @@ button {
     text-transform: uppercase;
     border: #797979 7px solid; }
 
-.main {
-  padding: 40px 15px;
-  text-align: center; }
+input {
+  padding-left: 20px;
+  width: 200px;
+  height: 64px;
+  background: transparent;
+  color: #797979;
+  border: 5px #797979 solid;
+  font-size: 26px; }
 
 #game-screen table.own-game {
   margin: auto; }
@@ -44,7 +49,7 @@ button {
           background: rgba(121, 121, 121, 0.6) none; }
 #game-screen table:not(.own-game) {
   float: right;
-  margin: 20px 91px 0 0; }
+  margin: 20px 105px 0 0; }
   #game-screen table:not(.own-game) .other-players tr.spacer {
     height: 10px; }
   #game-screen table:not(.own-game) .other-players tr td {

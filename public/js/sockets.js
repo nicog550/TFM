@@ -63,7 +63,7 @@ var Sockets = function() {
     }
 
     function login() {
-        _send(messages.ADD_USER, main.username);
+        _send(messages.ADD_USER, main.getUsername());
     }
 
     function logout() {

@@ -5,7 +5,7 @@
 var Main = function() {
     var game = new Game(),
         sockets = Sockets(),
-        username = makeid(), //TODO
+        username,
         waitingRoom = WaitingRoom(),
         welcomeScreen = Welcome();
     /**
@@ -17,18 +17,22 @@ var Main = function() {
             game.init(this, sockets, waitingRoom);
             waitingRoom.init(this, game);
             welcomeScreen.init(this, game, sockets, waitingRoom);
-            toggleScreen(welcomeScreen);
+            toggleScreen(welcomeScreen, function() {
+                $("#username").trigger("focus");
+            });
         },
         displayCountdown: displayCountdown,
+        setUsername: setUsername,
         toggleScreen: toggleScreen,
-        username: username
+        getUsername: getUsername
     };
+    
+    function getUsername() {
+        return username;
+    }
 
-    function makeid() {
-        var text = "";
-        var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-        for (var i = 0; i < 5; i++) text += possible.charAt(Math.floor(Math.random() * possible.length));
-        return text;
+    function setUsername(newName) {
+        username = newName;
     }
 
     /**
@@ -57,11 +61,11 @@ var Main = function() {
         $(".screen:not(.hidden)").fadeOut(function() {
             $(this).addClass('hidden');
             $("#" + newOne.selector).removeClass('hidden').fadeIn();
-        }, callback);
+            if (callback) callback();
+        });
     }
 };
 
 $(document).ready(function() {
     Main().init();
-    // setTimeout("$('#play-button').trigger('click');", 500); //TODO: remove this
 });
