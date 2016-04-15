@@ -3,7 +3,7 @@
  * Class responsible for the game logic
  */
 var Game = function() {
-    var debugGame =  true,
+    var debugGame = false,
         gameOver = GameOver(),
         main,
         otherPlayersBoard = this.otherUsers(debugGame),
@@ -45,9 +45,7 @@ var Game = function() {
  * @returns {{drawBoard: drawBoard}}
  */
 Game.prototype.player = function(debugGame) {
-    var buttonsClass = 'game-button',
-        choicesClass = 'choice',
-        $gameBoardContainer = $("#own-game-container");
+    var $gameBoardContainer = $("#own-game-container");
     return {
         drawBoard: drawBoard,
         performMove: performMove
@@ -61,7 +59,7 @@ Game.prototype.player = function(debugGame) {
     function drawBoard(board, options) {
         if (debugGame && $gameBoardContainer.children().length > 0) return;
         $gameBoardContainer.empty();
-        var $boardTemplate = $($("#board-template").children()[0]).clone(),
+        var $boardTemplate = $("#board-template").find(".own-game").clone(),
             $rowTemplate = $boardTemplate.find(".game-board"),
             $boxTemplate = $rowTemplate.find(".box").detach();
         for (var i = 0; i < board.length; i++) {
@@ -87,7 +85,7 @@ Game.prototype.player = function(debugGame) {
                 $li = $ul.find(".dropdown-option").detach();
             for (var i = 0; i < options; i++) {
                 var $newLi = $li.clone(),
-                    $a = $newLi.find("." + choicesClass);
+                    $a = $newLi.find(".choice");
                 $a.text(i);
                 $a.data('position', boardPosition);
                 $ul.append($newLi);
@@ -96,11 +94,11 @@ Game.prototype.player = function(debugGame) {
     }
 
     function performMove(sockets) {
-        $("body").on('click', '.' + choicesClass, function(e) {
+        $("body").on('click', '.choice', function(e) {
             e.preventDefault();
             var newValue = $(this).text(),
                 position = $(this).data('position');
-            $("." + buttonsClass + "[data-position=" + position + "]").text(newValue);
+            $(".game-button[data-position=" + position + "]").text(newValue);
             sockets.newMove(position, parseInt(newValue));
         });
     }
@@ -112,52 +110,46 @@ Game.prototype.player = function(debugGame) {
  * @returns {{displayBoards: displayBoards, drawMove: drawMove}}
  */
 Game.prototype.otherUsers = function(debugGame) {
-    var otherPlayersBoard = document.getElementById('other-players');
+    var $otherPlayersBoard = $("#other-players-container");
     return {
         displayBoards: displayBoards,
         drawMove: drawMove
     };
 
     /**
-     * Empties the board if it was already populated and creates in it a structure like the following one:
-     * <table>
-     *     <tbody id="other-players">
-     *         <tr data-player="{{ player1Name }}">
-     *             <td>{{player1Name}}</td>
-     *             <td data-position="0">3</td>
-     *             ...
-     *             <td data-position="n">1</td>
-     *         </tr>
-     *         <tr class="spacer"></tr>
-     *         ...
-     *         <tr data-player="{{ playerNName }}">
-     *             ...
-     *         </tr>
-     *     </tbody>
-     * </table>
+     * Empties the other players boards if they already had content and populates them again
      * @param {Object} otherPlayers The other players boards
      */
     function displayBoards(otherPlayers) {
-        if (debugGame && otherPlayersBoard.firstChild) return;
-        while (otherPlayersBoard.firstChild) otherPlayersBoard.removeChild(otherPlayersBoard.firstChild); //Empty board
+        if (debugGame && $otherPlayersBoard.children().length > 0) return;
+        $otherPlayersBoard.empty();
+        var $boardTemplate = $("#other-boards-template").find(".other-players-game").clone(),
+            $playerTemplate = $boardTemplate.find(".other-players").detach();
         for (var player in otherPlayers) {
             if (otherPlayers.hasOwnProperty(player)) {
-                var row = document.createElement('tr');
-                row.dataset['player'] = otherPlayers[player]['username'];
-                var nameBox = document.createElement('td');
-                nameBox.innerText = otherPlayers[player]['username'];
-                row.appendChild(nameBox);
-                for (var j = 0; j < otherPlayers[player]['board'].length; j++) {
-                    var box = document.createElement('td');
-                    box.innerText = otherPlayers[player]['board'][j];
-                    box.dataset['position'] = j;
-                    row.appendChild(box);
-                }
-                otherPlayersBoard.appendChild(row);
-                var spacer = document.createElement('tr');
-                spacer.className = 'spacer';
-                otherPlayersBoard.appendChild(spacer);
+                $boardTemplate.append(_createPlayerBoard($playerTemplate, otherPlayers[player]));
             }
+        }
+        $otherPlayersBoard.append($boardTemplate);
+    }
+
+    function _createPlayerBoard($baseTemplate, playerData) {
+        var $player = $baseTemplate.clone(),
+            $playerRow = $player.find(".player-data");
+        $playerRow[0].dataset['player'] = playerData['username'];
+        $playerRow.find(".name").text(playerData['username']);
+        var $valueTemplate = $playerRow.find(".value-box").detach();
+        fillPlayerData();
+        return $player;
+
+        function fillPlayerData() {
+            for (var j = 0; j < playerData['board'].length; j++) {
+                var $box = $valueTemplate.clone();
+                $box.text(playerData['board'][j]);
+                $box[0].dataset['position'] = j;
+                $playerRow.append($box);
+            }
+
         }
     }
 
@@ -179,7 +171,7 @@ Game.prototype.otherUsers = function(debugGame) {
                 setTimeout(function() {
                     $box.removeClass('updated');
                     setTimeout(function() {
-                        highlightBox(++index);
+                        highlightBox(index + 1);
                     }, intervalLapse / 2);
                 }, intervalLapse / 2);
             }

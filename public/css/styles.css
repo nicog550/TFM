@@ -45,17 +45,17 @@ button {
 #game-screen table:not(.own-game) {
   float: right;
   margin: 20px 91px 0 0; }
-  #game-screen table:not(.own-game) #other-players tr.spacer {
+  #game-screen table:not(.own-game) .other-players tr.spacer {
     height: 10px; }
-  #game-screen table:not(.own-game) #other-players tr td {
+  #game-screen table:not(.own-game) .other-players tr td {
     border: #797979 5px solid;
     width: 50px;
     height: 50px;
     color: #797979; }
-    #game-screen table:not(.own-game) #other-players tr td:first-child {
+    #game-screen table:not(.own-game) .other-players tr td.name {
       border: none;
       padding-right: 20px; }
-    #game-screen table:not(.own-game) #other-players tr td.updated {
+    #game-screen table:not(.own-game) .other-players tr td.updated {
       background-color: #ffb615; }
 
 /*# sourceMappingURL=styles.css.map */

@@ -51,9 +51,7 @@
         <div id="game-screen" class="screen hidden">
             Remaining time: <span id="game-time"></span> seconds
             <div id="own-game-container"></div>
-            <table>
-                <tbody id="other-players"></tbody>
-            </table>
+            <div id="other-players-container"></div>
         </div>
         <!-- Game over screen -->
         <div id="ending-screen" class="screen hidden">
@@ -69,6 +67,7 @@
 </div>
 <!-- Templates -->
 <div class="hidden">
+    <!-- Template for the current player's board -->
     <div id="board-template">
         <table class="own-game">
             <tbody>
@@ -82,6 +81,18 @@
                         </ul>
                     </td>
                 </tr>
+            </tbody>
+        </table>
+    </div>
+    <!-- Template for the other players' boards -->
+    <div id="other-boards-template">
+        <table class="other-players-game">
+            <tbody class="other-players">
+                <tr class="player-data" data-player="">
+                    <td class="name"></td>
+                    <td class="value-box" data-position=""></td>
+                </tr>
+                <tr class="spacer"></tr>
             </tbody>
         </table>
     </div>
