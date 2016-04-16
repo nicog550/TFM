@@ -127,26 +127,26 @@ Game.prototype.otherUsers = function(debugGame) {
             $playerTemplate = $boardTemplate.find(".other-players").detach();
         for (var player in otherPlayers) {
             if (otherPlayers.hasOwnProperty(player)) {
-                $boardTemplate.append(_createPlayerBoard($playerTemplate, otherPlayers[player]));
+                $boardTemplate.append(_createPlayerBoard($playerTemplate, player, otherPlayers[player]));
             }
         }
         $otherPlayersBoard.append($boardTemplate);
     }
 
-    function _createPlayerBoard($baseTemplate, playerData) {
+    function _createPlayerBoard($baseTemplate, playerName, playerBoard) {
         var $player = $baseTemplate.clone(),
             $playerRow = $player.find(".player-data");
-        $playerRow[0].dataset['player'] = playerData['username'];
-        $playerRow.find(".name").text(playerData['username']);
+        $playerRow[0].dataset.player = playerName;
+        $playerRow.find(".name").text(playerName);
         var $valueTemplate = $playerRow.find(".value-box").detach();
         fillPlayerData();
         return $player;
 
         function fillPlayerData() {
-            for (var j = 0; j < playerData['board'].length; j++) {
+            for (var j = 0; j < playerBoard.length; j++) {
                 var $box = $valueTemplate.clone();
-                $box.text(playerData['board'][j]);
-                $box[0].dataset['position'] = j;
+                $box.text(playerBoard[j]);
+                $box[0].dataset.position = j;
                 $playerRow.append($box);
             }
 

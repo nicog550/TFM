@@ -50,6 +50,7 @@ var Sockets = function() {
         });
 
         ioSocket.on(messages.NEW_GAME, function(data) {
+            console.log("NEW GAME:", data)
             if (loggedIn) game.startGame(data.board, data.gameDuration / 1000, data.options, data.otherPlayers);
         });
         ioSocket.on(messages.NEW_MOVE, function(data) {

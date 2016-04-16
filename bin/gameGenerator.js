@@ -65,6 +65,7 @@ var GameGenerator = function() {
 
     /**
      * Sends to each player their game plus the games of the other players. The used structure is the following one:
+     * TODO: update documentation of message format
      * <pre><code>
      * {
      *      gameDuration: <i>constants.gameDuration</i>,
@@ -93,14 +94,14 @@ var GameGenerator = function() {
         };
         for (var currentSocket in games) {
             if (games.hasOwnProperty(currentSocket)) {
-                gameSettings['board'] = games[currentSocket]['board'];
+                gameSettings.board = games[currentSocket].board;
                 var otherBoards = {};
                 for (var otherSocket in games) {
                     if (otherSocket != currentSocket && games.hasOwnProperty(otherSocket)) {
-                        otherBoards[otherSocket] = games[otherSocket];
+                        otherBoards[games[otherSocket].username] = games[otherSocket].board;
                     }
                 }
-                gameSettings['otherPlayers'] = otherBoards;
+                gameSettings.otherPlayers = otherBoards;
                 sockets[currentSocket].emit('new game', gameSettings);
             }
         }
@@ -184,7 +185,8 @@ GameGenerator.prototype.core = function(constants) {
         for (var j = 0; j < shownLetters; j++) {
             if (k > wordLength - 1) {
                 game = _shuffleArray(game, 0, wordLength - j);
-                //TODO: continue here
+                game = _shuffleArray(game, wordLength - (shownLetters - j), wordLength);
+                k = 0;
             }
         }
     }
@@ -226,4 +228,4 @@ GameGenerator.prototype.core = function(constants) {
 
 };
 
-module.exports = GameGenerator;
+module.exports = new GameGenerator();
