@@ -7,7 +7,7 @@
  */
 var GameGenerator = function() {
     var constants = require('./constants'),
-        core = this.core(constants),
+        // core = this.core(constants),
         gameActive = false,
         /** Contains the score of each connected user */
         scores = {},
@@ -151,85 +151,85 @@ var GameGenerator = function() {
         return false;
     }
 };
-
-GameGenerator.prototype.core = function(constants) {
-    var wordLength = constants.wordLength;
-    return {
-        createNewGame: createNewGame
-    };
-
-    /**
-     * Algorithm for the creation of a new game
-     * @param {number} playersCount The number of currently active players
-     */
-    function createNewGame(playersCount) {
-        var word = _generateWord(),
-            shownLetters = Math.ceil(constants.optionsCount / playersCount),
-            array = new Array(wordLength),
-            players = new Array(playersCount),
-            generatedGames = {};
-        for (var i = 0; i < players.length; i++) {
-            generatedGames[i] = _generateGameForPlayer(shownLetters);
-        }
-    }
-
-    /**
-     * Generates a random code, which will be the word used at the new game
-     * @returns {Array} An array of <i>constants.wordLength</i> positions
-     */
-    function _generateWord() {
-        var word = [];
-        for (var i = 0; i < wordLength; i++) word.push(Math.floor(Math.random() * constants.optionsCount));
-        return word;
-    }
-
-    function _generateGameForPlayer(shownLetters) {
-        var game = new Array(wordLength),
-            k = wordLength;
-        for (var j = 0; j < shownLetters; j++) {
-            if (k > wordLength - 1) {
-                game = _shuffleArray(game, 0, wordLength - j);
-                game = _shuffleArray(game, wordLength - (shownLetters - j), wordLength);
-                k = 0;
-            }
-        }
-    }
-
-    /**
-     * Shuffles an array from indexes <b>startAt</b> to <b>stopAt</b>. The rest of the array remains unchanged. E.g.:
-     * _shuffleArray([a, b, c, d, e, f], 2) would shuffle [a, b, c] but not [d, e, f].
-     * @param {Array} array The array to be shuffled
-     * @param {number} startAt The index at which to start shuffling
-     * @param {number} stopAt The index at which to stop shuffling
-     */
-    function _shuffleArray(array, startAt, stopAt) {
-        var clonedArray = array.slice(0),
-            newArray = clonedArray.splice(startAt, stopAt + 1);
-        return startAt == 0 ? clonedArray.concat(_knuthShuffle(newArray)) : _knuthShuffle(clonedArray).concat(newArray);
-    }
-
-    /**
-     * Array shuffling. Credits to http://stackoverflow.com/a/2450976
-     * @param {Array} array The array to be shuffled
-     * @returns {Array}
-     * @private
-     */
-    function _knuthShuffle(array) {
-        var currentIndex = array.length,
-            temp,
-            randomIndex;
-        while (currentIndex != 0) { //While there remain elements to shuffle
-            // Pick a remaining element
-            randomIndex = Math.floor(Math.random() * currentIndex);
-            currentIndex--;
-            // And swap it with the current element.
-            temp = array[currentIndex];
-            array[currentIndex] = array[randomIndex];
-            array[randomIndex] = temp;
-        }
-        return array;
-    }
-
-};
+//
+// GameGenerator.prototype.core = function(constants) {
+//     var wordLength = constants.wordLength;
+//     return {
+//         createNewGame: createNewGame
+//     };
+//
+//     /**
+//      * Algorithm for the creation of a new game
+//      * @param {number} playersCount The number of currently active players
+//      */
+//     function createNewGame(playersCount) {
+//         var word = _generateWord(),
+//             shownLetters = Math.ceil(constants.optionsCount / playersCount),
+//             array = new Array(wordLength),
+//             players = new Array(playersCount),
+//             generatedGames = {};
+//         for (var i = 0; i < players.length; i++) {
+//             generatedGames[i] = _generateGameForPlayer(shownLetters);
+//         }
+//     }
+//
+//     /**
+//      * Generates a random code, which will be the word used at the new game
+//      * @returns {Array} An array of <i>constants.wordLength</i> positions
+//      */
+//     function _generateWord() {
+//         var word = [];
+//         for (var i = 0; i < wordLength; i++) word.push(Math.floor(Math.random() * constants.optionsCount));
+//         return word;
+//     }
+//
+//     function _generateGameForPlayer(shownLetters) {
+//         var game = new Array(wordLength),
+//             k = wordLength;
+//         for (var j = 0; j < shownLetters; j++) {
+//             if (k > wordLength - 1) {
+//                 game = _shuffleArray(game, 0, wordLength - j);
+//                 game = _shuffleArray(game, wordLength - (shownLetters - j), wordLength);
+//                 k = 0;
+//             }
+//         }
+//     }
+//
+//     /**
+//      * Shuffles an array from indexes <b>startAt</b> to <b>stopAt</b>. The rest of the array remains unchanged. E.g.:
+//      * _shuffleArray([a, b, c, d, e, f], 2) would shuffle [a, b, c] but not [d, e, f].
+//      * @param {Array} array The array to be shuffled
+//      * @param {number} startAt The index at which to start shuffling
+//      * @param {number} stopAt The index at which to stop shuffling
+//      */
+//     function _shuffleArray(array, startAt, stopAt) {
+//         var clonedArray = array.slice(0),
+//             newArray = clonedArray.splice(startAt, stopAt + 1);
+//         return startAt == 0 ? clonedArray.concat(_knuthShuffle(newArray)) : _knuthShuffle(clonedArray).concat(newArray);
+//     }
+//
+//     /**
+//      * Array shuffling. Credits to http://stackoverflow.com/a/2450976
+//      * @param {Array} array The array to be shuffled
+//      * @returns {Array}
+//      * @private
+//      */
+//     function _knuthShuffle(array) {
+//         var currentIndex = array.length,
+//             temp,
+//             randomIndex;
+//         while (currentIndex != 0) { //While there remain elements to shuffle
+//             // Pick a remaining element
+//             randomIndex = Math.floor(Math.random() * currentIndex);
+//             currentIndex--;
+//             // And swap it with the current element.
+//             temp = array[currentIndex];
+//             array[currentIndex] = array[randomIndex];
+//             array[randomIndex] = temp;
+//         }
+//         return array;
+//     }
+//
+// };
 
 module.exports = new GameGenerator();
