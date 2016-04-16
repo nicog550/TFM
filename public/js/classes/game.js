@@ -160,7 +160,7 @@ Game.prototype.otherUsers = function(debugGame) {
      * @param {int|string} newValue The value that replaces the old one
      */
     function drawMove(player, position, newValue) {
-        var $box = $("[data-player=" + player + "]").find("[data-position=" + position + "]"),
+        var $box = $("[data-player='" + player + "']").find("[data-position=" + position + "]"),
             intervalLapse = 400;
         $box.text(newValue);
         highlightBox(0);

@@ -9,6 +9,8 @@ var GameGenerator = function() {
     var constants = require('./constants'),
         core = this.core(constants),
         gameActive = false,
+        /** Contains the score of each connected user */
+        scores = {},
         /** Contains the socket of each connected user */
         sockets = {},
         timeout;
@@ -34,9 +36,9 @@ var GameGenerator = function() {
      * @returns {Object}
      * <pre><code>
      * {
-     *      socketId1: {board: [], username: string},
+     *      socket1.username: {board: [], username: string},
      *      ...
-     *      socketIdN: {board: [], username: string}
+     *      socketN.username: {board: [], username: string}
      * }
      * </code></pre>
      * @private
@@ -46,7 +48,7 @@ var GameGenerator = function() {
         for (var socket in sockets) {
             if (sockets.hasOwnProperty(socket) && sockets[socket].isLoggedIn) {
                 for (var i = 0; i < Object.keys(sockets).length; i++)
-                    games[socket] = {board: _generateGameForPlayer(), username: sockets[socket].username};
+                    games[socket] = {board: _generateGameForPlayer(), username: socket};
             }
         }
         return games;
@@ -92,17 +94,17 @@ var GameGenerator = function() {
             gameDuration: constants.gameDuration,
             options: constants.optionsCount
         };
-        for (var currentSocket in games) {
-            if (games.hasOwnProperty(currentSocket)) {
-                gameSettings.board = games[currentSocket].board;
+        for (var currentPlayer in games) {
+            if (games.hasOwnProperty(currentPlayer)) {
+                gameSettings.board = games[currentPlayer].board;
                 var otherBoards = {};
-                for (var otherSocket in games) {
-                    if (otherSocket != currentSocket && games.hasOwnProperty(otherSocket)) {
-                        otherBoards[games[otherSocket].username] = games[otherSocket].board;
+                for (var otherPlayer in games) {
+                    if (otherPlayer != currentPlayer && games.hasOwnProperty(otherPlayer)) {
+                        otherBoards[otherPlayer] = games[otherPlayer].board;
                     }
                 }
                 gameSettings.otherPlayers = otherBoards;
-                sockets[currentSocket].emit('new game', gameSettings);
+                sockets[currentPlayer].emit('new game', gameSettings);
             }
         }
     }
@@ -127,7 +129,8 @@ var GameGenerator = function() {
      * @returns {number} The remaining time until the next game starts
      */
     function addSocket(socket) {
-        sockets[socket.id] = socket;
+        sockets[socket.username] = socket;
+        scores[socket.username] = 0;
         //Calculate the remaining game time in seconds
         var remaining = Math.floor((timeout._idleStart + timeout._idleTimeout - Date.now()) / 1000);
         //If the game is active, add to the remaining time the pause duration
@@ -140,8 +143,9 @@ var GameGenerator = function() {
      * @returns {boolean} Whether the socket already existed or not
      */
     function removeSocket(socket) {
-        if (sockets.hasOwnProperty(socket.id)) {
-            delete sockets[socket.id];
+        if (sockets.hasOwnProperty(socket.username)) {
+            delete sockets[socket.username];
+            delete scores[socket.username];
             return true;
         }
         return false;

@@ -13,7 +13,7 @@ var ioSocketSetter = function() {
     };
     function socketSetup(ioSocket, gameGeneratorRef) {
         gameGenerator = gameGeneratorRef;
-        ioSocket.on('connection', function (socket) {
+        ioSocket.on('connection', function(socket) {
             socket.isLoggedIn = false;
             _receiveMove(socket);
             _addUser(socket);
@@ -22,7 +22,7 @@ var ioSocketSetter = function() {
     }
 
     function _addUser(socket) {
-        socket.on('add user', function (username) {
+        socket.on('add user', function(username) {
             // we store the username in the socket session for this client
             socket.username = username;
             var remainingTime = gameGenerator.addSocket(socket);
@@ -64,7 +64,7 @@ var ioSocketSetter = function() {
     }
 
     function _receiveMove(socket) {
-        socket.on('new move', function (data) {
+        socket.on('new move', function(data) {
             // we tell the client to execute 'new message'
             socket.broadcast.emit('new move', {
                 username: socket.username,
