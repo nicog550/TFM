@@ -32,7 +32,7 @@ var ioSocketSetter = function() {
             var remainingTime = gameGenerator.addSocket(socket);
             // add the client's username to the global list
             usernames[username] = username;
-            ++numUsers;
+            numUsers++;
             emitLogin(remainingTime);
             notifyOtherPlayers();
         });
@@ -97,7 +97,7 @@ var ioSocketSetter = function() {
             // remove the username from global usernames list
             if (gameGenerator.removeSocket(socket)) {
                 delete usernames[socket.username];
-                --numUsers;
+                numUsers--;
 
                 // echo globally that this client has left
                 socket.broadcast.emit('user left', {

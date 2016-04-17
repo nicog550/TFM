@@ -8,6 +8,7 @@ var GameGenerator = function() {
     var constants = require('./constants'),
         // core = this.core(constants),
         gameActive = false,
+        pendingToAppend = [],
         /** Contains the score of each connected user */
         scores = {},
         updatedScores,
@@ -33,6 +34,7 @@ var GameGenerator = function() {
         var result = Math.floor(Math.random() * 10); //TODO
         scores[player] += result;
         updatedScores++;
+        console.log("sends", updatedScores, scores, Object.keys(scores).length, updatedScores == Object.keys(scores).length)
         if (updatedScores == Object.keys(scores).length) callback(sortScores()); //Sort the scores and return them
 
         function sortScores() {
@@ -53,6 +55,7 @@ var GameGenerator = function() {
         _sendGamesToPlayers(_generateGamesForPlayers());
         timeout = setTimeout(_endGame, constants.gameDuration);
         updatedScores = 0;
+        while (pendingToAppend.length > 0) scores[pendingToAppend.pop()] = 0; //TODO: continue here
     }
 
     /**
@@ -154,7 +157,7 @@ var GameGenerator = function() {
      */
     function addSocket(socket) {
         sockets[socket.username] = socket;
-        scores[socket.username] = 0;
+        pendingToAppend.push(socket.username);
         //Calculate the remaining game time in seconds
         var remaining = Math.floor((timeout._idleStart + timeout._idleTimeout - Date.now()) / 1000);
         //If the game is active, add to the remaining time the pause duration
