@@ -5,9 +5,12 @@
 var Sockets = function() {
     var ioSocket = io(),
         game,
+        gameOver,
         loggedIn = false,
         messages = {
             ADD_USER: 'add user',
+            FINAL_BOARD: 'final board',
+            FINAL_SCORES: 'final scores',
             GAME_OVER: 'game over',
             LOGIN: 'login',
             LOGOUT: 'logout',
@@ -19,9 +22,10 @@ var Sockets = function() {
         main,
         waitingRoom;
     return {
-        init: function(mainRef, gameRef, waitingRoomRef) {
+        init: function(mainRef, gameRef, gameOverRef, waitingRoomRef) {
             main = mainRef;
             game = gameRef;
+            gameOver = gameOverRef;
             waitingRoom = waitingRoomRef;
             connect();
         },
@@ -54,14 +58,20 @@ var Sockets = function() {
             if (loggedIn) game.startGame(data.board, data.gameDuration / 1000, data.options, data.otherPlayers);
         });
         ioSocket.on(messages.NEW_MOVE, function(data) {
-            console.log("received", data);
-            game.drawMove(data.username, data.message.position, data.message.value);
+            if (loggedIn) game.drawMove(data.username, data.message.position, data.message.value);
         });
 
         ioSocket.on(messages.GAME_OVER, function(data) {
-            if (loggedIn && !game.debug() && !$("#" + game.selector).hasClass('hidden'))
-                game.finishGame(data.waitingTime / 1000);
+            if (loggedIn && !game.debug() && !$("#" + game.selector).hasClass('hidden')) {
+                var playerConfig = game.finishGame(data.waitingTime / 1000);
+                _send(messages.FINAL_BOARD, playerConfig);
+            }
         });
+
+        ioSocket.on(messages.FINAL_SCORES, function(data) {
+            console.log("RECEIVED FINAL SCORES:", data)
+            if (loggedIn) gameOver.displayFinalScores(data);
+        })
     }
 
     function login() {

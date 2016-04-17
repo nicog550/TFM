@@ -15,7 +15,6 @@ button {
   padding: 10px;
   outline: none; }
   button.default-button {
-    min-width: 120px;
     text-transform: uppercase;
     border: #797979 7px solid; }
   button.disabled {
@@ -74,5 +73,15 @@ input {
       white-space: nowrap; }
     #game-screen table:not(.own-game) .other-players tr td.updated {
       background-color: #ffb615; }
+
+.game-over-content {
+  margin-top: 40px;
+  font-size: 26px; }
+  .game-over-content td {
+    font-weight: 300; }
+    .game-over-content td.name, .game-over-content td.score {
+      border: 5px #797979 solid;
+      float: none;
+      margin: auto; }
 
 /*# sourceMappingURL=styles.css.map */

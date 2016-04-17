@@ -4,17 +4,18 @@
  */
 var Main = function() {
     var game = new Game(),
-        sockets = Sockets(),
+        gameOver = new GameOver(),
+        sockets = new Sockets(),
         username,
-        waitingRoom = WaitingRoom(),
-        welcomeScreen = Welcome();
+        waitingRoom = new WaitingRoom(),
+        welcomeScreen = new Welcome();
     /**
      * Initial tasks
      */
     return {
         init: function() {
-            sockets.init(this, game, waitingRoom);
-            game.init(this, sockets, waitingRoom);
+            sockets.init(this, game, gameOver, waitingRoom);
+            game.init(this, sockets, gameOver, waitingRoom);
             waitingRoom.init(this, game);
             welcomeScreen.init(this, game, sockets);
             toggleScreen(welcomeScreen, function() {

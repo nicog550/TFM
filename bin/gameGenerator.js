@@ -2,7 +2,6 @@
 
 /**
  * Class responsible for the creation of new games
- * @returns {{init: init, addSocket: addSocket, removeSocket: removeSocket}}
  * @constructor
  */
 var GameGenerator = function() {
@@ -11,6 +10,7 @@ var GameGenerator = function() {
         gameActive = false,
         /** Contains the score of each connected user */
         scores = {},
+        updatedScores,
         /** Contains the socket of each connected user */
         sockets = {},
         timeout;
@@ -19,8 +19,31 @@ var GameGenerator = function() {
             _generateGame();
         },
         addSocket: addSocket,
+        checkResults: checkResults,
         removeSocket: removeSocket
     };
+
+    /**
+     * Checks the punctuation a player will receive
+     * @param {string} player The player's name
+     * @param {Array} finalBoard The players final game configuration
+     * @param {Function} callback Function to be invoked if all scores have been updated for the last game
+     */
+    function checkResults(player, finalBoard, callback) {
+        var result = Math.floor(Math.random() * 10); //TODO
+        scores[player] += result;
+        updatedScores++;
+        if (updatedScores == Object.keys(scores).length) callback(sortScores()); //Sort the scores and return them
+
+        function sortScores() {
+            var orderedScores = [];
+            for (var score in scores) {
+                if (scores.hasOwnProperty(score)) orderedScores.push({username: score, score: scores[score]});
+            }
+            orderedScores.sort(function(a, b) {return b.score - a.score});
+            return orderedScores;
+        }
+    }
 
     /**
      * Function responsible for the generation of a new game
@@ -29,6 +52,7 @@ var GameGenerator = function() {
         gameActive = true;
         _sendGamesToPlayers(_generateGamesForPlayers());
         timeout = setTimeout(_endGame, constants.gameDuration);
+        updatedScores = 0;
     }
 
     /**

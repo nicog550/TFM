@@ -4,16 +4,18 @@
  */
 var Game = function() {
     var debugGame = false,
-        gameOver = GameOver(),
+        gameOver,
         main,
         otherPlayersBoard = this.otherUsers(debugGame),
-        playerBoard = this.player(debugGame),
+        playerBoard = this.player(debugGame, _setPlayerConfig),
+        playerConfig,
         sockets,
         waitingRoom;
     return {
-        init: function(mainRef, socketsRef, waitingRoomRef) {
+        init: function(mainRef, socketsRef, gameOverRef, waitingRoomRef) {
             main = mainRef;
             sockets = socketsRef;
+            gameOver = gameOverRef;
             waitingRoom = waitingRoomRef;
             playerBoard.performMove(sockets);
             gameOver.init(main, socketsRef);
@@ -27,11 +29,17 @@ var Game = function() {
     
     function finishGame(waitingTime) {
         if (debugGame) return;
+        gameOver.setup(waitingTime);
         main.toggleScreen(gameOver);
-        gameOver.displayRemainingTime(waitingTime);
+        return playerConfig;
+    }
+
+    function _setPlayerConfig(index, value) {
+        playerConfig[index] = parseInt(value);
     }
 
     function startGame(board, duration, options, otherPlayers) {
+        playerConfig = board;
         playerBoard.drawBoard(board, options);
         otherPlayersBoard.displayBoards(otherPlayers);
         main.toggleScreen(this);
@@ -44,7 +52,7 @@ var Game = function() {
  * @param {boolean} debugGame Game mode: debug or not
  * @returns {{drawBoard: drawBoard}}
  */
-Game.prototype.player = function(debugGame) {
+Game.prototype.player = function(debugGame, setPlayerConfig) {
     var $gameBoardContainer = $("#own-game-container");
     return {
         drawBoard: drawBoard,
@@ -98,6 +106,7 @@ Game.prototype.player = function(debugGame) {
             e.preventDefault();
             var newValue = $(this).text(),
                 position = $(this).data('position');
+            setPlayerConfig(position, newValue);
             $(".game-button[data-position=" + position + "]").text(newValue);
             sockets.newMove(position, parseInt(newValue));
         });

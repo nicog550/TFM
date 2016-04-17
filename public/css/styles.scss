@@ -20,7 +20,6 @@ button {
   padding: 10px;
   outline: none;
   &.default-button {
-    min-width: 120px;
     text-transform: uppercase;
     border: $text-color 7px solid;
   }
@@ -104,6 +103,19 @@ input {
           }
         }
       }
+    }
+  }
+}
+
+.game-over-content {
+  margin-top: 40px;
+  font-size: 26px;
+  td {
+    font-weight: 300;
+    &.name, &.score {
+      border: 5px $text-color solid;
+      float: none;
+      margin: auto;
     }
   }
 }

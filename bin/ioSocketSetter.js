@@ -2,20 +2,24 @@
 
 /**
  * Socket.io features
+ * TODO: http://stackoverflow.com/a/10099325
  */
 var ioSocketSetter = function() {
-    var gameGenerator,
+    var ioSocket,
+        gameGenerator,
         usernames = {},
         numUsers = 0,
         constants = require('./constants');
     return {
         setup: socketSetup
     };
-    function socketSetup(ioSocket, gameGeneratorRef) {
+    function socketSetup(ioSocketRef, gameGeneratorRef) {
         gameGenerator = gameGeneratorRef;
+        ioSocket = ioSocketRef;
         ioSocket.on('connection', function(socket) {
             socket.isLoggedIn = false;
-            _receiveMove(socket);
+            _receiveMoves(socket);
+            _receiveFinalBoards(socket);
             _addUser(socket);
             _removeUser(socket);
         });
@@ -36,7 +40,8 @@ var ioSocketSetter = function() {
         function emitLogin(remainingTime) {
             if (remainingTime > 0) sendLogin(remainingTime);
             //Else, wait for the "new game" message is sent before sending the "login" one in order to avoid the game to
-            //start for the user immediately on login
+            //start for the user immediately on login (while the "welcome" and the "waiting room" screens are being
+            //switched
             else {
                 var waitingTime = 1000;
                 setTimeout(function() {
@@ -62,8 +67,19 @@ var ioSocketSetter = function() {
             });
         }
     }
+    
+    function _receiveFinalBoards(socket) {
+        socket.on('final board', function(data) {
+            gameGenerator.checkResults(socket.username, data, broadcastScores);
+        });
+        
+        function broadcastScores(scores) {
+            //Broadcast final scores to all players
+            ioSocket.emit('final scores', scores);
+        }
+    }
 
-    function _receiveMove(socket) {
+    function _receiveMoves(socket) {
         socket.on('new move', function(data) {
             // we tell the client to execute 'new message'
             socket.broadcast.emit('new move', {
