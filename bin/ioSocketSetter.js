@@ -104,6 +104,7 @@ var ioSocketSetter = function() {
                     username: socket.username,
                     numUsers: numUsers
                 });
+                socket.disconnect();
             }
         }
     }
