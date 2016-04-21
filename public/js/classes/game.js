@@ -26,18 +26,34 @@ var Game = function() {
         finishGame: finishGame,
         startGame: startGame
     };
-    
+
+    /**
+     * Prepares the game over screen and switches to it
+     * @param {number} waitingTime The amount of time until the next game starts
+     * @returns {array} The player's final game configuration
+     */
     function finishGame(waitingTime) {
-        if (debugGame) return;
+        if (debugGame) return [];
         gameOver.setup(waitingTime);
         main.toggleScreen(gameOver);
         return playerConfig;
     }
 
+    /**
+     * Setter
+     * @private
+     */
     function _setPlayerConfig(index, value) {
         playerConfig[index] = parseInt(value);
     }
 
+    /**
+     * Displays the current player's board as well as the ones of the other players and starts the game countdown
+     * @param {array} board The initial configuration for the current player
+     * @param {number} duration The game duration
+     * @param {number} options The number of different choices available at the board for the player
+     * @param {object} otherPlayers The initial configuration for each of the other players
+     */
     function startGame(board, duration, options, otherPlayers) {
         playerConfig = board;
         playerBoard.drawBoard(board, options);
@@ -50,7 +66,7 @@ var Game = function() {
 /**
  * Class responsible for drawing the current player's board
  * @param {boolean} debugGame Game mode: debug or not
- * @returns {{drawBoard: drawBoard}}
+ * @param {function} setPlayerConfig Reference to the setter of the playerConfig variable
  */
 Game.prototype.player = function(debugGame, setPlayerConfig) {
     var $gameBoardContainer = $("#own-game-container");
@@ -61,8 +77,8 @@ Game.prototype.player = function(debugGame, setPlayerConfig) {
 
     /**
      * Empties the board if it already had content and populates it again
-     * @param board The values for the player's board
-     * @param options
+     * @param {array} board The values for the player's board (initial configuration)
+     * @param {number} options The number of different choices available at the board for the player
      */
     function drawBoard(board, options) {
         if (debugGame && $gameBoardContainer.children().length > 0) return;
@@ -76,18 +92,33 @@ Game.prototype.player = function(debugGame, setPlayerConfig) {
         $gameBoardContainer.append($boardTemplate);
     }
 
+    /**
+     * Creates the list of choices for the player
+     * @param {jQuery} $baseTemplate The template for creating a box with value plus the available choices
+     * @param {number} boardValue The value for the current box
+     * @param {number} boardPosition The position of the current box at the board
+     * @param {number} options The number of different choices available at the board for the player
+     * @returns {jQuery}
+     * @private
+     */
     function _createDropdown($baseTemplate, boardValue, boardPosition, options) {
         var $template = $baseTemplate.clone(true);
         createButton();
         createList();
         return $template;
 
+        /**
+         * Creates a box to be placed at the board
+         */
         function createButton() {
             var $button = $template.find("button");
             $button.text(boardValue);
             $button[0].dataset['position'] = boardPosition; //jQuery data() not working here...
         }
 
+        /**
+         * Creates the list of available options for the player to be placed at the board after every button
+         */
         function createList() {
             var $ul = $template.find(".dropdown-menu"),
                 $li = $ul.find(".dropdown-option").detach();
@@ -95,12 +126,17 @@ Game.prototype.player = function(debugGame, setPlayerConfig) {
                 var $newLi = $li.clone(),
                     $a = $newLi.find(".choice");
                 $a.text(i);
-                $a.data('position', boardPosition);
+                $a[0].dataset['position'] = boardPosition; //jQuery data() not working here...
                 $ul.append($newLi);
             }
         }
     }
 
+    /**
+     * Listens for a player clicking on a choice, updates the value at the corresponding box and sends the new value to
+     * the other players
+     * @param {object} sockets Instance of Sockets
+     */
     function performMove(sockets) {
         $("body").on('click', '.choice', function(e) {
             e.preventDefault();
@@ -116,7 +152,6 @@ Game.prototype.player = function(debugGame, setPlayerConfig) {
 /**
  * Class responsible for drawing the other players boards
  * @param {boolean} debugGame Game mode: debug or not
- * @returns {{displayBoards: displayBoards, drawMove: drawMove}}
  */
 Game.prototype.otherUsers = function(debugGame) {
     var $otherPlayersBoard = $("#other-players-container");
@@ -127,7 +162,7 @@ Game.prototype.otherUsers = function(debugGame) {
 
     /**
      * Empties the other players boards if they already had content and populates them again
-     * @param {Object} otherPlayers The other players boards
+     * @param {object} otherPlayers The other players boards
      */
     function displayBoards(otherPlayers) {
         if (debugGame && $otherPlayersBoard.children().length > 0) return;
@@ -142,6 +177,14 @@ Game.prototype.otherUsers = function(debugGame) {
         $otherPlayersBoard.append($boardTemplate);
     }
 
+    /**
+     * Creates a board for one of the other players
+     * @param {jQuery} $baseTemplate The template to be used for drawing the board
+     * @param {string} playerName The name of the player
+     * @param {array} playerBoard The board of the player
+     * @returns {jQuery}
+     * @private
+     */
     function _createPlayerBoard($baseTemplate, playerName, playerBoard) {
         var $player = $baseTemplate.clone(),
             $playerRow = $player.find(".player-data");
@@ -165,8 +208,8 @@ Game.prototype.otherUsers = function(debugGame) {
     /**
      * Displays the move another player has done
      * @param {string} player The player's name
-     * @param {int|string} position The index of the changed value
-     * @param {int|string} newValue The value that replaces the old one
+     * @param {number|string} position The index of the changed value
+     * @param {number|string} newValue The value that replaces the old one
      */
     function drawMove(player, position, newValue) {
         var $box = $("[data-player='" + player + "']").find("[data-position=" + position + "]"),
@@ -174,6 +217,10 @@ Game.prototype.otherUsers = function(debugGame) {
         $box.text(newValue);
         highlightBox(0);
 
+        /**
+         * Performs an animation in order to catch the player's eye when another player performs a move
+         * @param {number} index The position at the board of the value the other player has changed
+         */
         function highlightBox(index) {
             if (index < 2) {
                 $box.addClass('updated');
