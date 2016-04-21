@@ -44,6 +44,12 @@ input {
   outline: none
 }
 
+.error {
+  color: #a94442;
+  display: block;
+  margin-bottom: 10px;
+}
+
 #game-screen {
   .remaining-time {
     margin-bottom: 20px;

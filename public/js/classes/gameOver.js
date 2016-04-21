@@ -45,6 +45,7 @@ var GameOver = function(){
             $(this).fadeOut(function() {
                 $(this).remove();
             });
+            $("#game-over-waiting-time").fadeOut();
         });
     }
 

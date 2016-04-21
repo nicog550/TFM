@@ -14,7 +14,7 @@ var Main = function() {
      */
     return {
         init: function() {
-            sockets.init(this, game, gameOver, waitingRoom);
+            sockets.init(this, game, gameOver, waitingRoom, welcomeScreen);
             game.init(this, sockets, gameOver, waitingRoom);
             waitingRoom.init(this, game);
             welcomeScreen.init(this, game, sockets);

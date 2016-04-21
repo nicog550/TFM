@@ -7,8 +7,7 @@
 var ioSocketSetter = function() {
     var ioSocket,
         gameGenerator,
-        usernames = {},
-        numUsers = 0,
+        usernames = [],
         constants = require('./constants');
     return {
         setup: socketSetup
@@ -27,14 +26,16 @@ var ioSocketSetter = function() {
 
     function _addUser(socket) {
         socket.on('add user', function(username) {
-            // we store the username in the socket session for this client
-            socket.username = username;
-            var remainingTime = gameGenerator.addSocket(socket);
-            // add the client's username to the global list
-            usernames[username] = username;
-            numUsers++;
-            emitLogin(remainingTime);
-            notifyOtherPlayers();
+            if (usernames.indexOf(username) !== -1) socket.emit('invalid username', {}); 
+            else {
+                // we store the username in the socket session for this client
+                socket.username = username;
+                var remainingTime = gameGenerator.addSocket(socket);
+                // add the client's username to the global list
+                usernames.push(username);
+                emitLogin(remainingTime);
+                notifyOtherPlayers();
+            }
         });
 
         function emitLogin(remainingTime) {
@@ -53,17 +54,21 @@ var ioSocketSetter = function() {
         function sendLogin(remainingTime) {
             socket.isLoggedIn = true;
             socket.emit('login', {
-                numUsers: numUsers,
+                numUsers: usernames.length,
                 //If a new game starts just now, make the player wait for a whole turn passes
                 waitingTime: remainingTime > 0 ? remainingTime : (constants.gameDuration + constants.gamePause) / 1000
             });
+        }
+        
+        function sendInvalidUsername() {
+            socket.emit('invalid login', {});
         }
 
         function notifyOtherPlayers() {
             // echo globally (all clients) that a person has connected
             socket.broadcast.emit('user joined', {
                 username: socket.username,
-                numUsers: numUsers
+                numUsers: usernames.length
             });
         }
     }
@@ -96,13 +101,12 @@ var ioSocketSetter = function() {
         function performLogout() {
             // remove the username from global usernames list
             if (gameGenerator.removeSocket(socket)) {
-                delete usernames[socket.username];
-                numUsers--;
+                usernames.splice(usernames.indexOf(socket.username), 1);
 
                 // echo globally that this client has left
                 socket.broadcast.emit('user left', {
                     username: socket.username,
-                    numUsers: numUsers
+                    numUsers: usernames.length
                 });
                 socket.disconnect();
             }

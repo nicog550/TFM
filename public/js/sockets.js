@@ -12,6 +12,7 @@ var Sockets = function() {
             FINAL_BOARD: 'final board',
             FINAL_SCORES: 'final scores',
             GAME_OVER: 'game over',
+            INVALID_USERNAME: 'invalid username',
             LOGIN: 'login',
             LOGOUT: 'logout',
             NEW_GAME: 'new game',
@@ -20,13 +21,15 @@ var Sockets = function() {
             USER_JOINED: 'user joined'
         },
         main,
-        waitingRoom;
+        waitingRoom,
+        welcome;
     return {
-        init: function(mainRef, gameRef, gameOverRef, waitingRoomRef) {
+        init: function(mainRef, gameRef, gameOverRef, waitingRoomRef, welcomeRef) {
             main = mainRef;
             game = gameRef;
             gameOver = gameOverRef;
             waitingRoom = waitingRoomRef;
+            welcome = welcomeRef;
             connect();
         },
         login: login,
@@ -71,7 +74,11 @@ var Sockets = function() {
         ioSocket.on(messages.FINAL_SCORES, function(data) {
             console.log("RECEIVED FINAL SCORES:", data)
             if (loggedIn) gameOver.displayFinalScores(data);
-        })
+        });
+
+        ioSocket.on(messages.INVALID_USERNAME, function() {
+            welcome.invalidLogin();
+        });
     }
 
     function login() {

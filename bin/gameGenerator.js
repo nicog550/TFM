@@ -34,7 +34,6 @@ var GameGenerator = function() {
         var result = Math.floor(Math.random() * 10); //TODO
         scores[player] += result;
         updatedScores++;
-        console.log("sends", updatedScores, scores, Object.keys(scores).length, updatedScores == Object.keys(scores).length)
         if (updatedScores == Object.keys(scores).length) callback(sortScores()); //Sort the scores and return them
 
         function sortScores() {

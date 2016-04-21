@@ -4,6 +4,7 @@
  */
 var Welcome = function() {
     var $button = $("#play-button"),
+        $errorMessage = $("#invalid-login"),
         $input = $("#username"),
         main,
         game,
@@ -16,8 +17,15 @@ var Welcome = function() {
             $button.on('click', _logPlayerIn);
             _loginOnEnter();
         },
-        selector: "welcome-screen"
+        selector: "welcome-screen",
+        invalidLogin: invalidLogin
     };
+
+    function invalidLogin() {
+        $errorMessage.removeClass('hidden');
+        $button.removeAttr('disabled');
+        $button.removeClass('disabled');
+    }
 
     function makeid() {
         var text = "";
@@ -32,8 +40,9 @@ var Welcome = function() {
             if (game.debug()) username = makeid();
             else return;
         }
-        $button.attr('disabled');
-        $button.addClass('disabled', 'disabled');
+        $errorMessage.addClass('hidden');
+        $button.attr('disabled', 'disabled');
+        $button.addClass('disabled');
         main.setUsername(username);
         sockets.login();
     }
