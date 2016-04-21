@@ -123,7 +123,7 @@ ioSocketSetter.prototype.loginManager = function(gameGenerator, constants) {
      * - Otherwise, logs the player in and notifies the other players about this
      * @param {object} socket The player's socket
      * @param {string} username The name entered by the player
-     * @param {array} usernames The list of current players names
+     * @param {Array} usernames The list of current players names
      * @returns {boolean} Whether the user has been logged in or not
      */
     function addUser(socket, username, usernames) {
@@ -143,7 +143,7 @@ ioSocketSetter.prototype.loginManager = function(gameGenerator, constants) {
      * Sends the login message immediately or, if a game is about to start at this exact moment, waits one second before
      * sending it
      * @param {object} socket The player's socket
-     * @param {array} usernames The list of current players names
+     * @param {Array} usernames The list of current players names
      * @param {number} remainingTime The amount of time remaining until a new game starts
      * @private
      */
@@ -164,7 +164,7 @@ ioSocketSetter.prototype.loginManager = function(gameGenerator, constants) {
     /**
      * Sends the login message through the socket
      * @param {object} socket The player's socket
-     * @param {array} usernames The list of current players names
+     * @param {Array} usernames The list of current players names
      * @param {number} remainingTime The amount of the time remaining until a new game starts
      * @private
      */
@@ -181,7 +181,7 @@ ioSocketSetter.prototype.loginManager = function(gameGenerator, constants) {
     /**
      * Notifies the other players that a new player has entered the room
      * @param {object} socket The player's socket
-     * @param {array} usernames The list of current players names
+     * @param {Array} usernames The list of current players names
      * @private
      */
     function _notifyOtherPlayers(socket, usernames) {
