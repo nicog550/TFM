@@ -21,23 +21,34 @@ var Welcome = function() {
         invalidLogin: invalidLogin
     };
 
+    /**
+     * Displays the "already used username" message
+     */
     function invalidLogin() {
         $errorMessage.removeClass('hidden');
         $button.removeAttr('disabled');
         $button.removeClass('disabled');
     }
 
-    function makeid() {
+    /**
+     * Creates a random username
+     * @returns {string}
+     */
+    function createUsername() {
         var text = "";
         var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
         for (var i = 0; i < 5; i++) text += possible.charAt(Math.floor(Math.random() * possible.length));
         return text;
     }
 
+    /**
+     * Checks if the player has inserted a name and, if so, notifies the socket to perform a login
+     * @private
+     */
     function _logPlayerIn() {
         var username = $input.val();
         if (username == "") {
-            if (game.debug()) username = makeid();
+            if (game.debug()) username = createUsername();
             else return;
         }
         $errorMessage.addClass('hidden');
@@ -47,6 +58,10 @@ var Welcome = function() {
         sockets.login();
     }
 
+    /**
+     * Triggers the _logPlayerIn function when the player presses enter at the username input
+     * @private
+     */
     function _loginOnEnter() {
         $input.on("keyup", function(event) {
             if (event.which == 13 && $(this).val() !== '') _logPlayerIn();
