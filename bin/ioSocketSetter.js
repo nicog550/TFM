@@ -5,16 +5,19 @@
  * TODO: http://stackoverflow.com/a/10099325
  */
 var ioSocketSetter = function() {
-    var ioSocket,
+    var constants = require('./constants'),
+        ioSocket,
         gameGenerator,
-        usernames = [],
-        constants = require('./constants');
+        login,
+        that = this,
+        usernames = [];
     return {
         setup: socketSetup
     };
     function socketSetup(ioSocketRef, gameGeneratorRef) {
         gameGenerator = gameGeneratorRef;
         ioSocket = ioSocketRef;
+        login = that.loginManager(gameGenerator, constants);
         ioSocket.on('connection', function(socket) {
             socket.isLoggedIn = false;
             _receiveMoves(socket);
@@ -26,47 +29,8 @@ var ioSocketSetter = function() {
 
     function _addUser(socket) {
         socket.on('add user', function(username) {
-            if (usernames.indexOf(username) !== -1) socket.emit('invalid username', {}); 
-            else {
-                // we store the username in the socket session for this client
-                socket.username = username;
-                var remainingTime = gameGenerator.addSocket(socket);
-                // add the client's username to the global list
-                usernames.push(username);
-                emitLogin(remainingTime);
-                notifyOtherPlayers();
-            }
+            if (login.addUser(socket, username, usernames)) usernames.push(username);
         });
-
-        function emitLogin(remainingTime) {
-            if (remainingTime > 0) sendLogin(remainingTime);
-            //Else, wait for the "new game" message is sent before sending the "login" one in order to avoid the game to
-            //start for the user immediately on login (while the "welcome" and the "waiting room" screens are being
-            //switched
-            else {
-                var waitingTime = 1000;
-                setTimeout(function() {
-                    sendLogin((constants.gameDuration + constants.gamePause - waitingTime) / 1000);
-                }, waitingTime);
-            }
-        }
-
-        function sendLogin(remainingTime) {
-            socket.isLoggedIn = true;
-            socket.emit('login', {
-                numUsers: usernames.length,
-                //If a new game starts just now, make the player wait for a whole turn passes
-                waitingTime: remainingTime > 0 ? remainingTime : (constants.gameDuration + constants.gamePause) / 1000
-            });
-        }
-
-        function notifyOtherPlayers() {
-            // echo globally (all clients) that a person has connected
-            socket.broadcast.emit('user joined', {
-                username: socket.username,
-                numUsers: usernames.length
-            });
-        }
     }
     
     function _receiveFinalBoards(socket) {
@@ -109,4 +73,54 @@ var ioSocketSetter = function() {
         }
     }
 };
-module.exports = ioSocketSetter;
+
+ioSocketSetter.prototype.loginManager = function(gameGenerator, constants) {
+    return {
+        addUser: addUser
+    };
+
+    function addUser(socket, username, usernames) {
+        if (usernames.indexOf(username) !== -1) {
+            socket.emit('invalid username', {});
+            return false;
+        }
+        // we store the username in the socket session for this client
+        socket.username = username;
+        var remainingTime = gameGenerator.addSocket(socket);
+        _emitLogin(socket, usernames, remainingTime);
+        _notifyOtherPlayers(socket, usernames);
+        return true;
+    }
+
+    function _emitLogin(socket, usernames, remainingTime) {
+        if (remainingTime > 0) _sendLogin(socket, usernames, remainingTime);
+        //Else, wait for the "new game" message is sent before sending the "login" one in order to avoid the game to
+        //start for the user immediately on login (while the "welcome" and the "waiting room" screens are being
+        //switched
+        else {
+            var waitingTime = 1000;
+            setTimeout(function() {
+                _sendLogin(socket, usernames, (constants.gameDuration + constants.gamePause - waitingTime) / 1000);
+            }, waitingTime);
+        }
+    }
+
+    function _sendLogin(socket, usernames, remainingTime) {
+        socket.isLoggedIn = true;
+        socket.emit('login', {
+            numUsers: usernames.length + 1, //Add 1 because the current player has not been appended to 'numUsers' yet
+            //If a new game starts just now, make the player wait for a whole turn passes
+            waitingTime: remainingTime > 0 ? remainingTime : (constants.gameDuration + constants.gamePause) / 1000
+        });
+    }
+
+    function _notifyOtherPlayers(socket, usernames) {
+        // echo globally (all players) that a person has connected
+        socket.broadcast.emit('user joined', {
+            username: socket.username,
+            numUsers: usernames.length
+        });
+    }
+};
+
+module.exports = new ioSocketSetter();

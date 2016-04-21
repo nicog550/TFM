@@ -2,7 +2,7 @@
  * Simple object containing main constant values
  */
 module.exports = {
-    gameDuration: 1000, //Game duration in milliseconds
+    gameDuration: 2000, //Game duration in milliseconds
     gamePause: 4000, //Waiting time between games
     minUsers: 2,
     maxUsers: 4,

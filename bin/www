@@ -22,7 +22,7 @@ app.set('port', port);
 var server = http.createServer(app);
 var io = require('socket.io')(server);
 var gameGenerator = require('./gameGenerator');
-var ioSocketSetter = require('./ioSocketSetter')();
+var ioSocketSetter = require('./ioSocketSetter');
 /**
  * Listen on provided port, on all network interfaces.
  */
