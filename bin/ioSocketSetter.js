@@ -8,7 +8,7 @@ var ioSocketSetter = function() {
     var constants = require('./constants'),
         ioSocket,
         gameGenerator,
-        login,
+        loginManager,
         that = this,
         usernames = [];
     return {
@@ -17,7 +17,7 @@ var ioSocketSetter = function() {
     function socketSetup(ioSocketRef, gameGeneratorRef) {
         gameGenerator = gameGeneratorRef;
         ioSocket = ioSocketRef;
-        login = that.loginManager(gameGenerator, constants);
+        loginManager = that.loginManager(gameGenerator, constants);
         ioSocket.on('connection', function(socket) {
             socket.isLoggedIn = false;
             _receiveMoves(socket);
@@ -29,7 +29,7 @@ var ioSocketSetter = function() {
 
     function _addUser(socket) {
         socket.on('add user', function(username) {
-            if (login.addUser(socket, username, usernames)) usernames.push(username);
+            if (loginManager.addUser(socket, username, usernames)) usernames.push(username);
         });
     }
     
@@ -46,7 +46,6 @@ var ioSocketSetter = function() {
 
     function _receiveMoves(socket) {
         socket.on('new move', function(data) {
-            // we tell the client to execute 'new message'
             socket.broadcast.emit('new move', {
                 username: socket.username,
                 message: data
@@ -93,19 +92,20 @@ ioSocketSetter.prototype.loginManager = function(gameGenerator, constants) {
     }
 
     function _emitLogin(socket, usernames, remainingTime) {
-        if (remainingTime > 0) _sendLogin(socket, usernames, remainingTime);
+        if (remainingTime > 0) _sendLoginThroughSocket(socket, usernames, remainingTime);
         //Else, wait for the "new game" message is sent before sending the "login" one in order to avoid the game to
         //start for the user immediately on login (while the "welcome" and the "waiting room" screens are being
         //switched
         else {
             var waitingTime = 1000;
             setTimeout(function() {
-                _sendLogin(socket, usernames, (constants.gameDuration + constants.gamePause - waitingTime) / 1000);
+                _sendLoginThroughSocket(socket, usernames,
+                                        (constants.gameDuration + constants.gamePause - waitingTime) / 1000);
             }, waitingTime);
         }
     }
 
-    function _sendLogin(socket, usernames, remainingTime) {
+    function _sendLoginThroughSocket(socket, usernames, remainingTime) {
         socket.isLoggedIn = true;
         socket.emit('login', {
             numUsers: usernames.length + 1, //Add 1 because the current player has not been appended to 'numUsers' yet
