@@ -59,10 +59,6 @@ var ioSocketSetter = function() {
                 waitingTime: remainingTime > 0 ? remainingTime : (constants.gameDuration + constants.gamePause) / 1000
             });
         }
-        
-        function sendInvalidUsername() {
-            socket.emit('invalid login', {});
-        }
 
         function notifyOtherPlayers() {
             // echo globally (all clients) that a person has connected
