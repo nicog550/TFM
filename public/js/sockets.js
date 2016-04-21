@@ -92,8 +92,8 @@ var Sockets = function() {
 
     /**
      * Sends a new move
-     * @param {int} position The position at the board
-     * @param {int} value The new value
+     * @param {number} position The position at the board
+     * @param {number} value The new value
      */
     function sendMove(position, value) {
         console.log("sends", position, value);
@@ -101,9 +101,9 @@ var Sockets = function() {
     }
 
     /**
-     * Sends a message via socket
+     * Sends a message through the socket
      * @param {string} code The code of the message to emit
-     * @param {Object} message The message to emit
+     * @param {object} message The message to emit
      * @private
      */
     function _send(code, message) {
