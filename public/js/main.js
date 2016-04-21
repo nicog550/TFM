@@ -38,8 +38,8 @@ var Main = function() {
 
     /**
      * Displays a countdown of seconds
-     * @param startTime Timeout starting seconds
-     * @param $target jQuery object where the timeout will be displayed
+     * @param {number} startTime Timeout starting seconds
+     * @param {jQuery} $target jQuery object where the timeout will be displayed
      */
     function displayCountdown(startTime, $target) {
         updateDOM();
@@ -55,8 +55,8 @@ var Main = function() {
 
     /**
      * Hides the currently visible screen and replaces it with another one
-     * @param {Object} newOne Class from which to display the screen
-     * @param {Function} [callback] (Optional) Callback to be called after switching screens
+     * @param {object} newOne Class from which to display the screen
+     * @param {function} [callback] Callback to be called after switching screens
      */
     function toggleScreen(newOne, callback) {
         $(".screen:not(.hidden)").fadeOut(function() {
