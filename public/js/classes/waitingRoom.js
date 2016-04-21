@@ -22,7 +22,7 @@ var WaitingRoom = function() {
 
     /**
      * Checks whether the amount of connected users is within the room limits
-     * @param numUsers Number of connected users
+     * @param {number} numUsers Currently connected users
      */
     function checkNumUsers(numUsers) {
         if (numUsers < Constants.minUsers) _notifyInsufficientPlayers(numUsers);
