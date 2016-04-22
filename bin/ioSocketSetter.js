@@ -6,6 +6,7 @@
 var ioSocketSetter = function() {
     /* Socket broadcasting options: http://stackoverflow.com/a/10099325 */
     var constants = require('./constants'),
+        logger = require('./logger'),
         ioSocket,
         gameGenerator,
         loginManager,
@@ -72,6 +73,10 @@ var ioSocketSetter = function() {
     function _receiveMoves(socket) {
         //Send the new move to all other players
         socket.on('new move', function(data) {
+            logger.addMove({
+                userID: socket.userId,
+                move: data.value
+            });
             socket.broadcast.emit('new move', {
                 username: socket.username,
                 message: data
@@ -120,7 +125,7 @@ ioSocketSetter.prototype.loginManager = function(gameGenerator, constants) {
     /**
      * Checks if the name entered by the player already exists in the usernames list, and then:
      * - If it does exist, notifies the player about that
-     * - Otherwise, logs the player in and notifies the other players about this
+     * - Otherwise, gameLogs the player in and notifies the other players about this
      * @param {object} socket The player's socket
      * @param {string} username The name entered by the player
      * @param {Array} usernames The list of current players names
@@ -131,8 +136,8 @@ ioSocketSetter.prototype.loginManager = function(gameGenerator, constants) {
             socket.emit('invalid username', {});
             return false;
         }
-        // we store the username in the socket session for this client
         socket.username = username;
+        socket.userId = usernames.length + 1;
         var remainingTime = gameGenerator.addSocket(socket);
         _emitLogin(socket, usernames, remainingTime);
         _notifyOtherPlayers(socket, usernames);
