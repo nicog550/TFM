@@ -3,7 +3,7 @@
  * Class responsible for the game logic
  */
 var Game = function() {
-    var debugGame = true,
+    var debugGame = false,
         gameOver,
         main,
         otherPlayersBoard = this.otherUsers(debugGame),
@@ -112,8 +112,8 @@ Game.prototype.player = function(debugGame, setPlayerConfig) {
          */
         function createButton() {
             var $button = $template.find("button");
-            $button.text(boardValue);
-            $button[0].dataset['position'] = boardPosition; //jQuery data() not working here...
+            $button[0].dataset.background = boardValue;
+            $button[0].dataset.position = boardPosition; //jQuery data() not working here...
         }
 
         /**
@@ -125,8 +125,8 @@ Game.prototype.player = function(debugGame, setPlayerConfig) {
             for (var i = 0; i < options; i++) {
                 var $newLi = $li.clone(),
                     $a = $newLi.find(".choice");
-                $a.text(i);
-                $a[0].dataset['position'] = boardPosition; //jQuery data() not working here...
+                $a[0].dataset.background = i;
+                $a[0].dataset.position = boardPosition; //jQuery data() not working here...
                 $ul.append($newLi);
             }
         }
@@ -140,10 +140,10 @@ Game.prototype.player = function(debugGame, setPlayerConfig) {
     function performMove(sockets) {
         $("body").on('click', '.choice', function(e) {
             e.preventDefault();
-            var newValue = $(this).text(),
+            var newValue = $(this).data('background'),
                 position = $(this).data('position');
             setPlayerConfig(position, newValue);
-            $(".game-button[data-position=" + position + "]").text(newValue);
+            $(".game-button[data-position=" + position + "]")[0].dataset.background = newValue;
             sockets.newMove(position, parseInt(newValue));
         });
     }
@@ -181,7 +181,7 @@ Game.prototype.otherUsers = function(debugGame) {
      * Creates a board for one of the other players
      * @param {jQuery} $baseTemplate The template to be used for drawing the board
      * @param {string} playerName The name of the player
-     * @param {array} playerBoard The board of the player
+     * @param {Array} playerBoard The board of the player
      * @returns {jQuery}
      * @private
      */
@@ -197,7 +197,7 @@ Game.prototype.otherUsers = function(debugGame) {
         function fillPlayerData() {
             for (var j = 0; j < playerBoard.length; j++) {
                 var $box = $valueTemplate.clone();
-                $box.text(playerBoard[j]);
+                $box[0].dataset.background = playerBoard[j];
                 $box[0].dataset.position = j;
                 $playerRow.append($box);
             }
@@ -212,25 +212,6 @@ Game.prototype.otherUsers = function(debugGame) {
      * @param {number|string} newValue The value that replaces the old one
      */
     function drawMove(player, position, newValue) {
-        var $box = $("[data-player='" + player + "']").find("[data-position=" + position + "]"),
-            intervalLapse = 400;
-        $box.text(newValue);
-        highlightBox(0);
-
-        /**
-         * Performs an animation in order to catch the player's eye when another player performs a move
-         * @param {number} index The position at the board of the value the other player has changed
-         */
-        function highlightBox(index) {
-            if (index < 2) {
-                $box.addClass('updated');
-                setTimeout(function() {
-                    $box.removeClass('updated');
-                    setTimeout(function() {
-                        highlightBox(index + 1);
-                    }, intervalLapse / 2);
-                }, intervalLapse / 2);
-            }
-        }
+        $("[data-player='" + player + "']").find("[data-position=" + position + "]")[0].dataset.background = newValue;
     }
 };
