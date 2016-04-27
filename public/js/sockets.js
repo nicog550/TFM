@@ -58,7 +58,8 @@ var Sockets = function() {
 
         ioSocket.on(messages.NEW_GAME, function(data) {
             console.log("NEW GAME:", data)
-            if (loggedIn) game.startGame(data.board, data.gameDuration / 1000, data.options, data.otherPlayers);
+            if (loggedIn && (!game.debug() || $("#" + game.selector).hasClass('hidden')))
+                game.startGame(data.board, data.gameDuration / 1000, data.options, data.otherPlayers);
         });
         ioSocket.on(messages.NEW_MOVE, function(data) {
             if (loggedIn) game.drawMove(data.username, data.message.position, data.message.value);

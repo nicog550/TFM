@@ -52,8 +52,8 @@
     <!-- Game screen -->
     <div id="game-screen" class="screen hidden">
         <div class="remaining-time">Remaining time: <span id="game-time"></span> seconds</div>
-        <div id="own-game-container"></div>
         <div id="other-players-container"></div>
+        <div id="own-game-container"></div>
     </div>
     <!-- Game over screen -->
     <div id="ending-screen" class="screen hidden">
@@ -80,32 +80,38 @@
 <div class="hidden">
     <!-- Template for the current player's board -->
     <div id="board-template">
-        <table class="own-game">
-            <tbody>
-                <tr class="game-board">
-                    <td class="dropdown box">
+        <div class="col-xs-12 own-game">
+            <div class="col-xs-8 col-xs-offset-2">
+                <div class="game-board">
+                    <div class="dropdown box">
                         <button class="game-button dropdown-toggle" data-position="" data-toggle="dropdown" type="button"></button>
                         <ul class="dropdown-menu">
                             <li class="dropdown-option">
                                 <a href="#" class="choice" data-position=""></a>
                             </li>
                         </ul>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-2">
+                <button class="default-button" id="submit-move">Submit</button>
+            </div>
+        </div>
     </div>
     <!-- Template for the other players' boards -->
     <div id="other-boards-template">
-        <table class="other-players-game">
-            <tbody class="other-players">
-                <tr class="player-data" data-player="">
-                    <td class="name"></td>
-                    <td class="value-box" data-position=""></td>
-                </tr>
-                <tr class="spacer"></tr>
-            </tbody>
-        </table>
+        <div class="col-xs-12 other-players-game">
+            <div class="other-players">
+                <div class="col-xs-2">
+                    <span class="name"></span>
+                </div>
+                <div class="col-xs-8">
+                    <div class="player-data" data-player="">
+                        <div class="box" data-position=""></div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <!-- Template for the final scores -->
     <div id="final-scores-template">

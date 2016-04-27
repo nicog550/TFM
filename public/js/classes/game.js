@@ -3,7 +3,7 @@
  * Class responsible for the game logic
  */
 var Game = function() {
-    var debugGame = false,
+    var debugGame = true,
         gameOver,
         main,
         otherPlayersBoard = this.otherUsers(debugGame),
@@ -30,7 +30,7 @@ var Game = function() {
     /**
      * Prepares the game over screen and switches to it
      * @param {number} waitingTime The amount of time until the next game starts
-     * @returns {array} The player's final game configuration
+     * @returns {Array} The player's final game configuration
      */
     function finishGame(waitingTime) {
         if (debugGame) return [];
@@ -41,7 +41,7 @@ var Game = function() {
 
     /**
      * Setter
-     * @private
+     * @protected
      */
     function _setPlayerConfig(index, value) {
         playerConfig[index] = parseInt(value);
@@ -77,7 +77,7 @@ Game.prototype.player = function(debugGame, setPlayerConfig) {
 
     /**
      * Empties the board if it already had content and populates it again
-     * @param {array} board The values for the player's board (initial configuration)
+     * @param {Array} board The values for the player's board (initial configuration)
      * @param {number} options The number of different choices available at the board for the player
      */
     function drawBoard(board, options) {
@@ -189,8 +189,8 @@ Game.prototype.otherUsers = function(debugGame) {
         var $player = $baseTemplate.clone(),
             $playerRow = $player.find(".player-data");
         $playerRow[0].dataset.player = playerName;
-        $playerRow.find(".name").text(playerName);
-        var $valueTemplate = $playerRow.find(".value-box").detach();
+        $player.find(".name").text(playerName);
+        var $valueTemplate = $playerRow.find(".box").detach();
         fillPlayerData();
         return $player;
 

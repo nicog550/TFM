@@ -165,8 +165,9 @@ var GameGenerator = function() {
         //Calculate the remaining game time in seconds
         var remaining = Math.floor((timeout._idleStart + timeout._idleTimeout - Date.now()) / 1000),
             myFirstRound = remaining > 1 ? (round + 1).toString() : (round + 2).toString();
-        if (pendingToAppend.hasOwnProperty(myFirstRound)) pendingToAppend[myFirstRound].append(socket.username);
-        else {
+        try {
+            pendingToAppend[myFirstRound].append(socket.username);
+        } catch (TypeError) {
             pendingToAppend[myFirstRound] = [];
             pendingToAppend[myFirstRound].push(socket.username);
         }

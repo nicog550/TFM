@@ -1,4 +1,4 @@
-$box-size: 100px;
+$box-size: 60px;
 $text-color: rgb(121, 121, 121);
 $hover-color: rgba(121, 121, 121, 0.6);
 body {
@@ -54,62 +54,47 @@ input {
   .remaining-time {
     margin-bottom: 20px;
   }
-  table {
-    &.own-game {
-      margin: auto;
-      .game-board {
-        td {
-          border: $text-color 8px solid;
-          width: $box-size;
-          height: $box-size;
-          button {
-            font-size: 64px;
-          }
-          ul.dropdown-menu {
-            min-width: $box-size;
-            background: transparent;
-            border: none;
-            left: -2px;
-            text-align: center;
-            li {
-              a {
-                font-size: 42px;
-                color: $text-color;
-                &:hover, &:focus {
-                  outline: none;
-                  background: $hover-color none;
-                }
-              }
-            }
+  .box {
+    border: $text-color 8px solid;
+    width: $box-size;
+    height: $box-size;
+    display: inline-block;
+  }
+  .game-board {
+    button {
+      font-size: 32px;
+    }
+    ul.dropdown-menu {
+      min-width: $box-size;
+      background: transparent;
+      border: none;
+      left: -2px;
+      text-align: center;
+      li {
+        a {
+          font-size: 42px;
+          color: $text-color;
+          &:hover, &:focus {
+            outline: none;
+            background: $hover-color none;
           }
         }
       }
     }
-    &:not(.own-game) {
-      float: right;
-      margin: 20px 105px 0 0;
-      .other-players {
-        tr {
-          &.spacer {
-            height: 10px;
-          }
-          td {
-            border: $text-color 5px solid;
-            width: 50px;
-            height: 50px;
-            color: $text-color;
-            &.name {
-              border: none;
-              padding-right: 20px;
-              white-space: nowrap;
-            }
-            &.updated {
-              background-color: #ffb615;
-            }
-          }
-        }
-      }
-    }
+  }
+  .own-game {
+    margin-top: 20px;
+    border-top: 5px $text-color solid;
+    padding-top: 20px;
+  }
+  .name {
+    white-space: nowrap;
+  }
+  .updated {
+    background-color: #ffb615;
+  }
+  .player-data {
+    margin-bottom: 10px;
   }
 }
 
