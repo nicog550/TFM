@@ -112,8 +112,8 @@ Game.prototype.player = function(debugGame, setPlayerConfig) {
          */
         function createButton() {
             var $button = $template.find("button");
-            $button[0].dataset.background = boardValue;
-            $button[0].dataset.position = boardPosition; //jQuery data() not working here...
+            $button.attr('data-background', boardValue);
+            $button.attr('data-position', boardPosition);
         }
 
         /**
@@ -125,8 +125,8 @@ Game.prototype.player = function(debugGame, setPlayerConfig) {
             for (var i = 0; i < options; i++) {
                 var $newLi = $li.clone(),
                     $a = $newLi.find(".choice");
-                $a[0].dataset.background = i;
-                $a[0].dataset.position = boardPosition; //jQuery data() not working here...
+                $a.attr('data-background', i);
+                $a.attr('data-position', boardPosition);
                 $ul.append($newLi);
             }
         }
@@ -143,7 +143,7 @@ Game.prototype.player = function(debugGame, setPlayerConfig) {
             var newValue = $(this).data('background'),
                 position = $(this).data('position');
             setPlayerConfig(position, newValue);
-            $(".game-button[data-position=" + position + "]")[0].dataset.background = newValue;
+            $(".game-button[data-position=" + position + "]").attr('data-background', newValue);
             sockets.newMove(position, parseInt(newValue));
         });
     }
@@ -188,7 +188,7 @@ Game.prototype.otherUsers = function(debugGame) {
     function _createPlayerBoard($baseTemplate, playerName, playerBoard) {
         var $player = $baseTemplate.clone(),
             $playerRow = $player.find(".player-data");
-        $playerRow[0].dataset.player = playerName;
+        $playerRow.attr('data-player', playerName);
         $player.find(".name").text(playerName);
         var $valueTemplate = $playerRow.find(".box").detach();
         fillPlayerData();
@@ -197,8 +197,8 @@ Game.prototype.otherUsers = function(debugGame) {
         function fillPlayerData() {
             for (var j = 0; j < playerBoard.length; j++) {
                 var $box = $valueTemplate.clone();
-                $box[0].dataset.background = playerBoard[j];
-                $box[0].dataset.position = j;
+                $box.attr('data-background', playerBoard[j]);
+                $box.attr('data-position', j);
                 $playerRow.append($box);
             }
 
@@ -212,6 +212,6 @@ Game.prototype.otherUsers = function(debugGame) {
      * @param {number|string} newValue The value that replaces the old one
      */
     function drawMove(player, position, newValue) {
-        $("[data-player='" + player + "']").find("[data-position=" + position + "]")[0].dataset.background = newValue;
+        $("[data-player='" + player + "']").find("[data-position=" + position + "]").attr('data-background', newValue);
     }
 };

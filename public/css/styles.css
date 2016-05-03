@@ -75,17 +75,17 @@ input {
 #game-screen [data-background="0"] {
   background-color: #050; }
 #game-screen [data-background="1"] {
-  background-color: #F50; }
+  background-color: #FF0; }
 #game-screen [data-background="2"] {
-  background-color: #558; }
+  background-color: #5BF; }
 #game-screen [data-background="3"] {
-  background-color: #FF8; }
+  background-color: #F58; }
 #game-screen [data-background="4"] {
   background-color: #5B0; }
 #game-screen [data-background="5"] {
   background-color: #5B8; }
 #game-screen [data-background="6"] {
-  background-color: #5BF; }
+  background-color: #558; }
 #game-screen [data-background="7"] {
   background-color: #B50; }
 #game-screen [data-background="8"] {
@@ -107,7 +107,7 @@ input {
 #game-screen [data-background="16"] {
   background-color: #FBF; }
 #game-screen [data-background="17"] {
-  background-color: #F58; }
+  background-color: #FF8; }
 #game-screen [data-background="18"] {
   background-color: #F5F; }
 #game-screen [data-background="19"] {
@@ -116,10 +116,10 @@ input {
   background-color: #FB8; }
 #game-screen [data-background="21"] {
   background-color: #550; }
+#game-screen [data-background="22"] {
+  background-color: #F50; }
 #game-screen [data-background="23"] {
   background-color: #55F; }
-#game-screen [data-background="22"] {
-  background-color: #FF0; }
 #game-screen [data-background="24"] {
   background-color: #FFF; }
 
