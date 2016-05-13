@@ -65,6 +65,9 @@ input {
     width: $box-size;
     height: $box-size;
     display: inline-block;
+    &.transparent {
+      background: transparent;
+    }
   }
   .game-board {
     button {

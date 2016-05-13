@@ -7,7 +7,7 @@ var Game = function() {
         gameOver,
         main,
         otherPlayersBoard = this.otherUsers(debugGame),
-        playerBoard = this.player(debugGame, _setPlayerConfig),
+        playerBoard = this.player(debugGame, _setPlayerConfig, otherPlayersBoard.getBoard()),
         playerConfig,
         sockets,
         waitingRoom;
@@ -20,7 +20,7 @@ var Game = function() {
             playerBoard.listenToMoves(sockets);
             gameOver.init(main, socketsRef);
         },
-        debug: function() {return debugGame;},
+        debug: function() { return debugGame; },
         selector: "game-screen",
         drawMove: otherPlayersBoard.drawMove,
         finishGame: finishGame,
@@ -67,8 +67,9 @@ var Game = function() {
  * Class responsible for drawing the current player's board
  * @param {boolean} debugGame Game mode: debug or not
  * @param {function} setPlayerConfig Reference to the setter of the playerConfig variable
+ * @param {jQuery} $otherPlayersBoard The container of the other players boards
  */
-Game.prototype.player = function(debugGame, setPlayerConfig) {
+Game.prototype.player = function(debugGame, setPlayerConfig, $otherPlayersBoard) {
     var $gameBoardContainer = $("#own-game-container");
     return {
         drawBoard: drawBoard,
@@ -160,6 +161,7 @@ Game.prototype.player = function(debugGame, setPlayerConfig) {
                 board.push([$(this).attr('data-position'), parseInt($(this).attr('data-background'))]);
             });
             sockets.newMove(board);
+            $otherPlayersBoard.find(".box.transparent").removeClass('transparent'); //Show the other players boards
         });
     }
 };
@@ -171,6 +173,7 @@ Game.prototype.player = function(debugGame, setPlayerConfig) {
 Game.prototype.otherUsers = function(debugGame) {
     var $otherPlayersBoard = $("#other-players-container");
     return {
+        getBoard: function() { return $otherPlayersBoard; },
         displayBoards: displayBoards,
         drawMove: drawMove
     };
