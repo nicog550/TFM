@@ -152,11 +152,11 @@ ioSocketSetter.prototype.loginManager = function(gameGenerator, constants) {
         //start for the user immediately on login (while the "welcome" and the "waiting room" screens are being
         //switched
         else {
-            var waitingTime = 1000;
+            var waitingTime = 1;
             setTimeout(function() {
                 _sendLoginThroughSocket(socket, usernames,
-                                        (constants.gameDuration + constants.gamePause - waitingTime) / 1000);
-            }, waitingTime);
+                                        constants.gameDuration + constants.gamePause - waitingTime);
+            }, waitingTime * 1000);
         }
     }
 
@@ -173,7 +173,7 @@ ioSocketSetter.prototype.loginManager = function(gameGenerator, constants) {
             //Add 1 because the current player has not been appended to 'numUsers' yet
             numUsers: usernames.length + 1,
             //If a new game starts just now, make the player wait for a whole turn passes
-            waitingTime: remainingTime > 0 ? remainingTime : (constants.gameDuration + constants.gamePause) / 1000
+            waitingTime: remainingTime > 0 ? remainingTime : (constants.gameDuration + constants.gamePause)
         });
     }
 };

@@ -6,6 +6,7 @@
  */
 var GameGenerator = function() {
     var constants = require('./constants'),
+        graphGenerator = require('randomgraph'),
         // core = this.core(constants),
         gameActive = false,
         pendingToAppend = {},
@@ -18,6 +19,7 @@ var GameGenerator = function() {
         timeout;
     return {
         init: function() {
+            console.log(graphGenerator.WattsStrogatz.alpha(20, 6, .8))
             _generateGame();
         },
         addSocket: addSocket,
@@ -54,7 +56,7 @@ var GameGenerator = function() {
         gameActive = true;
         round++;
         _sendGamesToPlayers(_generateGamesForPlayers());
-        timeout = setTimeout(_endGame, constants.gameDuration);
+        timeout = setTimeout(_endGame, constants.gameDuration * 1000);
         updatedScores = 0;
         if (pendingToAppend.hasOwnProperty(round.toString())) {
             var pendingPlayersForThisRound = pendingToAppend[round.toString()];
@@ -152,7 +154,7 @@ var GameGenerator = function() {
                 sockets[socket].emit('game over', {waitingTime: constants.gamePause});
             }
         }
-        timeout = setTimeout(_generateGame, constants.gamePause);
+        timeout = setTimeout(_generateGame, constants.gamePause * 1000);
     }
 
     /**
@@ -172,7 +174,7 @@ var GameGenerator = function() {
             pendingToAppend[myFirstRound].push(socket.username);
         }
         //If the game is active, add to the remaining time the pause duration
-        return gameActive ? remaining + constants.gamePause / 1000 : remaining;
+        return gameActive ? remaining + constants.gamePause : remaining;
     }
 
     /**
