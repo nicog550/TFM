@@ -1,4 +1,4 @@
-$box-size: 60px;
+$box-size: 50px;
 $text-color: rgb(121, 121, 121);
 $hover-color: rgba(121, 121, 121, 0.6);
 body {
@@ -19,13 +19,19 @@ button {
   border: none;
   padding: 10px;
   outline: none;
-  &.default-button {
+  &.btn {
     text-transform: uppercase;
-    border: $text-color 7px solid;
-  }
-  &.disabled {
-    background-color: $text-color;
-    color: #000000;
+    border: $text-color 5px solid;
+    border-radius: 0;
+    height: $box-size;
+    &.disabled {
+      background-color: $text-color;
+      color: #000000;
+    }
+    &:focus {
+      color: $text-color;
+      outline: none;
+    }
   }
 }
 
@@ -55,7 +61,7 @@ input {
     margin-bottom: 20px;
   }
   .box {
-    border: $text-color 8px solid;
+    border: $text-color 6px solid;
     width: $box-size;
     height: $box-size;
     display: inline-block;
@@ -73,8 +79,8 @@ input {
       text-align: center;
       li {
         a {
-          width: 47px;
-          height: 47px;
+          width: 40px;
+          height: 40px;
           &:hover, &:focus {
             outline: none;
             background: $hover-color none;
@@ -88,8 +94,15 @@ input {
     border-top: 5px $text-color solid;
     padding-top: 20px;
   }
-  .name {
-    white-space: nowrap;
+  .name-box {
+    text-align: right;
+    height: $box-size;
+    .name {
+      white-space: nowrap;
+      font-size: 18px;
+      position: relative;
+      top: 20px;
+    }
   }
   .updated {
     background-color: #ffb615;

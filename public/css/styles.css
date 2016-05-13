@@ -14,12 +14,17 @@ button {
   border: none;
   padding: 10px;
   outline: none; }
-  button.default-button {
+  button.btn {
     text-transform: uppercase;
-    border: #797979 7px solid; }
-  button.disabled {
-    background-color: #797979;
-    color: #000000; }
+    border: #797979 5px solid;
+    border-radius: 0;
+    height: 50px; }
+    button.btn.disabled {
+      background-color: #797979;
+      color: #000000; }
+    button.btn:focus {
+      color: #797979;
+      outline: none; }
 
 input {
   padding: 0;
@@ -43,22 +48,22 @@ input {
 #game-screen .remaining-time {
   margin-bottom: 20px; }
 #game-screen .box {
-  border: #797979 8px solid;
-  width: 60px;
-  height: 60px;
+  border: #797979 6px solid;
+  width: 50px;
+  height: 50px;
   display: inline-block; }
 #game-screen .game-board button {
   width: 100%;
   height: 100%; }
 #game-screen .game-board ul.dropdown-menu {
-  min-width: 60px;
+  min-width: 50px;
   background: transparent;
   border: none;
   left: -2px;
   text-align: center; }
   #game-screen .game-board ul.dropdown-menu li a {
-    width: 47px;
-    height: 47px; }
+    width: 40px;
+    height: 40px; }
     #game-screen .game-board ul.dropdown-menu li a:hover, #game-screen .game-board ul.dropdown-menu li a:focus {
       outline: none;
       background: rgba(121, 121, 121, 0.6) none; }
@@ -66,8 +71,14 @@ input {
   margin-top: 20px;
   border-top: 5px #797979 solid;
   padding-top: 20px; }
-#game-screen .name {
-  white-space: nowrap; }
+#game-screen .name-box {
+  text-align: right;
+  height: 50px; }
+  #game-screen .name-box .name {
+    white-space: nowrap;
+    font-size: 18px;
+    position: relative;
+    top: 20px; }
 #game-screen .updated {
   background-color: #ffb615; }
 #game-screen .player-data {

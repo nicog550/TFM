@@ -33,7 +33,7 @@
         <br>
         <span id="invalid-login" class="error hidden">That username is already in use<br></span>
         <input id="username" type="text" maxlength="12">
-        <button id="play-button" class="default-button">Play</button>
+        <button id="play-button" class="btn">Play</button>
     </div>
     <!-- Waiting room screen -->
     <div id="waiting-room-screen" class="screen hidden">
@@ -67,7 +67,7 @@
                 </h4>
             </div>
             <div class="col-xs-3">
-                <button id="logout" class="default-button">Disconnect</button>
+                <button id="logout" class="btn">Disconnect</button>
             </div>
         </div>
         <div class="game-over-content col-xs-12">
@@ -95,15 +95,15 @@
                 </div>
             </div>
             <div class="col-xs-2">
-                <button class="default-button submit-move">Submit</button>
+                <button class="btn submit-move">Submit</button>
             </div>
         </div>
     </div>
     <!-- Template for the other players' boards -->
     <div id="other-boards-template">
         <div class="col-xs-12 other-players-game">
-            <div class="other-players">
-                <div class="col-xs-2">
+            <div class="other-players row">
+                <div class="col-xs-2 name-box">
                     <span class="name"></span>
                 </div>
                 <div class="col-xs-8">
