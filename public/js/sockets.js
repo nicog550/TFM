@@ -62,7 +62,7 @@ var Sockets = function() {
                 game.startGame(data.board, data.gameDuration / 1000, data.options, data.otherPlayers);
         });
         ioSocket.on(messages.NEW_MOVE, function(data) {
-            if (loggedIn) game.drawMove(data.username, data.message.position, data.message.value);
+            if (loggedIn) game.drawMove(data.username, data.board);
         });
 
         ioSocket.on(messages.GAME_OVER, function(data) {
@@ -93,12 +93,11 @@ var Sockets = function() {
 
     /**
      * Sends a new move
-     * @param {number} position The position at the board
-     * @param {number} value The new value
+     * @param {Array} board The player's board
      */
-    function sendMove(position, value) {
-        console.log("sends", position, value);
-        _send(messages.NEW_MOVE, {position: position, value: value});
+    function sendMove(board) {
+        console.log("sends", board.reduce(function(a, b) { return a + "(" + b[0] + ": " + b[1] + "), "; }, ""));
+        _send(messages.NEW_MOVE, board);
     }
 
     /**

@@ -75,11 +75,11 @@ var ioSocketSetter = function() {
         socket.on('new move', function(data) {
             logger.addMove({
                 userID: socket.userId,
-                move: data.value
+                move: data
             });
             socket.broadcast.emit('new move', {
                 username: socket.username,
-                message: data
+                board: data
             });
         });
     }

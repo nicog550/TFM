@@ -17,7 +17,7 @@ var Game = function() {
             sockets = socketsRef;
             gameOver = gameOverRef;
             waitingRoom = waitingRoomRef;
-            playerBoard.performMove(sockets);
+            playerBoard.listenToMoves(sockets);
             gameOver.init(main, socketsRef);
         },
         debug: function() {return debugGame;},
@@ -72,7 +72,10 @@ Game.prototype.player = function(debugGame, setPlayerConfig) {
     var $gameBoardContainer = $("#own-game-container");
     return {
         drawBoard: drawBoard,
-        performMove: performMove
+        listenToMoves: function(sockets) {
+            performMove();
+            submitMove(sockets);
+        }
     };
 
     /**
@@ -133,18 +136,30 @@ Game.prototype.player = function(debugGame, setPlayerConfig) {
     }
 
     /**
-     * Listens for a player clicking on a choice, updates the value at the corresponding box and sends the new value to
-     * the other players
-     * @param {object} sockets Instance of Sockets
+     * Listens for a player clicking on a choice and updates the value at the corresponding box
      */
-    function performMove(sockets) {
+    function performMove() {
         $("body").on('click', '.choice', function(e) {
             e.preventDefault();
             var newValue = $(this).data('background'),
                 position = $(this).data('position');
             setPlayerConfig(position, newValue);
             $(".game-button[data-position=" + position + "]").attr('data-background', newValue);
-            sockets.newMove(position, parseInt(newValue));
+        });
+    }
+
+    /**
+     * Submits the player's board to the other players
+     * @param {object} sockets Instance of Sockets
+     */
+    function submitMove(sockets) {
+        $("body").on('click', '.submit-move', function(e) {
+            e.preventDefault();
+            var board = [];
+            $gameBoardContainer.find(".game-button").each(function() {
+                board.push([$(this).attr('data-position'), parseInt($(this).attr('data-background'))]);
+            });
+            sockets.newMove(board);
         });
     }
 };
@@ -208,10 +223,12 @@ Game.prototype.otherUsers = function(debugGame) {
     /**
      * Displays the move another player has done
      * @param {string} player The player's name
-     * @param {number|string} position The index of the changed value
-     * @param {number|string} newValue The value that replaces the old one
+     * @param {Array} board The player's full board
      */
-    function drawMove(player, position, newValue) {
-        $("[data-player='" + player + "']").find("[data-position=" + position + "]").attr('data-background', newValue);
+    function drawMove(player, board) {
+        var $playerBoard = $("[data-player='" + player + "']");
+        board.forEach(function(element) {
+            $playerBoard.find("[data-position=" + element[0] + "]").attr('data-background', element[1]);
+        });
     }
 };
