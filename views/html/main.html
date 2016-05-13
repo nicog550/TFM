@@ -10,7 +10,6 @@
     <script src="bower_components/jquery/dist/jquery.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="bower_components/bootstrap/dist/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="/socket.io/socket.io.js"></script>
-    <script src="js/constants.js" type="text/javascript" charset="utf-8"></script>
     <script src="js/sockets.js" type="text/javascript" charset="utf-8"></script>
     <script src="js/classes/game.js" type="text/javascript" charset="utf-8"></script>
     <script src="js/classes/gameOver.js" type="text/javascript" charset="utf-8"></script>
@@ -39,13 +38,6 @@
     <div id="waiting-room-screen" class="screen hidden">
         <h1>Waiting room</h1>
         <p class="lead">
-            <span id="correct-users">There are <span id="connected-users"></span> players connected.<br></span>
-            <span id="insufficient-users">
-                When <span id="min-users"></span> players connect the game will start automatically.
-            </span>
-            <span id="excessive-users" style="display: none;">
-                The room is limited to a maximum of <span id="max-users"></span> players, so you cannot access it at the moment.
-            </span><br>
             <span>Time remaining for next game: <span id="remaining-time"></span> seconds</span>
         </p>
     </div>

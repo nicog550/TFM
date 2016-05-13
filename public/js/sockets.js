@@ -16,9 +16,7 @@ var Sockets = function() {
             LOGIN: 'login',
             LOGOUT: 'logout',
             NEW_GAME: 'new game',
-            NEW_MOVE: 'new move',
-            USER_LEFT: 'user left',
-            USER_JOINED: 'user joined'
+            NEW_MOVE: 'new move'
         },
         main,
         waitingRoom,
@@ -44,16 +42,7 @@ var Sockets = function() {
         ioSocket.on(messages.LOGIN, function(data) {
             loggedIn = true;
             main.toggleScreen(waitingRoom);
-            waitingRoom.checkNumUsers(data.numUsers);
             waitingRoom.displayRemainingTime(data.waitingTime);
-        });
-
-        ioSocket.on(messages.USER_JOINED, function(data) {
-            if (loggedIn) waitingRoom.checkNumUsers(data.numUsers);
-        });
-
-        ioSocket.on(messages.USER_LEFT, function(data) {
-            if (loggedIn) waitingRoom.checkNumUsers(data.numUsers);
         });
 
         ioSocket.on(messages.NEW_GAME, function(data) {

@@ -101,11 +101,6 @@ var ioSocketSetter = function() {
         function performLogout() {
             if (gameGenerator.removeSocket(socket)) { //If the user was already logged in
                 usernames.splice(usernames.indexOf(socket.username), 1); //Remove it from the usernames list
-                //Notify other players about the user's disconnection (TODO: is this necessary?)
-                socket.broadcast.emit('user left', {
-                    username: socket.username,
-                    numUsers: usernames.length
-                });
                 socket.disconnect(); //Finally, disconnect from the socket
             }
         }
@@ -140,7 +135,6 @@ ioSocketSetter.prototype.loginManager = function(gameGenerator, constants) {
         socket.userId = usernames.length + 1;
         var remainingTime = gameGenerator.addSocket(socket);
         _emitLogin(socket, usernames, remainingTime);
-        _notifyOtherPlayers(socket, usernames);
         return true;
     }
 
@@ -180,19 +174,6 @@ ioSocketSetter.prototype.loginManager = function(gameGenerator, constants) {
             numUsers: usernames.length + 1,
             //If a new game starts just now, make the player wait for a whole turn passes
             waitingTime: remainingTime > 0 ? remainingTime : (constants.gameDuration + constants.gamePause) / 1000
-        });
-    }
-
-    /**
-     * Notifies the other players that a new player has entered the room
-     * @param {object} socket The player's socket
-     * @param {Array} usernames The list of current players names
-     * @private
-     */
-    function _notifyOtherPlayers(socket, usernames) {
-        socket.broadcast.emit('user joined', {
-            username: socket.username,
-            numUsers: usernames.length
         });
     }
 };
