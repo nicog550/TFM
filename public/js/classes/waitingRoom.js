@@ -11,8 +11,7 @@ var WaitingRoom = function() {
             game = gameRef;
         },
         selector: "waiting-room-screen",
-        displayRemainingPlayers: displayRemainingPlayers,
-        displayRemainingTime: displayRemainingTime
+        displayRemainingPlayers: displayRemainingPlayers
     };
 
     /**
@@ -21,13 +20,5 @@ var WaitingRoom = function() {
      */
     function displayRemainingPlayers(remaining) {
         $("#remaining-players").text(remaining);
-    }
-
-    /**
-     * Displays the countdown until the next game starts
-     * @param {number} remainingTime The remaining time in seconds
-     */
-    function displayRemainingTime(remainingTime) {
-        main.displayCountdown(remainingTime, $("#remaining-time"));
     }
 };
