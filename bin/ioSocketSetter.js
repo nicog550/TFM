@@ -9,8 +9,6 @@ var ioSocketSetter = function() {
         logger = require('./logger'),
         ioSocket,
         gameGenerator,
-        loginManager,
-        that = this,
         usernames = [];
     return {
         setup: socketSetup
@@ -24,9 +22,7 @@ var ioSocketSetter = function() {
     function socketSetup(ioSocketRef, gameGeneratorRef) {
         gameGenerator = gameGeneratorRef;
         ioSocket = ioSocketRef;
-        loginManager = that.loginManager(gameGenerator, constants);
         ioSocket.on('connection', function(socket) {
-            socket.isLoggedIn = false;
             _receiveMoves(socket);
             _receiveFinalBoards(socket);
             _addUser(socket);
@@ -41,7 +37,19 @@ var ioSocketSetter = function() {
      */
     function _addUser(socket) {
         socket.on('add user', function(username) {
-            if (loginManager.addUser(socket, username, usernames)) usernames.push(username);
+            if (usernames.indexOf(username) !== -1) { //If the name entered by the player already exists
+                socket.emit('invalid username', {});
+                return;
+            }
+            //Log the player in
+            socket.username = username;
+            socket.userId = usernames.length + 1;
+            usernames.push(username);
+            var remainingPlayers = gameGenerator.addSocket(socket);
+            socket.emit('login', {remainingPlayers: remainingPlayers});
+            //Notify the other players
+            if (remainingPlayers > 0) socket.broadcast.emit('remaining players', {remainingPlayers: remainingPlayers});
+            else gameGenerator.generateGame();
         });
     }
 
@@ -99,82 +107,13 @@ var ioSocketSetter = function() {
          * Actual user disconnection
          */
         function performLogout() {
-            if (gameGenerator.removeSocket(socket)) { //If the user was already logged in
+            var remainingPlayers = gameGenerator.removeSocket(socket);
+            if (remainingPlayers !== false) { //If the user was already logged in
                 usernames.splice(usernames.indexOf(socket.username), 1); //Remove it from the usernames list
                 socket.disconnect(); //Finally, disconnect from the socket
+                socket.broadcast.emit('remaining players', {remainingPlayers: remainingPlayers});
             }
         }
-    }
-};
-
-/**
- * Class responsible for the login actions
- * @param {object} gameGenerator Instance of GameGenerator
- * @param {object} constants Instance of Constants
- */
-ioSocketSetter.prototype.loginManager = function(gameGenerator, constants) {
-    return {
-        addUser: addUser
-    };
-
-    /**
-     * Checks if the name entered by the player already exists in the usernames list, and then:
-     * - If it does exist, notifies the player about that
-     * - Otherwise, gameLogs the player in and notifies the other players about this
-     * @param {object} socket The player's socket
-     * @param {string} username The name entered by the player
-     * @param {Array} usernames The list of current players names
-     * @returns {boolean} Whether the user has been logged in or not
-     */
-    function addUser(socket, username, usernames) {
-        if (usernames.indexOf(username) !== -1) {
-            socket.emit('invalid username', {});
-            return false;
-        }
-        socket.username = username;
-        socket.userId = usernames.length + 1;
-        var remainingTime = gameGenerator.addSocket(socket);
-        _emitLogin(socket, usernames, remainingTime);
-        return true;
-    }
-
-    /**
-     * Sends the login message immediately or, if a game is about to start at this exact moment, waits one second before
-     * sending it
-     * @param {object} socket The player's socket
-     * @param {Array} usernames The list of current players names
-     * @param {number} remainingTime The amount of time remaining until a new game starts
-     * @private
-     */
-    function _emitLogin(socket, usernames, remainingTime) {
-        if (remainingTime > 0) _sendLoginThroughSocket(socket, usernames, remainingTime);
-        //Else, wait for the "new game" message is sent before sending the "login" one in order to avoid the game to
-        //start for the user immediately on login (while the "welcome" and the "waiting room" screens are being
-        //switched
-        else {
-            var waitingTime = 1;
-            setTimeout(function() {
-                _sendLoginThroughSocket(socket, usernames,
-                                        constants.gameDuration + constants.gamePause - waitingTime);
-            }, waitingTime * 1000);
-        }
-    }
-
-    /**
-     * Sends the login message through the socket
-     * @param {object} socket The player's socket
-     * @param {Array} usernames The list of current players names
-     * @param {number} remainingTime The amount of the time remaining until a new game starts
-     * @private
-     */
-    function _sendLoginThroughSocket(socket, usernames, remainingTime) {
-        socket.isLoggedIn = true;
-        socket.emit('login', {
-            //Add 1 because the current player has not been appended to 'numUsers' yet
-            numUsers: usernames.length + 1,
-            //If a new game starts just now, make the player wait for a whole turn passes
-            waitingTime: remainingTime > 0 ? remainingTime : (constants.gameDuration + constants.gamePause)
-        });
     }
 };
 

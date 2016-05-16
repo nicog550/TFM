@@ -11,8 +11,17 @@ var WaitingRoom = function() {
             game = gameRef;
         },
         selector: "waiting-room-screen",
+        displayRemainingPlayers: displayRemainingPlayers,
         displayRemainingTime: displayRemainingTime
     };
+
+    /**
+     * Displays the number of players still needed for the game to start
+     * @param {number} remaining The remaining number of players
+     */
+    function displayRemainingPlayers(remaining) {
+        $("#remaining-players").text(remaining);
+    }
 
     /**
      * Displays the countdown until the next game starts

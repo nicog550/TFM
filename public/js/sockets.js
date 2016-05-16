@@ -16,7 +16,8 @@ var Sockets = function() {
             LOGIN: 'login',
             LOGOUT: 'logout',
             NEW_GAME: 'new game',
-            NEW_MOVE: 'new move'
+            NEW_MOVE: 'new move',
+            REMAINING_PLAYERS_CHANGE: 'remaining players'
         },
         main,
         waitingRoom,
@@ -42,7 +43,7 @@ var Sockets = function() {
         ioSocket.on(messages.LOGIN, function(data) {
             loggedIn = true;
             main.toggleScreen(waitingRoom);
-            waitingRoom.displayRemainingTime(data.waitingTime);
+            waitingRoom.displayRemainingPlayers(data.remainingPlayers);
         });
 
         ioSocket.on(messages.NEW_GAME, function(data) {
@@ -50,8 +51,13 @@ var Sockets = function() {
             if (loggedIn && (!game.debug() || $("#" + game.selector).hasClass('hidden')))
                 game.startGame(data.board, data.gameDuration, data.options, data.otherPlayers);
         });
+
         ioSocket.on(messages.NEW_MOVE, function(data) {
             if (loggedIn) game.drawMove(data.username, data.board);
+        });
+
+        ioSocket.on(messages.REMAINING_PLAYERS_CHANGE, function(data) {
+            waitingRoom.displayRemainingPlayers(data.remainingPlayers);
         });
 
         ioSocket.on(messages.GAME_OVER, function(data) {
