@@ -236,6 +236,7 @@ GameGenerator.prototype.core = function(constants, getSockets, setWord) {
                 gameDuration: constants.gameDuration,
                 options: constants.optionsCount,
                 board: generatedGames[index],
+                myName: socket.username,
                 otherPlayers: getOtherPlayerBoard(connections[index])
             });
         });

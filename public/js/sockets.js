@@ -49,7 +49,7 @@ var Sockets = function() {
         ioSocket.on(messages.NEW_GAME, function(data) {
             console.log("NEW GAME:", data)
             if (loggedIn && (!game.debug() || $("#" + game.selector).hasClass('hidden')))
-                game.startGame(data.board, data.gameDuration, data.options, data.otherPlayers);
+                game.startGame(data.board, data.gameDuration, data.options, data.myName, data.otherPlayers);
         });
 
         ioSocket.on(messages.NEW_MOVE, function(data) {

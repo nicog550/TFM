@@ -52,11 +52,12 @@ var Game = function() {
      * @param {array} board The initial configuration for the current player
      * @param {number} duration The game duration
      * @param {number} options The number of different choices available at the board for the player
+     * @param {string} myName The current player's name
      * @param {object} otherPlayers The initial configuration for each of the other players
      */
-    function startGame(board, duration, options, otherPlayers) {
+    function startGame(board, duration, options, myName, otherPlayers) {
         playerConfig = board;
-        playerBoard.drawBoard(board, options);
+        playerBoard.drawBoard(board, options, myName);
         otherPlayersBoard.displayBoards(otherPlayers);
         main.toggleScreen(this);
         main.displayCountdown(duration, $("#game-time"));
@@ -83,13 +84,15 @@ Game.prototype.player = function(debugGame, setPlayerConfig, $otherPlayersBoard)
      * Empties the board if it already had content and populates it again
      * @param {Array} board The values for the player's board (initial configuration)
      * @param {number} options The number of different choices available at the board for the player
+     * @param {string} myName The player's name
      */
-    function drawBoard(board, options) {
+    function drawBoard(board, options, myName) {
         if (debugGame && $gameBoardContainer.children().length > 0) return;
         $gameBoardContainer.empty();
         var $boardTemplate = $("#board-template").find(".own-game").clone(),
             $rowTemplate = $boardTemplate.find(".game-board"),
             $boxTemplate = $rowTemplate.find(".box").detach();
+        $boardTemplate.find(".name").text(myName);
         for (var i = 0; i < board.length; i++) {
             $rowTemplate.append(_createDropdown($boxTemplate, board[i], i, options));
         }
