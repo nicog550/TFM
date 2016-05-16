@@ -4,7 +4,7 @@
 module.exports = {
     games: [
         /*
-        GAME FORMAT: TODO: update it if changes
+        GAME FORMAT: TODO: update it if it changes
          {
              gameDuration: 10, //Game duration (in seconds)
              gamePause: 1, //Waiting time between games (in seconds)
@@ -36,11 +36,12 @@ module.exports = {
         }
     ],
     //TODO: remove all these lines
-    gameDuration: 600,
-    gamePause: 1,
+    gameDuration: 1,
+    gamePause: 600,
     players: 5,
     degree: 4,
     optionsCount: 4,
+    pointsPerHit: 10,
     rewiring: .5,
     wordLength: 10
 };
