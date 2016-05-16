@@ -46,10 +46,11 @@ var ioSocketSetter = function() {
             socket.userId = usernames.length + 1;
             usernames.push(username);
             var remainingPlayers = gameGenerator.addSocket(socket);
-            socket.emit('login', {remainingPlayers: remainingPlayers});
-            //Notify the other players
-            if (remainingPlayers > 0) socket.broadcast.emit('remaining players', {remainingPlayers: remainingPlayers});
-            else gameGenerator.generateGame();
+            if (remainingPlayers > 0) {
+                //Notify the other players
+                socket.emit('login', {remainingPlayers: remainingPlayers});
+                socket.broadcast.emit('remaining players', {remainingPlayers: remainingPlayers});
+            } else gameGenerator.generateGame();
         });
     }
 

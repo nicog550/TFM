@@ -4,9 +4,9 @@
  */
 var Sockets = function() {
     var ioSocket = io(),
+        didAbandonGame = false,
         game,
         gameOver,
-        loggedIn = false,
         messages = {
             ADD_USER: 'add user',
             FINAL_BOARD: 'final board',
@@ -41,19 +41,18 @@ var Sockets = function() {
      */
     function connect() {
         ioSocket.on(messages.LOGIN, function(data) {
-            loggedIn = true;
             main.toggleScreen(waitingRoom);
             waitingRoom.displayRemainingPlayers(data.remainingPlayers);
         });
 
         ioSocket.on(messages.NEW_GAME, function(data) {
             console.log("NEW GAME:", data)
-            if (loggedIn && (!game.debug() || $("#" + game.selector).hasClass('hidden')))
+            if (!didAbandonGame && (!game.debug() || $("#" + game.selector).hasClass('hidden')))
                 game.startGame(data.board, data.gameDuration, data.options, data.myName, data.otherPlayers);
         });
 
         ioSocket.on(messages.NEW_MOVE, function(data) {
-            if (loggedIn) game.drawMove(data.username, data.board);
+            if (!didAbandonGame) game.drawMove(data.username, data.board);
         });
 
         ioSocket.on(messages.REMAINING_PLAYERS_CHANGE, function(data) {
@@ -61,7 +60,7 @@ var Sockets = function() {
         });
 
         ioSocket.on(messages.GAME_OVER, function(data) {
-            if (loggedIn && !game.debug() && !$("#" + game.selector).hasClass('hidden')) {
+            if (!didAbandonGame && !game.debug() && !$("#" + game.selector).hasClass('hidden')) {
                 var playerConfig = game.finishGame(data.waitingTime);
                 _send(messages.FINAL_BOARD, playerConfig);
             }
@@ -69,7 +68,7 @@ var Sockets = function() {
 
         ioSocket.on(messages.FINAL_SCORES, function(data) {
             console.log("RECEIVED FINAL SCORES:", data)
-            if (loggedIn) gameOver.displayFinalScores(data);
+            if (!didAbandonGame) gameOver.displayFinalScores(data);
         });
 
         ioSocket.on(messages.INVALID_USERNAME, function() {
@@ -82,7 +81,7 @@ var Sockets = function() {
     }
 
     function logout() {
-        loggedIn = false;
+        didAbandonGame = true;
         _send(messages.LOGOUT, main.username);
     }
 
