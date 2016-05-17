@@ -2,12 +2,8 @@
 /**
  * TODO: update this JSDoc
  * Class responsible for the creation of a new game
- * @param constants
- * @param getSockets
- * @param setWord
- * @returns {{createNewGame: createNewGame}}
  */
-var Core = function() {
+var Generator = function() {
     var constants,
         getSockets,
         setWord,
@@ -20,13 +16,14 @@ var Core = function() {
             setWord = setWordRef;
             wordLength = constants.wordLength;
         },
-        createNewGame: createNewGame
+        createGame: createGame
     };
 
     /**
+     * TODO: update JSDOC
      * Algorithm for the creation of a new game
      */
-    function createNewGame() {
+    function createGame() {
         var gameWord = _generateWord(),
             /** Number of correct letters that each player will see */
             shownLetters = Math.ceil(wordLength / constants.players),
@@ -35,7 +32,7 @@ var Core = function() {
         for (var i = 0; i < constants.players; i++) {
             generatedGames.push(_generateGameForPlayer(gameWord.slice(), shownLetters));
         }
-        _sendGamesToPlayers(generatedGames, connections);
+        return _sendGamesToPlayers(generatedGames, connections);
     }
 
     /**
@@ -131,7 +128,8 @@ var Core = function() {
      * @private
      */
     function _sendGamesToPlayers(generatedGames, connections) {
-        var sockets = getSockets();
+        var sockets = getSockets(),
+            initialGames = [];
         sockets.forEach(function(socket, index) {
             socket.emit('new game', {
                 gameDuration: constants.gameDuration,
@@ -140,7 +138,9 @@ var Core = function() {
                 myName: socket.username,
                 otherPlayers: getOtherPlayerBoard(connections[index])
             });
+            initialGames.push({player: socket.username, board: generatedGames[index]});
         });
+        return initialGames;
 
         function getOtherPlayerBoard(playerConnections) {
             var board = {};
@@ -187,4 +187,4 @@ var Core = function() {
     //}
 };
 
-module.exports = new Core();
+module.exports = new Generator();

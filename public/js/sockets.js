@@ -9,7 +9,6 @@ var Sockets = function() {
         gameOver,
         messages = {
             ADD_USER: 'add user',
-            FINAL_BOARD: 'final board',
             FINAL_SCORES: 'final scores',
             GAME_OVER: 'game over',
             INVALID_USERNAME: 'invalid username',
@@ -60,10 +59,8 @@ var Sockets = function() {
         });
 
         ioSocket.on(messages.GAME_OVER, function(data) {
-            if (!didAbandonGame && !game.debug() && !$("#" + game.selector).hasClass('hidden')) {
-                var playerConfig = game.finishGame(data.waitingTime);
-                _send(messages.FINAL_BOARD, playerConfig);
-            }
+            if (!didAbandonGame && !game.debug() && !$("#" + game.selector).hasClass('hidden'))
+                game.finishGame(data.waitingTime);
         });
 
         ioSocket.on(messages.FINAL_SCORES, function(data) {
@@ -90,7 +87,7 @@ var Sockets = function() {
      * @param {Array} board The player's board
      */
     function sendMove(board) {
-        console.log("sends", board.reduce(function(a, b) { return a + "(" + b[0] + ": " + b[1] + "), "; }, ""));
+        console.log("sends", JSON.stringify(board));
         _send(messages.NEW_MOVE, board);
     }
 

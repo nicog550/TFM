@@ -35,13 +35,16 @@ module.exports = {
             wordLength: 10
         }
     ],
+    scores: {
+        pointsPerHit: 10,
+        bonusOnCompletedWord: 20
+    },
     //TODO: remove all these lines
-    gameDuration: 1,
+    gameDuration: 2,
     gamePause: 600,
     players: 5,
     degree: 4,
     optionsCount: 4,
-    pointsPerHit: 10,
     rewiring: .5,
     wordLength: 10
 };

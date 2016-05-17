@@ -2,29 +2,28 @@
 
 /**
  * Socket.io features
+ * Socket broadcasting options: http://stackoverflow.com/a/10099325
  */
 var ioSocketSetter = function() {
-    /* Socket broadcasting options: http://stackoverflow.com/a/10099325 */
     var constants = require('./constants'),
         logger = require('./logger'),
         ioSocket,
         gameGenerator,
         usernames = [];
     return {
-        setup: socketSetup
+        init: init
     };
 
     /**
      * @constructor
-     * @param ioSocketRef
-     * @param gameGeneratorRef
+     * @param {object} ioSocketRef The socket.io module
+     * @param {object} gameGeneratorRef The game generator module
      */
-    function socketSetup(ioSocketRef, gameGeneratorRef) {
+    function init(ioSocketRef, gameGeneratorRef) {
         gameGenerator = gameGeneratorRef;
         ioSocket = ioSocketRef;
         ioSocket.on('connection', function(socket) {
             _receiveMoves(socket);
-            _receiveFinalBoards(socket);
             _addUser(socket);
             _removeUser(socket);
         });
@@ -45,33 +44,13 @@ var ioSocketSetter = function() {
             socket.username = username;
             socket.userId = usernames.length + 1;
             usernames.push(username);
-            var remainingPlayers = gameGenerator.addSocket(socket);
+            var remainingPlayers = gameGenerator.addPlayer(socket);
             if (remainingPlayers > 0) {
                 //Notify the other players
                 socket.emit('login', {remainingPlayers: remainingPlayers});
                 socket.broadcast.emit('remaining players', {remainingPlayers: remainingPlayers});
             } else gameGenerator.generateGame();
         });
-    }
-
-    /**
-     * Listener for the "scores" message
-     * @param {object} socket The player's socket
-     * @private
-     */
-    function _receiveFinalBoards(socket) {
-        socket.on('final board', function(data) {
-            gameGenerator.checkResults(socket.username, data, broadcastScores);
-        });
-
-        /**
-         * Broadcast the final scores to all players
-         * @callback broadcastScores
-         * @param {Array} scores
-         */
-        function broadcastScores(scores) {
-            ioSocket.emit('final scores', scores);
-        }
     }
 
     /**
@@ -82,6 +61,7 @@ var ioSocketSetter = function() {
     function _receiveMoves(socket) {
         //Send the new move to all other players
         socket.on('new move', function(data) {
+            gameGenerator.updatePlayerBoard(socket.username, data);
             logger.addMove({
                 userID: socket.userId,
                 move: data
@@ -108,7 +88,7 @@ var ioSocketSetter = function() {
          * Actual user disconnection
          */
         function performLogout() {
-            var remainingPlayers = gameGenerator.removeSocket(socket);
+            var remainingPlayers = gameGenerator.removePlayer(socket);
             if (remainingPlayers !== false) { //If the user was already logged in
                 usernames.splice(usernames.indexOf(socket.username), 1); //Remove it from the usernames list
                 socket.disconnect(); //Finally, disconnect from the socket

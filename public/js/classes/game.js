@@ -30,13 +30,11 @@ var Game = function() {
     /**
      * Prepares the game over screen and switches to it
      * @param {number} waitingTime The amount of time until the next game starts
-     * @returns {Array} The player's final game configuration
      */
     function finishGame(waitingTime) {
         if (debugGame) return [];
         gameOver.setup(waitingTime);
         main.toggleScreen(gameOver);
-        return playerConfig;
     }
 
     /**
