@@ -36,8 +36,8 @@ module.exports = {
         }
     ],
     scores: {
-        pointsPerHit: 10,
-        bonusOnCompletedWord: 20
+        pointsPerHit: 10, //Points for each correct letter
+        bonusOnCompletedWord: 20 //Bonus if the player guesses the whole word
     },
     //TODO: remove all these lines
     gameDuration: 60,

@@ -1,6 +1,5 @@
 "use strict";
 /**
- * TODO: update this JSDoc
  * Class responsible for the creation of a new game
  */
 var Generator = function() {
@@ -20,8 +19,9 @@ var Generator = function() {
     };
 
     /**
-     * TODO: update JSDOC
      * Algorithm for the creation of a new game
+     * @returns {Array} Each player's game. The structure looks like
+     * [{player: str, board: []}, {player: str, board: []}, ...]
      */
     function createGame() {
         var gameWord = _generateWord(),
