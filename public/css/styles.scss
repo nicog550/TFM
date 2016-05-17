@@ -143,9 +143,13 @@ input {
 .game-over-content {
   margin-top: 40px;
   font-size: 26px;
+  th {
+    font-weight: 300;
+    text-align: center;
+  }
   td {
     font-weight: 300;
-    &.name, &.score {
+    &.name, &.round, &.total {
       border: 5px $text-color solid;
       float: none;
       margin: auto;

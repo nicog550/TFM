@@ -139,9 +139,12 @@ input {
 .game-over-content {
   margin-top: 40px;
   font-size: 26px; }
+  .game-over-content th {
+    font-weight: 300;
+    text-align: center; }
   .game-over-content td {
     font-weight: 300; }
-    .game-over-content td.name, .game-over-content td.score {
+    .game-over-content td.name, .game-over-content td.round, .game-over-content td.total {
       border: 5px #797979 solid;
       float: none;
       margin: auto; }

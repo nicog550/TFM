@@ -96,7 +96,6 @@ var Game = function() {
                 break;
             }
         }
-        console.log("word", word, "board", playersBoards[i].board)
     }
 };
 

@@ -40,8 +40,8 @@ module.exports = {
         bonusOnCompletedWord: 20
     },
     //TODO: remove all these lines
-    gameDuration: 2,
-    gamePause: 600,
+    gameDuration: 60,
+    gamePause: 10,
     players: 5,
     degree: 4,
     optionsCount: 4,

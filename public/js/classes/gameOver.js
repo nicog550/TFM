@@ -27,7 +27,7 @@ var GameOver = function(){
             $scoreTemplate = $template.find(".player-score").detach();
         for (var i = 0; i < scores.length; i++) {
             $template.append(
-                _drawPlayerScore($scoreTemplate, i + 1, scores[i].username, scores[i].score)
+                _drawPlayerScore($scoreTemplate, i + 1, scores[i].username, scores[i].round, scores[i].total)
             );
         }
         $finalScores.append($template);
@@ -40,15 +40,17 @@ var GameOver = function(){
      * @param {jQuery} $template The template to be used to display the score
      * @param {number|string} position The position of the player at the scoreboard
      * @param {string} name The player's name
-     * @param {number|string} score The player's score
+     * @param {number|string} roundScore The player's score at the last round
+     * @param {number|string} totalScore The player's total score
      * @returns {jQuery}
      * @private
      */
-    function _drawPlayerScore($template, position, name, score) {
+    function _drawPlayerScore($template, position, name, roundScore, totalScore) {
         var $scoreTemplate = $template.clone();
         $scoreTemplate.find(".position").text(position);
         $scoreTemplate.find(".name").text(name);
-        $scoreTemplate.find(".score").text(score);
+        $scoreTemplate.find(".round").text(roundScore);
+        $scoreTemplate.find(".total").text(totalScore);
         return $scoreTemplate;
     }
 
