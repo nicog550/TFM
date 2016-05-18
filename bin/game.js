@@ -49,10 +49,8 @@ var Game = function() {
     function _endGame() {
         sockets.forEach(function(socket) { socket.emit('game over', {waitingTime: constants.gamePause}); });
         var newScores = scores.calculateScores(word, playersBoards);
-        setTimeout(function() {
-            sockets.forEach(function(socket) { socket.emit('final scores', newScores); });
-            timeout = setTimeout(generateGame, constants.gamePause * 1000); //TODO: remove this
-        }, 1000); //Display the 'processing scores' screen for at least one second
+        sockets.forEach(function(socket) { socket.emit('final scores', newScores); });
+        timeout = setTimeout(generateGame, constants.gamePause * 1000); //TODO: remove this
     }
 
     /**
