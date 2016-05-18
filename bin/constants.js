@@ -37,7 +37,7 @@ module.exports = {
         bonusOnCompletedWord: 20 //Bonus if the player guesses the whole word
     },
     //TODO: remove all these lines
-    gameDuration: 5,
+    gameDuration: 30,
     players: 5,
     degree: 4,
     optionsCount: 4,

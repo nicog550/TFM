@@ -45,7 +45,6 @@ var Sockets = function() {
         });
 
         ioSocket.on(messages.NEW_GAME, function(data) {
-            console.log("NEW GAME:", data)
             if (!didAbandonGame && (!game.debug() || $("#" + game.selector).hasClass('hidden')))
                 game.startGame(data.board, data.gameDuration, data.options, data.myName, data.otherPlayers);
         });
@@ -64,7 +63,6 @@ var Sockets = function() {
         });
 
         ioSocket.on(messages.FINAL_SCORES, function(data) {
-            console.log("RECEIVED FINAL SCORES:", data)
             if (!didAbandonGame) gameOver.displayFinalScores(data);
         });
 
@@ -73,10 +71,16 @@ var Sockets = function() {
         });
     }
 
+    /**
+     * Performs the player's login
+     */
     function login() {
         _send(messages.ADD_USER, main.getUsername());
     }
 
+    /**
+     * Performs the player's logout
+     */
     function logout() {
         didAbandonGame = true;
         _send(messages.LOGOUT, main.username);
@@ -87,14 +91,13 @@ var Sockets = function() {
      * @param {Array} board The player's board
      */
     function sendMove(board) {
-        console.log("sends", JSON.stringify(board));
         _send(messages.NEW_MOVE, board);
     }
 
     /**
      * Sends a message through the socket
      * @param {string} code The code of the message to emit
-     * @param {object} message The message to emit
+     * @param {object} message The message to be emitted
      * @private
      */
     function _send(code, message) {
