@@ -21,7 +21,7 @@ app.set('port', port);
 
 var server = http.createServer(app);
 var io = require('socket.io')(server);
-var game = require('./game');
+var experiment = require('./experiment');
 var ioSocketSetter = require('./ioSocketSetter');
 /**
  * Listen on provided port, on all network interfaces.
@@ -31,8 +31,8 @@ server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
 
-ioSocketSetter.init(io, game);
-game.init();
+ioSocketSetter.init(io, experiment);
+experiment.init();
 
 /**
  * Normalize a port into a number, string, or false.

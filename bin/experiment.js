@@ -4,25 +4,28 @@
  * Class responsible for the creation of new games
  * @constructor
  */
-var Game = function() {
+var Experiment = function() {
     var constants = require('./constants'),
+        currentGame,
         generator = require('./gameCore/generator'),
         playersBoards,
         round = 0,
         scores = require('./gameCore/scores'),
         sockets = [],
-        timeout,
         word;
     return {
         init: function() {
-            generator.init(constants, getSockets, setWord);
-            scores.init(constants, getWord);
+            generator.init(getCurrentGame, getSockets, setWord, constants.players);
+            scores.init(constants.scores.pointsPerHit, constants.scores.bonusOnCompletedWord, getWord);
+            currentGame = constants.games[round];
         },
         addPlayer: addPlayer,
-        generateGame: generateGame,
         removePlayer: removePlayer,
         updatePlayerBoard: updatePlayerBoard
     };
+
+    /** Getter */
+    function getCurrentGame() { return currentGame; }
 
     /** Getter */
     function getSockets() { return sockets; }
@@ -36,10 +39,9 @@ var Game = function() {
     /**
      * Function responsible for the generation of a new game
      */
-    function generateGame() {
-        round++;
+    function _generateGame() {
         playersBoards = generator.createGame();
-        setTimeout(_endGame, constants.gameDuration * 1000);
+        setTimeout(_endGame, currentGame.duration * 1000);
     }
 
     /**
@@ -47,10 +49,16 @@ var Game = function() {
      * @private
      */
     function _endGame() {
-        sockets.forEach(function(socket) { socket.emit('game over', {waitingTime: constants.intervalBetweenGames}); });
+        var allExperimentsDone = round + 1 == constants.games.length;
+        sockets.forEach(function(socket) {
+            socket.emit('game over', {waitingTime: (allExperimentsDone ? 0 : constants.intervalBetweenGames)});
+        });
         var newScores = scores.calculateScores(word, playersBoards);
         sockets.forEach(function(socket) { socket.emit('final scores', newScores); });
-        timeout = setTimeout(generateGame, constants.intervalBetweenGames * 1000);
+        if (!allExperimentsDone) {
+            currentGame = constants.games[++round];
+            setTimeout(_generateGame, constants.intervalBetweenGames * 1000);
+        }
     }
 
     /**
@@ -61,7 +69,9 @@ var Game = function() {
     function addPlayer(socket) {
         sockets.push(socket);
         scores.addPlayer(socket.username);
-        return constants.players - sockets.length;
+        var remainingNeededPlayers = constants.players - sockets.length;
+        if (remainingNeededPlayers == 0) _generateGame();
+        return remainingNeededPlayers;
     }
 
     /**
@@ -97,4 +107,4 @@ var Game = function() {
     }
 };
 
-module.exports = new Game();
+module.exports = new Experiment();

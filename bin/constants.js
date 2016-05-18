@@ -4,43 +4,41 @@
 module.exports = {
     games: [
         /*
-        GAME FORMAT: TODO: update it if it changes
+        GAME FORMAT:
          {
-             gameDuration: 10, //Game duration (in seconds)
-             players: 2,
-             optionsCount: 4, //Number of different options for each box at the game
-             wordLength: 10 //Length of the word at each game
+             duration: number, //Duration of the game (in seconds)
+             degree: number, //Number of connections of each player
+             options: number, //Number of different options for each box at the game
+             rewiring: number, //Rewiring probability
+             wordLength: number //Length of the word at each game
          }
          */
         {
-            gameDuration: 10,
-            players: 2,
-            optionsCount: 4,
+            duration: 15,
+            degree: 4,
+            options: 4,
+            rewiring: .5,
             wordLength: 10
         },
         {
-            gameDuration: 10,
-            players: 2,
-            optionsCount: 4,
+            duration: 5,
+            degree: 4,
+            options: 4,
+            rewiring: .5,
             wordLength: 10
         },
         {
-            gameDuration: 10,
-            players: 2,
-            optionsCount: 4,
+            duration: 10,
+            degree: 4,
+            options: 4,
+            rewiring: .5,
             wordLength: 10
         }
     ],
-    intervalBetweenGames: 5,
+    intervalBetweenGames: 5, //Time lapse between a game ends and the following one starts (in seconds),
+    players: 5, //Number of players needed for the game
     scores: {
         pointsPerHit: 10, //Points for each correct letter
         bonusOnCompletedWord: 20 //Bonus if the player guesses the whole word
-    },
-    //TODO: remove all these lines
-    gameDuration: 30,
-    players: 5,
-    degree: 4,
-    optionsCount: 4,
-    rewiring: .5,
-    wordLength: 10
+    }
 };

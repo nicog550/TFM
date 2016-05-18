@@ -5,9 +5,9 @@ var Scores = function() {
         pointsPerHit,
         scores = {};
     return {
-        init: function(constantsRef, getWordRef) {
-            pointsPerHit = constantsRef.scores.pointsPerHit;
-            bonusOnCompletedWord = constantsRef.scores.bonusOnCompletedWord;
+        init: function(pointsPerHitVal, bonusOnCompletedWordVal, getWordRef) {
+            pointsPerHit = pointsPerHitVal;
+            bonusOnCompletedWord = bonusOnCompletedWordVal;
             getWord = getWordRef;
         },
         addPlayer: addPlayer,

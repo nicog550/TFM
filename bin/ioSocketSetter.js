@@ -5,10 +5,9 @@
  * Socket broadcasting options: http://stackoverflow.com/a/10099325
  */
 var ioSocketSetter = function() {
-    var constants = require('./constants'),
-        logger = require('./logger'),
+    var experiment,
         ioSocket,
-        gameGenerator,
+        logger = require('./logger'),
         usernames = [];
     return {
         init: init
@@ -17,10 +16,10 @@ var ioSocketSetter = function() {
     /**
      * @constructor
      * @param {object} ioSocketRef The socket.io module
-     * @param {object} gameGeneratorRef The game generator module
+     * @param {object} experimentRef The game generator module
      */
-    function init(ioSocketRef, gameGeneratorRef) {
-        gameGenerator = gameGeneratorRef;
+    function init(ioSocketRef, experimentRef) {
+        experiment = experimentRef;
         ioSocket = ioSocketRef;
         ioSocket.on('connection', function(socket) {
             _receiveMoves(socket);
@@ -44,12 +43,12 @@ var ioSocketSetter = function() {
             socket.username = username;
             socket.userId = usernames.length + 1;
             usernames.push(username);
-            var remainingPlayers = gameGenerator.addPlayer(socket);
+            var remainingPlayers = experiment.addPlayer(socket);
             if (remainingPlayers > 0) {
                 //Notify the other players
                 socket.emit('login', {remainingPlayers: remainingPlayers});
                 socket.broadcast.emit('remaining players', {remainingPlayers: remainingPlayers});
-            } else gameGenerator.generateGame();
+            } //else: a new game will be sent to all players
         });
     }
 
@@ -61,7 +60,7 @@ var ioSocketSetter = function() {
     function _receiveMoves(socket) {
         //Send the new move to all other players
         socket.on('new move', function(data) {
-            gameGenerator.updatePlayerBoard(socket.username, data);
+            experiment.updatePlayerBoard(socket.username, data);
             logger.addMove({
                 userID: socket.userId,
                 move: data
@@ -88,7 +87,7 @@ var ioSocketSetter = function() {
          * Actual user disconnection
          */
         function performLogout() {
-            var remainingPlayers = gameGenerator.removePlayer(socket);
+            var remainingPlayers = experiment.removePlayer(socket);
             if (remainingPlayers !== false) { //If the user was already logged in
                 usernames.splice(usernames.indexOf(socket.username), 1); //Remove it from the usernames list
                 socket.disconnect(); //Finally, disconnect from the socket

@@ -3,17 +3,18 @@
  * Class responsible for the creation of a new game
  */
 var Generator = function() {
-    var constants,
+    var game,
+        getCurrentGame,
         getSockets,
+        players,
         setWord,
-        wordLength,
         graphGenerator = require('randomgraph');
     return {
-        init: function(constantsRef, getSocketsRef, setWordRef) {
-            constants = constantsRef;
+        init: function(getCurrentGameRef, getSocketsRef, setWordRef, playersVal) {
+            getCurrentGame = getCurrentGameRef;
             getSockets = getSocketsRef;
             setWord = setWordRef;
-            wordLength = constants.wordLength;
+            players = playersVal;
         },
         createGame: createGame
     };
@@ -24,12 +25,14 @@ var Generator = function() {
      * [{player: str, board: []}, {player: str, board: []}, ...]
      */
     function createGame() {
-        var gameWord = _generateWord(),
+        game = getCurrentGame();
+        var wordLength = game.wordLength,
+            gameWord = _generateWord(wordLength),
             /** Number of correct letters that each player will see */
-            shownLetters = Math.ceil(wordLength / constants.players),
+            shownLetters = Math.ceil(wordLength / players),
             generatedGames = [],
-            connections = _generateConnectionsBetweenPlayers(constants.players, constants.degree, constants.rewiring);
-        for (var i = 0; i < constants.players; i++) {
+            connections = _generateConnectionsBetweenPlayers(players, game.degree, game.rewiring);
+        for (var i = 0; i < players; i++) {
             generatedGames.push(_generateGameForPlayer(gameWord.slice(), shownLetters));
         }
         return _sendGamesToPlayers(generatedGames, connections);
@@ -37,11 +40,12 @@ var Generator = function() {
 
     /**
      * Generates a random code, which will be the word used at the new game
+     * @param {number} wordLength The length of the word to be generated
      * @returns {Array} An array of <i>constants.wordLength</i> positions
      */
-    function _generateWord() {
+    function _generateWord(wordLength) {
         var word = [];
-        for (var i = 0; i < wordLength; i++) word.push(Math.floor(Math.random() * constants.optionsCount));
+        for (var i = 0; i < wordLength; i++) word.push(Math.floor(Math.random() * game.options));
         setWord(word);
         return word;
     }
@@ -105,35 +109,31 @@ var Generator = function() {
 
     /**
      * Sends to each player their game plus the games of the other players. The used structure is the following one:
-     * TODO: update documentation of message format
      * <pre><code>
      * {
-     *      gameDuration: <i>constants.gameDuration</i>,
-     *      options: <i>constants.optionsCount</i>,
-     *      board: Array(<i>constants.wordLength</i>),
+     *      gameDuration: number,
+     *      options: number,
+     *      board: [...],
+     *      myName: string,
      *      otherPlayers: {
-     *          socketId1: {
-     *              board: Array(<i>constants.wordLength</i>),
-     *              username: <i>socket1.username</i>
-     *          },
-     *          ...,
-     *          socketIdN: {
-     *              board: Array(<i>constants.wordLength</i>),
-     *              username: <i>socketN.username</i>
-     *          }
+     *          username1: [...],
+     *          username2: [...],
+     *          ...
      *      }
      * }
      * </code></pre>
-     * @param {Object} games All the generated games
      * @private
+     * @param {Array} generatedGames The games generated for all players
+     * @param {Array} connections The connections generated for all players
+     * @return {Array} The games generated for each player, indexed by their name
      */
     function _sendGamesToPlayers(generatedGames, connections) {
         var sockets = getSockets(),
             initialGames = [];
         sockets.forEach(function(socket, index) {
             socket.emit('new game', {
-                gameDuration: constants.gameDuration,
-                options: constants.optionsCount,
+                gameDuration: game.duration,
+                options: game.options,
                 board: generatedGames[index],
                 myName: socket.username,
                 otherPlayers: getOtherPlayerBoard(connections[index])
