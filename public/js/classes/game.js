@@ -146,7 +146,16 @@ Game.prototype.player = function(debugGame, setPlayerConfig, $otherPlayersBoard)
             var newValue = $(this).data('background'),
                 position = $(this).data('position');
             setPlayerConfig(position, newValue);
-            $(".game-button[data-position=" + position + "]").attr('data-background', newValue);
+            $gameBoardContainer.find(".game-button[data-position=" + position + "]").attr('data-background', newValue);
+            var $boxes = $gameBoardContainer.find(".game-button"),
+                foundEmptyBox = false;
+            for (var i = 0; i < $boxes.length; i++) {
+                if ($($boxes[i]).attr('data-background') == '-1') {
+                    foundEmptyBox = true;
+                    break;
+                }
+            }
+            if (!foundEmptyBox) $(".submit-move").removeClass('disabled').removeAttr('disabled');
         });
     }
 
