@@ -47,10 +47,10 @@ var Game = function() {
      * @private
      */
     function _endGame() {
-        sockets.forEach(function(socket) { socket.emit('game over', {waitingTime: constants.gamePause}); });
+        sockets.forEach(function(socket) { socket.emit('game over', {waitingTime: constants.intervalBetweenGames}); });
         var newScores = scores.calculateScores(word, playersBoards);
         sockets.forEach(function(socket) { socket.emit('final scores', newScores); });
-        timeout = setTimeout(generateGame, constants.gamePause * 1000); //TODO: remove this
+        timeout = setTimeout(generateGame, constants.intervalBetweenGames * 1000);
     }
 
     /**
