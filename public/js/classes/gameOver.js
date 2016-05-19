@@ -6,7 +6,9 @@ var GameOver = function(){
     var main,
         sockets,
         $finalScores = $("#final-scores"),
-        $processingScores = $("#processing-scores");
+        $logoutButton = $("#logout"),
+        $processingScores = $("#processing-scores"),
+        $waitingTime = $("#game-over-waiting-time");
     return {
         init: function(mainRef, socketsRef) {
             main = mainRef;
@@ -59,12 +61,12 @@ var GameOver = function(){
      * removes the button and the remaining time message
      */
     function logout() {
-        $("#logout").on('click', function() {
+        $logoutButton.on('click', function() {
             sockets.logout();
             $(this).fadeOut(function() {
                 $(this).remove();
             });
-            $("#game-over-waiting-time").fadeOut();
+            $waitingTime.fadeOut();
         });
     }
 
@@ -76,7 +78,11 @@ var GameOver = function(){
     function setup(remainingTime) {
         $finalScores.addClass("hidden");
         $processingScores.removeClass("hidden");
-        main.displayCountdown(remainingTime, $("#waiting-time"));
+        if (remainingTime > 0) main.displayCountdown(remainingTime, $("#waiting-time"));
+        else {
+            $logoutButton.remove();
+            $waitingTime.text('No more games remaining');
+        }
         $finalScores.empty();
     }
 };

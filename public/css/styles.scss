@@ -26,11 +26,16 @@ button {
     height: $box-size;
     &.disabled {
       background-color: $text-color;
-      color: #000000;
+      color: #000;
+    }
+    &.clicked {
+      background-color: $text-color;
+    }
+    &:hover {
+      color: $text-color;
     }
     &:focus {
-      color: $text-color;
-      outline: none;
+      outline: none!important;
     }
   }
 }

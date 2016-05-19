@@ -21,12 +21,25 @@ var Main = function() {
             toggleScreen(welcomeScreen, function() {
                 $("#username").trigger("focus");
             });
+            _animateButtonsOnClick();
         },
         displayCountdown: displayCountdown,
         setUsername: setUsername,
         toggleScreen: toggleScreen,
         getUsername: getUsername
     };
+
+    /**
+     * Changes the buttons style when they are pressed in order to provide the user with visual feedback
+     * @private
+     */
+    function _animateButtonsOnClick() {
+        $("body").on('mousedown', ".btn", function() {
+            $(this).addClass('clicked');
+        }).on('mouseup', ".btn", function() {
+            $(this).removeClass('clicked');
+        });
+    }
     
     function getUsername() {
         return username;
