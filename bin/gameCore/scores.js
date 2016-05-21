@@ -42,9 +42,33 @@ var Scores = function() {
             });
             if (!missed) playerPoints += bonusOnCompletedWord;
             scores[current.player] += playerPoints;
-            roundScores.push({username:current.player, round: playerPoints, total: scores[current.player]});
+            roundScores.push({username: current.player, round: playerPoints, total: scores[current.player]});
         });
-        return _sortScores(roundScores);
+        return _sortScores(_includeScoresOfPlayersThatAbandonedTheGame(roundScores));
+    }
+
+    /**
+     * Checks if exist scores of players which have abandoned the game and appends them to the final scores of the
+     * current round
+     * @param {Array} currentScores The final scores of the current round
+     * @returns {Array}
+     * @private
+     */
+    function _includeScoresOfPlayersThatAbandonedTheGame(currentScores) {
+        var i, found, scoresOfOldPlayers = [];
+        for (var player in scores) {
+            if (scores.hasOwnProperty(player)) {
+                found = false;
+                for (i = 0; i < currentScores.length; i++) {
+                    if (currentScores[i].username == player) {
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) scoresOfOldPlayers.push({username: player, round: 0, total: scores[player]});
+            }
+        }
+        return currentScores.concat(scoresOfOldPlayers);
     }
 
     /**
