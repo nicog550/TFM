@@ -11,7 +11,8 @@ var WaitingRoom = function() {
             game = gameRef;
         },
         selector: "waiting-room-screen",
-        displayRemainingPlayers: displayRemainingPlayers
+        displayRemainingPlayers: displayRemainingPlayers,
+        displayWaitForNextGameMessage: displayWaitForNextGameMessage
     };
 
     /**
@@ -19,6 +20,15 @@ var WaitingRoom = function() {
      * @param {number} remaining The remaining number of players
      */
     function displayRemainingPlayers(remaining) {
-        $("#remaining-players").text(remaining);
+        $("#remaining-players-count").text(remaining);
+    }
+
+    /**
+     * Notifies the players that they have entered the experiment after it has already started and that they will have
+     * to wait until the next game starts to join it
+     */
+    function displayWaitForNextGameMessage() {
+        $("#remaining-players").addClass('hidden');
+        $("#wait-for-next-game").removeClass('hidden');
     }
 };

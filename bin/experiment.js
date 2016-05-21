@@ -7,6 +7,7 @@
 var Experiment = function() {
     var constants = require('./constants'),
         currentGame,
+        experimentHasStarted = false,
         generator = require('./gameCore/generator'),
         playersBoards,
         round = 0,
@@ -64,15 +65,28 @@ var Experiment = function() {
     /**
      * Appends the socket of a newly connected player to the list of existing sockets
      * @param socket The socket of the newly connected user
-     * @returns {number|boolean} False if no more players can be added or the experiment has ended, otherwise the number
-     * of remaining players necessary for the game to start
+     * @returns {number|boolean} Three possibilities:<br>
+     * 1. {number} Normal case: the number of remaining players necessary for the game to start
+     * 2. {boolean} True if the player has been added after the experiment has started
+     * 3. {boolean} False if no more players can be added or the experiment has ended
      */
     function addPlayer(socket) {
         if (sockets.length == constants.players || round + 1 == constants.games.length) return false;
+
         sockets.push(socket);
         scores.addPlayer(socket.username);
         var remainingNeededPlayers = constants.players - sockets.length;
-        if (remainingNeededPlayers == 0) _generateGame();
+
+        if (experimentHasStarted) {
+            //The game has started but there is room for more players. The player will be able to join the room unless
+            // the current round is the last one
+            return round + 1 < constants.games.length;
+        }
+
+        if (remainingNeededPlayers == 0) {
+            experimentHasStarted = true;
+            _generateGame();
+        }
         return remainingNeededPlayers;
     }
 

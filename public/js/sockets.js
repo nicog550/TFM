@@ -41,7 +41,8 @@ var Sockets = function() {
     function connect() {
         ioSocket.on(messages.LOGIN, function(data) {
             main.toggleScreen(waitingRoom);
-            waitingRoom.displayRemainingPlayers(data.remainingPlayers);
+            if (data.remainingPlayers == -1) waitingRoom.displayWaitForNextGameMessage();
+            else waitingRoom.displayRemainingPlayers(data.remainingPlayers);
         });
 
         ioSocket.on(messages.NEW_GAME, function(data) {
