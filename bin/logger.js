@@ -39,8 +39,7 @@ var Logger = function() {
     }
 
     function _zeroPad(integer) {
-        if (integer < 10) return '0' + integer.toString();
-        return integer.toString();
+        return (integer < 10 ? '0' : '') + integer.toString();
     }
 };
 
