@@ -11,7 +11,7 @@ var Sockets = function() {
             ADD_USER: 'add user',
             FINAL_SCORES: 'final scores',
             GAME_OVER: 'game over',
-            INVALID_USERNAME: 'invalid username',
+            INVALID_LOGIN: 'invalid login',
             LOGIN: 'login',
             LOGOUT: 'logout',
             NEW_GAME: 'new game',
@@ -66,8 +66,8 @@ var Sockets = function() {
             if (!didAbandonGame) gameOver.displayFinalScores(data);
         });
 
-        ioSocket.on(messages.INVALID_USERNAME, function() {
-            welcome.invalidLogin();
+        ioSocket.on(messages.INVALID_LOGIN, function(data) {
+            welcome.invalidLogin(data.reason);
         });
     }
 

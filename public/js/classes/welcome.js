@@ -22,9 +22,11 @@ var Welcome = function() {
     };
 
     /**
-     * Displays the "already used username" message
+     * Displays the "already used username" or "room full" messages
+     * @param {string} message The message to display
      */
-    function invalidLogin() {
+    function invalidLogin(message) {
+        $errorMessage.text(message);
         $errorMessage.removeClass('hidden');
         $button.removeAttr('disabled');
         $button.removeClass('disabled');

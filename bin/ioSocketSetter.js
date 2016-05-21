@@ -36,14 +36,18 @@ var ioSocketSetter = function() {
     function _addUser(socket) {
         socket.on('add user', function(username) {
             if (usernames.indexOf(username) !== -1) { //If the name entered by the player already exists
-                socket.emit('invalid username', {});
+                socket.emit('invalid login', {reason: 'That username is already in use'});
                 return;
             }
             //Log the player in
             socket.username = username;
             socket.userId = usernames.length + 1;
-            usernames.push(username);
             var remainingPlayers = experiment.addPlayer(socket);
+            if (remainingPlayers === false) { //The player cannot join the game
+                socket.emit('invalid login', {reason: 'You cannot join the game'});
+                return;
+            }
+            usernames.push(username);
             if (remainingPlayers > 0) {
                 //Notify the other players
                 socket.emit('login', {remainingPlayers: remainingPlayers});

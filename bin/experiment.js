@@ -64,9 +64,11 @@ var Experiment = function() {
     /**
      * Appends the socket of a newly connected player to the list of existing sockets
      * @param socket The socket of the newly connected user
-     * @returns {number} The number of remaining players necessary for the game to start
+     * @returns {number|boolean} False if no more players can be added or the experiment has ended, otherwise the number
+     * of remaining players necessary for the game to start
      */
     function addPlayer(socket) {
+        if (sockets.length == constants.players || round + 1 == constants.games.length) return false;
         sockets.push(socket);
         scores.addPlayer(socket.username);
         var remainingNeededPlayers = constants.players - sockets.length;
