@@ -9,7 +9,7 @@ var Logger = function() {
         logFile = _createFileName();
     return {
         writeInitialWords: writeInitialWords,
-        writeMove: _writeGameLine
+        writeMove: writeGameLine
     };
 
     /**
@@ -50,8 +50,8 @@ var Logger = function() {
      */
     function writeInitialWords(round, word, playersWords) {
         _writeColumnNames(true);
-        _writeGameLine(0, round, word);
-        playersWords.forEach(function(current) { _writeGameLine(current.userId, round, current.board); });
+        writeGameLine(0, round, word);
+        playersWords.forEach(function(current) { writeGameLine(current.userId, round, current.board); });
         _writeColumnNames(false);
     }
 
@@ -73,9 +73,8 @@ var Logger = function() {
      * @param {number|string} userId The player's ID
      * @param {number|string} round The current round
      * @param {Array} word The word to be logged
-     * @private
      */
-    function _writeGameLine(userId, round, word) {
+    function writeGameLine(userId, round, word) {
         fs.appendFileSync(logFile, ([++line, userId, round, _getDateTime()].concat(word)).join(',') + '\n');
     }
 };
