@@ -122,7 +122,6 @@ var Experiment = function() {
                 break;
             }
         }
-        console.log("Move -> player:", JSON.stringify(player), ", board:", JSON.stringify(board))
         logger.writeMove(player, round + 1, board.map(function(positionAndValue) { return positionAndValue[1]; }));
     }
 };
