@@ -22,7 +22,7 @@ var Generator = function() {
     /**
      * Algorithm for the creation of a new game
      * @returns {Array} Each player's game. The structure looks like
-     * [{player: str, board: []}, {player: str, board: []}, ...]
+     * [{player: str, userId: str, board: []}, {player: str, userId: str, board: []}, ...]
      */
     function createGame() {
         game = getCurrentGame();
@@ -138,7 +138,7 @@ var Generator = function() {
                 myName: socket.username,
                 otherPlayers: getOtherPlayerBoard(connections[index])
             });
-            initialGames.push({player: socket.username, board: generatedGames[index]});
+            initialGames.push({player: socket.username, userId: socket.userId, board: generatedGames[index]});
         });
         return initialGames;
 

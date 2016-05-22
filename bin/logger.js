@@ -51,7 +51,7 @@ var Logger = function() {
     function writeInitialWords(round, word, playersWords) {
         _writeColumnNames(true);
         _writeGameLine(0, round, word);
-        playersWords.forEach(function(current) { _writeGameLine(current.player, round, current.board); }); //TODO: use userID
+        playersWords.forEach(function(current) { _writeGameLine(current.userId, round, current.board); });
         _writeColumnNames(false);
     }
 
@@ -70,13 +70,13 @@ var Logger = function() {
 
     /**
      * Logs a row
-     * @param {number|string} userID The player's ID
+     * @param {number|string} userId The player's ID
      * @param {number|string} round The current round
      * @param {Array} word The word to be logged
      * @private
      */
-    function _writeGameLine(userID, round, word) {
-        fs.appendFileSync(logFile, ([++line, userID, round, _getDateTime()].concat(word)).join(',') + '\n');
+    function _writeGameLine(userId, round, word) {
+        fs.appendFileSync(logFile, ([++line, userId, round, _getDateTime()].concat(word)).join(',') + '\n');
     }
 };
 

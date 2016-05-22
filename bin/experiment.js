@@ -111,7 +111,7 @@ var Experiment = function() {
     /**
      * Updates a player's board
      * @param {string} player The player's username
-     * @param {Array} board The player's board
+     * @param {Array} board The player's board as [[position, value], [position, value], ...]
      */
     function updatePlayerBoard(player, board) {
         for (var i = 0; i < playersBoards.length; i++) {
@@ -119,10 +119,12 @@ var Experiment = function() {
                 board.forEach(function(positionAndValue, index) {
                     playersBoards[i].board[index] = positionAndValue[1];
                 });
+                logger.writeMove(playersBoards[i].userId, round + 1, board.map(function(positionAndValue) {
+                    return positionAndValue[1];
+                }));
                 break;
             }
         }
-        logger.writeMove(player, round + 1, board.map(function(positionAndValue) { return positionAndValue[1]; }));
     }
 };
 
