@@ -4,42 +4,49 @@
  * @constructor
  */
 var Logger = function() {
-    var converter = require('json2csv'),
-        fs = require('fs'),
-        fields = ['line', 'actiontime', 'userID', 'move'],
-        line = 0,
+    var fs = require('fs'),
+        line,
         logFile = _createFileName();
     return {
-        addMove: addMove
+        writeInitialWords: writeInitialWords,
+        writeMove: writeMove
     };
 
     function _createFileName() {
-        var today = new Date();
-        return 'gameLogs/' + today.getFullYear() + '-' + _zeroPad(today.getMonth() + 1) + '-' +
-                _zeroPad(today.getDate()) + '.csv';
+        return 'gameLogs/' + _getDateTime() + '.csv';
     }
 
-    function addMove(data) {
-        _addLine(data);
-    }
+    function _getDateTime() {
+        var now = new Date();
+        return now.getFullYear() + '-' + _zeroPad(now.getMonth() + 1) + '-' + _zeroPad(now.getDate()) + ' ' +
+            _zeroPad(now.getHours()) + ':' + _zeroPad(now.getMinutes()) + ':' + _zeroPad(now.getSeconds());
 
-    function _addLine(data) {
-        data['line'] = ++line;
-        data['actiontime'] = getDateTime();
-        converter({data: data, fields: fields}, function(err, csv) {
-            if (err) console.log(err);
-            fs.appendFileSync(logFile, csv);
-        });
-        
-        function getDateTime() {
-            var now = new Date();
-            return now.getFullYear() + '-' + _zeroPad(now.getMonth() + 1) + '-' + _zeroPad(now.getDate()) + ' ' +
-                _zeroPad(now.getHours()) + ':' + _zeroPad(now.getMinutes()) + ':' + _zeroPad(now.getSeconds());
+        function _zeroPad(integer) {
+            return (integer < 10 ? '0' : '') + integer.toString();
         }
     }
 
-    function _zeroPad(integer) {
-        return (integer < 10 ? '0' : '') + integer.toString();
+    function writeInitialWords(round, word, playersWords) {
+        _writeColumnNames(true);
+        _writeGameLine(0, round, word);
+        playersWords.forEach(function(current) { _writeGameLine(current.player, round, current.board); }); //TODO: use userID
+        _writeColumnNames(false);
+    }
+
+    function writeMove(userID, round, word) {
+        _writeGameLine(userID, round, word);
+    }
+
+    function _writeColumnNames(initial) {
+        fs.appendFileSync(logFile,
+            ['Game ' + (initial ? 'initial code' : 'play') + ' line#',
+                'userID', 'round', 'actiontime', 'word'].join(',') + "\n"
+        );
+        line = 0;
+    }
+
+    function _writeGameLine(userID, round, word) {
+        fs.appendFileSync(logFile, ([++line, userID, round, _getDateTime()].concat(word)).join(',') + '\n');
     }
 };
 

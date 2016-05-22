@@ -14,7 +14,7 @@ module.exports = {
          }
          */
         {
-            duration: 15,
+            duration: 20,
             degree: 4,
             options: 4,
             rewiring: .5,
@@ -28,7 +28,7 @@ module.exports = {
             wordLength: 10
         },
         {
-            duration: 10,
+            duration: 20,
             degree: 4,
             options: 4,
             rewiring: .5,

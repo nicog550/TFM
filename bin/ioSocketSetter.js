@@ -7,7 +7,6 @@
 var ioSocketSetter = function() {
     var experiment,
         ioSocket,
-        logger = require('./logger'),
         usernames = [];
     return {
         init: init
@@ -71,10 +70,6 @@ var ioSocketSetter = function() {
         //Send the new move to all other players
         socket.on('new move', function(data) {
             experiment.updatePlayerBoard(socket.username, data);
-            logger.addMove({
-                userID: socket.userId,
-                move: data
-            });
             socket.broadcast.emit('new move', {
                 username: socket.username,
                 board: data

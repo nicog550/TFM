@@ -9,6 +9,7 @@ var Experiment = function() {
         currentGame,
         experimentHasStarted = false,
         generator = require('./gameCore/generator'),
+        logger = require('./logger'),
         playersBoards,
         round = 0,
         scores = require('./gameCore/scores'),
@@ -43,6 +44,7 @@ var Experiment = function() {
     function _generateGame() {
         playersBoards = generator.createGame();
         setTimeout(_endGame, currentGame.duration * 1000);
+        logger.writeInitialWords(round + 1, word, playersBoards);
     }
 
     /**
@@ -120,6 +122,8 @@ var Experiment = function() {
                 break;
             }
         }
+        console.log("Move -> player:", JSON.stringify(player), ", board:", JSON.stringify(board))
+        logger.writeMove(player, round + 1, board.map(function(positionAndValue) { return positionAndValue[1]; }));
     }
 };
 
