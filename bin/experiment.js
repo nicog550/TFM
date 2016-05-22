@@ -17,7 +17,7 @@ var Experiment = function() {
         word;
     return {
         init: function() {
-            generator.init(getCurrentGame, getSockets, setWord, constants.players);
+            generator.init(getCurrentGame, getSockets, setWord, constants.players, logger);
             scores.init(constants.scores.pointsPerHit, constants.scores.bonusOnCompletedWord, getWord);
             currentGame = constants.games[round];
         },

@@ -8,6 +8,7 @@ var Logger = function() {
         line,
         logFile = _createFileName();
     return {
+        writeGameParameters: writeGameParameters,
         writeInitialWords: writeInitialWords,
         writeMove: writeGameLine
     };
@@ -40,6 +41,13 @@ var Logger = function() {
         function _zeroPad(integer) {
             return (integer < 10 ? '0' : '') + integer.toString();
         }
+    }
+
+    function writeGameParameters(players, degree, rewiring, letters, wordLength, shownLetters, duration) {
+        fs.appendFileSync(logFile,
+            ['Game setup: line#', 'Players', 'deg', 'pr', '#ofLetters', 'WordLength', '#LettersShown', 'SecondsOfGame']
+                .join(',') + "\n" +
+            [1, players, degree, rewiring, letters, wordLength, shownLetters, duration].join(',') + "\n");
     }
 
     /**

@@ -6,15 +6,17 @@ var Generator = function() {
     var game,
         getCurrentGame,
         getSockets,
+        logger,
         players,
         setWord,
         graphGenerator = require('randomgraph');
     return {
-        init: function(getCurrentGameRef, getSocketsRef, setWordRef, playersVal) {
+        init: function(getCurrentGameRef, getSocketsRef, setWordRef, playersVal, loggerRef) {
             getCurrentGame = getCurrentGameRef;
             getSockets = getSocketsRef;
             setWord = setWordRef;
             players = playersVal;
+            logger = loggerRef;
         },
         createGame: createGame
     };
@@ -35,6 +37,9 @@ var Generator = function() {
         for (var i = 0; i < players; i++) {
             generatedGames.push(_generateGameForPlayer(gameWord.slice(), shownLetters));
         }
+        logger.writeGameParameters(
+            players, game.degree, game.rewiring, game.options, wordLength, shownLetters, game.duration
+        );
         return _sendGamesToPlayers(generatedGames, connections);
     }
 
