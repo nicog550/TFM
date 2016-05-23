@@ -56,15 +56,9 @@ var Generator = function() {
     }
 
     /**
-     * Generates the graph which represents the players that each player will see. E.g.:
-     * [
-     *  [1, 5, 6],
-     *  [2, 7, 8],
-     *  [0, 1, 4]
-     *  ...
-     * ]
-     * Each position in the array represents a player, so, in the given example, the third player is the one that will
-     * see 0, 1 and 4.
+     * Generates the graph which represents the players that each player will see. Each position in the array represents
+     * a player, so, in the following example, the third player is the one that will see 0, 1 and 4.
+     * [[1, 5, 6], [2, 7, 8], [0, 1, 4], ...]
      * @param {number} numberOfPlayers The number of players for the new game
      * @param {number} degree The number of players that each player will see
      * @param {number} rewiring The rewiring probability
