@@ -6,10 +6,10 @@ var Generator = function() {
     var game,
         getCurrentGame,
         getSockets,
+        graphGenerator = require('randomgraph'),
         logger,
         players,
-        setWord,
-        graphGenerator = require('randomgraph');
+        setWord;
     return {
         init: function(getCurrentGameRef, getSocketsRef, setWordRef, playersVal, loggerRef) {
             getCurrentGame = getCurrentGameRef;
