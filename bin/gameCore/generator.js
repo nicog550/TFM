@@ -86,11 +86,6 @@ var Generator = function() {
         gameWord.forEach(function(element, index) {
             if (positionsThatPlayerWillSee.indexOf(index) === -1) gameWord[index] = -1;
         });
-        //if (k > wordLength - 1) {
-        //    gameWord = _shuffleArray(gameWord, 0, wordLength - j);
-        //    gameWord = _shuffleArray(gameWord, wordLength - (shownLetters - j), wordLength);
-        //    k = 0;
-        //}
         return gameWord;
     }
 
