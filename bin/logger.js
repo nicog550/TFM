@@ -43,6 +43,16 @@ var Logger = function() {
         }
     }
 
+    /**
+     * Logs the game settings
+     * @param {string|number} players The number of players
+     * @param {string|number} degree The small-world connection degree
+     * @param {string|number} rewiring The rewiring probability
+     * @param {string|number} letters The number of different letters
+     * @param {string|number} wordLength The length of the word
+     * @param {string|number} shownLetters The amount of letters shown to each player
+     * @param {string|number} duration The duration of the game
+     */
     function writeGameParameters(players, degree, rewiring, letters, wordLength, shownLetters, duration) {
         fs.appendFileSync(logFile,
             ['Game setup: line#', 'Players', 'deg', 'pr', '#ofLetters', 'WordLength', '#LettersShown', 'SecondsOfGame']
