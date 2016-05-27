@@ -14,7 +14,7 @@ module.exports = {
          }
          */
         {
-            duration: 20,
+            duration: 3,
             degree: 4,
             options: 4,
             rewiring: .5,
@@ -35,7 +35,7 @@ module.exports = {
             wordLength: 10
         }
     ],
-    intervalBetweenGames: 5, //Time lapse between a game ends and the following one starts (in seconds),
+    intervalBetweenGames: 3, //Time lapse between a game ends and the following one starts (in seconds),
     players: 5, //Number of players needed for the game
     scores: {
         pointsPerHit: 10, //Points for each correct letter

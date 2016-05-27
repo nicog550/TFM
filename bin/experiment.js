@@ -72,18 +72,18 @@ var Experiment = function() {
      * 3. {boolean} False if no more players can be added or the experiment has ended
      */
     function addPlayer(socket) {
-        if (sockets.length == constants.players || round + 1 == constants.games.length) return false;
+        if (sockets.length == constants.players || round + 1 == constants.games.length) return false; //Case 3
 
         sockets.push(socket);
         scores.addPlayer(socket.username);
         var remainingNeededPlayers = constants.players - sockets.length;
 
-        if (experimentHasStarted) {
+        if (experimentHasStarted) { //Cases 2 or 3
             //The game has started but there is room for more players. The player will be able to join the room unless
             // the current round is the last one
             return round + 1 < constants.games.length;
         }
-
+        //Case 1
         if (remainingNeededPlayers == 0) {
             experimentHasStarted = true;
             _generateGame();
@@ -99,7 +99,7 @@ var Experiment = function() {
      */
     function removePlayer(socket) {
         for (var i = 0; i < sockets.length; i++) {
-            if (sockets[i].username == socket.username) {
+            if (sockets[i].userId == socket.userId) {
                 sockets.splice(i, 1);
                 logger.logAbandonment(round + 1, socket.userId);
                 return constants.players - sockets.length;
