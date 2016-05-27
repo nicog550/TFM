@@ -9,7 +9,8 @@ var Logger = function() {
         logFile;
     return {
         startGame: startGame,
-        writeMove: writeGameLine
+        logAbandonment: logAbandonment,
+        logMove: writeGameLine
     };
 
     /**
@@ -120,6 +121,16 @@ var Logger = function() {
             csvContent += ([current.userId, round].concat(current.connections)).join(',') + '\n';
         });
         fs.appendFileSync(logFile.replace('.', ': connections.'), csvContent);
+    }
+
+    /**
+     * Logs the moment in which a player abandons the game
+     * @param {string|number} round The current round
+     * @param {string|number} userId The player's ID
+     */
+    function logAbandonment(round, userId) {
+        fs.appendFileSync(logFile.replace('.', ': abandonments.'),
+                          'userID,round,actiontime\n' + [userId, round, _getDateTime()].join(',') + '\n');
     }
 };
 

@@ -101,6 +101,7 @@ var Experiment = function() {
         for (var i = 0; i < sockets.length; i++) {
             if (sockets[i].username == socket.username) {
                 sockets.splice(i, 1);
+                logger.logAbandonment(round + 1, socket.userId);
                 return constants.players - sockets.length;
             }
         }
@@ -118,7 +119,7 @@ var Experiment = function() {
                 board.forEach(function(positionAndValue, index) {
                     playersBoards[i].board[index] = positionAndValue[1];
                 });
-                logger.writeMove(playersBoards[i].userId, round + 1, board.map(function(positionAndValue) {
+                logger.logMove(playersBoards[i].userId, round + 1, board.map(function(positionAndValue) {
                     return positionAndValue[1];
                 }));
                 break;
