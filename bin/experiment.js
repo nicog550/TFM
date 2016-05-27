@@ -42,9 +42,8 @@ var Experiment = function() {
      * Function responsible for the generation of a new game
      */
     function _generateGame() {
-        playersBoards = generator.createGame();
+        playersBoards = generator.createGame(round);
         setTimeout(_endGame, currentGame.duration * 1000);
-        logger.writeInitialWords(round + 1, word, playersBoards);
     }
 
     /**

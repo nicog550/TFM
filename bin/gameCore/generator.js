@@ -23,10 +23,11 @@ var Generator = function() {
 
     /**
      * Algorithm for the creation of a new game
+     * @param {string|number} round The current round
      * @returns {Array} Each player's game. The structure looks like
      * [{player: str, userId: str, board: []}, {player: str, userId: str, board: []}, ...]
      */
-    function createGame() {
+    function createGame(round) {
         game = getCurrentGame();
         var wordLength = game.wordLength,
             gameWord = _generateWord(wordLength),
@@ -37,10 +38,10 @@ var Generator = function() {
         for (var i = 0; i < players; i++) {
             generatedGames.push(_generateGameForPlayer(gameWord.slice(), shownLetters));
         }
-        logger.writeGameParameters(
-            players, game.degree, game.rewiring, game.options, wordLength, shownLetters, game.duration
-        );
-        return _sendGamesToPlayers(generatedGames, connections);
+        var playersWords = _sendGamesToPlayers(generatedGames, connections);
+        logger.startGame(round + 1, gameWord, playersWords, players, game.degree, game.rewiring, game.options,
+                         wordLength, shownLetters, game.duration);
+        return playersWords;
     }
 
     /**
@@ -136,13 +137,18 @@ var Generator = function() {
                 options: game.options,
                 board: generatedGames[index],
                 myName: socket.username,
-                otherPlayers: getOtherPlayerBoard(connections[index])
+                otherPlayers: getOtherPlayersBoards(connections[index])
             });
-            initialGames.push({player: socket.username, userId: socket.userId, board: generatedGames[index]});
+            initialGames.push({
+                player: socket.username,
+                userId: socket.userId,
+                board: generatedGames[index],
+                connections: connections[index]
+            });
         });
         return initialGames;
 
-        function getOtherPlayerBoard(playerConnections) {
+        function getOtherPlayersBoards(playerConnections) {
             var board = {};
             playerConnections.forEach(function(player) {
                 board[sockets[player].username] = generatedGames[player];
