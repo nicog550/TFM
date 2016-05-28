@@ -24,6 +24,7 @@ var PlayerBoard = function(debugGame, setPlayerConfig, $otherPlayersBoard) {
      */
     function allowMoves() {
         detachedChoices.forEach(function(current) {
+            current.button.attr('data-background', '-1');
             current.button.removeClass('disabled');
             current.button.parent().append(current.choices);
         });
