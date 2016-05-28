@@ -1,8 +1,8 @@
 "use strict";
 
 /**
- * Socket.io features
- * Socket broadcasting options: http://stackoverflow.com/a/10099325
+ * Socket.io features<br>
+ * Socket broadcasting options: {@link http://stackoverflow.com/a/10099325}
  */
 var ioSocketSetter = function() {
     var experiment,

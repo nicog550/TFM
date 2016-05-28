@@ -31,8 +31,7 @@ var Generator = function() {
         game = getCurrentGame();
         var wordLength = game.wordLength,
             gameWord = _generateWord(wordLength),
-            /** Number of correct letters that each player will see */
-            shownLetters = Math.ceil(wordLength / players),
+            shownLetters = Math.ceil(wordLength / players), //Number of correct letters that each player will see
             generatedGames = [],
             connections = _generateConnectionsBetweenPlayers(players, game.degree, game.rewiring);
         for (var i = 0; i < players; i++) {

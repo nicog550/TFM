@@ -67,9 +67,9 @@ var Experiment = function() {
      * Appends the socket of a newly connected player to the list of existing sockets
      * @param socket The socket of the newly connected user
      * @returns {number|boolean} Three possibilities:<br>
-     * 1. {number} Normal case: the number of remaining players necessary for the game to start
-     * 2. {boolean} True if the player has been added after the experiment has started
-     * 3. {boolean} False if no more players can be added or the experiment has ended
+     * 1. {number} Normal case: the number of remaining players necessary for the game to start<br>
+     * 2. {boolean} True if the player has been added after the experiment has started<br>
+     * 3. {boolean} False if no more players can be added or the experiment has ended<br>
      */
     function addPlayer(socket) {
         if (sockets.length == constants.players || round + 1 == constants.games.length) return false; //Case 3
