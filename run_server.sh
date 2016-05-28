@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-/usr/bin/node bin/www
+sudo /usr/bin/node bin/www
