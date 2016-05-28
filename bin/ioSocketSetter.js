@@ -3,6 +3,7 @@
 /**
  * Socket.io features<br>
  * Socket broadcasting options: {@link http://stackoverflow.com/a/10099325}
+ * @constructor
  */
 var ioSocketSetter = function() {
     var experiment,
@@ -13,9 +14,9 @@ var ioSocketSetter = function() {
     };
 
     /**
-     * @constructor
      * @param {object} ioSocketRef The socket.io module
      * @param {object} experimentRef The game generator module
+     * @constructs
      */
     function init(ioSocketRef, experimentRef) {
         experiment = experimentRef;

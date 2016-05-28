@@ -1,7 +1,8 @@
 /**
  * Simple object containing main constant values
+ * @name constants
  */
-module.exports = {
+var constants = {
     games: [
         /*
         GAME FORMAT:
@@ -46,3 +47,5 @@ module.exports = {
         bonusOnCompletedWord: 20 //Bonus if the player guesses the whole word
     }
 };
+
+module.exports = constants;
