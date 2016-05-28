@@ -25,11 +25,12 @@ var Logger = function() {
      * @param {string|number} wordLength The length of the word
      * @param {string|number} shownLetters The amount of letters shown to each player
      * @param {string|number} duration The duration of the game
+     * @param {string|number} showCodeTime The amount of time the players see their codes before starting to play
      */
     function startGame(round, word, playersWords, players, degree, rewiring, letters, wordLength, shownLetters,
-                       duration) {
+                       duration, showCodeTime) {
         logFile = _createFileName(round);
-        _writeGameParameters(players, degree, rewiring, letters, wordLength, shownLetters, duration);
+        _writeParameters(players, degree, rewiring, letters, wordLength, shownLetters, duration, showCodeTime);
         _writeColumnNames(true);
         writeGameLine(0, round, word);
         playersWords.forEach(function(current) { writeGameLine(current.userId, round, current.board); });
@@ -77,13 +78,14 @@ var Logger = function() {
      * @param {string|number} wordLength The length of the word
      * @param {string|number} shownLetters The amount of letters shown to each player
      * @param {string|number} duration The duration of the game
+     * @param {string|number} showCodeTime The amount of time the players see their codes before starting to play
      * @private
      */
-    function _writeGameParameters(players, degree, rewiring, letters, wordLength, shownLetters, duration) {
+    function _writeParameters(players, degree, rewiring, letters, wordLength, shownLetters, duration, showCodeTime) {
         fs.appendFileSync(logFile,
-            ['Game setup: line#', 'Players', 'deg', 'pr', '#ofLetters', 'WordLength', '#LettersShown', 'SecondsOfGame']
-                .join(',') + "\n" +
-            [1, players, degree, rewiring, letters, wordLength, shownLetters, duration].join(',') + "\n");
+            ['Game setup: line#', 'SecondsInitialCodeShown', 'Players', 'deg', 'pr', '#ofLetters', 'WordLength',
+                '#LettersShown', 'SecondsOfGame'].join(',') + "\n" +
+            [1, showCodeTime, players, degree, rewiring, letters, wordLength, shownLetters, duration].join(',') + "\n");
     }
 
     /**

@@ -40,7 +40,7 @@ var Generator = function() {
         }
         var playersWords = _sendGamesToPlayers(generatedGames, connections);
         logger.startGame(round + 1, gameWord, playersWords, players, game.degree, game.rewiring, game.options,
-                         wordLength, shownLetters, game.duration);
+                         wordLength, shownLetters, game.duration, game.showCodeTime);
         return playersWords;
     }
 
