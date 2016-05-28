@@ -90,7 +90,8 @@ input {
   margin-bottom: 10px; }
 #game-screen .initial-countdown {
   float: left;
-  font-size: 18px; }
+  font-size: 18px;
+  margin-top: 16px; }
 #game-screen [data-background="0"] {
   background-color: #050; }
 #game-screen [data-background="1"] {

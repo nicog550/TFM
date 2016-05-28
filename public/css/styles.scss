@@ -121,6 +121,7 @@ input {
   .initial-countdown {
     float: left;
     font-size: 18px;
+    margin-top: 16px;
   }
   [data-background="0"] { background-color: #050; }
   [data-background="1"] { background-color: #FF0; }
