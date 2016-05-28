@@ -110,11 +110,8 @@ var Generator = function() {
      *      options: number,
      *      board: [...],
      *      myName: string,
-     *      otherPlayers: {
-     *          username1: [...],
-     *          username2: [...],
-     *          ...
-     *      }
+     *      otherPlayers: {username1: [...], username2: [...], ...},
+     *      showDuring: number
      * }
      * </code></pre>
      * @private
@@ -131,7 +128,8 @@ var Generator = function() {
                 options: game.options,
                 board: generatedGames[index],
                 myName: socket.username,
-                otherPlayers: getOtherPlayersBoards(connections[index])
+                otherPlayers: getOtherPlayersBoards(connections[index]),
+                showDuring: game.showCodeTime
             });
             initialGames.push({
                 player: socket.username,
@@ -150,41 +148,6 @@ var Generator = function() {
             return board;
         }
     }
-    //
-    ///**
-    // * Shuffles an array from indexes <b>startAt</b> to <b>stopAt</b>. The rest of the array remains unchanged. E.g.:
-    // * _shuffleArray([a, b, c, d, e, f], 2) would shuffle [a, b, c] but not [d, e, f].
-    // * @param {Array} array The array to be shuffled
-    // * @param {number} startAt The index at which to start shuffling
-    // * @param {number} stopAt The index at which to stop shuffling
-    // */
-    //function _shuffleArray(array, startAt, stopAt) {
-    //    var clonedArray = array.slice(0),
-    //        newArray = clonedArray.splice(startAt, stopAt + 1);
-    //    return startAt == 0 ? clonedArray.concat(_knuthShuffle(newArray)) : _knuthShuffle(clonedArray).concat(newArray);
-    //}
-    //
-    ///**
-    // * Array shuffling. Credits to http://stackoverflow.com/a/2450976
-    // * @param {Array} array The array to be shuffled
-    // * @returns {Array}
-    // * @private
-    // */
-    //function _knuthShuffle(array) {
-    //    var currentIndex = array.length,
-    //        temp,
-    //        randomIndex;
-    //    while (currentIndex != 0) { //While there remain elements to shuffle
-    //        // Pick a remaining element
-    //        randomIndex = Math.floor(Math.random() * currentIndex);
-    //        currentIndex--;
-    //        // And swap it with the current element.
-    //        temp = array[currentIndex];
-    //        array[currentIndex] = array[randomIndex];
-    //        array[randomIndex] = temp;
-    //    }
-    //    return array;
-    //}
 };
 
 module.exports = new Generator();
