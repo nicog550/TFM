@@ -1,6 +1,5 @@
 /**
  * Simple object containing main constant values
- * @name constants
  */
 var constants = {
     games: [
