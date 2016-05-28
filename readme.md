@@ -4,7 +4,7 @@ DEPLOYMENT STEPS
 1. For convenience, rename the project's root directory:
 `mv TFM/ tfm`
 2. Install **node**: `sudo apt-get install node`
-3. Install **npm** and the projects dependencies:
+3. Install **npm** and the project's dependencies:
     1. `sudo apt-get install npm`
     2. `cd tfm/`
     3. `npm install`
