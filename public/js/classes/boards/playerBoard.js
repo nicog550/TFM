@@ -6,14 +6,29 @@
  * @param {jQuery} $otherPlayersBoard The container of the other players boards
  */
 var PlayerBoard = function(debugGame, setPlayerConfig, $otherPlayersBoard) {
-    var $gameBoardContainer = $("#own-game-container");
+    var $gameBoardContainer = $("#own-game-container"),
+        detachedChoices;
     return {
+        allowMoves: allowMoves,
         drawBoard: drawBoard,
         listenToMoves: function(sockets) {
             performMove();
             submitMove(sockets);
         }
     };
+
+    /**
+     * When a new game starts, the player is shown the board for a period of time and cannot perform any moves. This
+     * function allows the player to start moving
+     */
+    function allowMoves() {
+        detachedChoices.forEach(function(current) {
+            current.button.removeClass('disabled');
+            current.button.parent().append(current.choices);
+        });
+        $gameBoardContainer.find(".initial-countdown").remove();
+        $gameBoardContainer.find(".submit-move").removeClass('hidden');
+    }
 
     /**
      * Empties the board if it already had content and populates it again
@@ -23,6 +38,7 @@ var PlayerBoard = function(debugGame, setPlayerConfig, $otherPlayersBoard) {
      */
     function drawBoard(board, options, myName) {
         if (debugGame && $gameBoardContainer.children().length > 0) return;
+        detachedChoices = [];
         $gameBoardContainer.empty();
         var $boardTemplate = $("#board-template").find(".own-game").clone(),
             $rowTemplate = $boardTemplate.find(".game-board"),
@@ -44,9 +60,10 @@ var PlayerBoard = function(debugGame, setPlayerConfig, $otherPlayersBoard) {
      * @private
      */
     function _createDropdown($baseTemplate, boardValue, boardPosition, options) {
-        var $template = $baseTemplate.clone(true);
-        createButton();
-        createList();
+        var $template = $baseTemplate.clone(true),
+            $button = createButton(),
+            $choices = createList();
+        detachedChoices.push({button: $button, choices: $choices});
         return $template;
 
         /**
@@ -56,6 +73,7 @@ var PlayerBoard = function(debugGame, setPlayerConfig, $otherPlayersBoard) {
             var $button = $template.find("button");
             $button.attr('data-background', boardValue);
             $button.attr('data-position', boardPosition);
+            return $button;
         }
 
         /**
@@ -71,8 +89,10 @@ var PlayerBoard = function(debugGame, setPlayerConfig, $otherPlayersBoard) {
                 $a.attr('data-position', boardPosition);
                 $ul.append($newLi);
             }
+            return $ul.detach();
         }
     }
+
 
     /**
      * Listens for a player clicking on a choice and updates the value at the corresponding box

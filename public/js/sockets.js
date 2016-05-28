@@ -47,7 +47,9 @@ var Sockets = function() {
 
         ioSocket.on(messages.NEW_GAME, function(data) {
             if (!didAbandonGame && (!game.debug() || $("#" + game.selector).hasClass('hidden')))
-                game.startGame(data.board, data.gameDuration, data.options, data.myName, data.otherPlayers);
+                game.startGame(
+                    data.board, data.gameDuration, data.options, data.myName, data.otherPlayers, data.showDuring
+                );
         });
 
         ioSocket.on(messages.NEW_MOVE, function(data) {

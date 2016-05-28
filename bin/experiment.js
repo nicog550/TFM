@@ -43,7 +43,7 @@ var Experiment = function() {
      */
     function _generateGame() {
         playersBoards = generator.createGame(round);
-        setTimeout(_endGame, currentGame.duration * 1000);
+        setTimeout(_endGame, (currentGame.duration + currentGame.showCodeTime) * 1000);
     }
 
     /**

@@ -46,18 +46,27 @@ var Game = function() {
     }
 
     /**
-     * Displays the current player's board as well as the ones of the other players and starts the game countdown
+     * Displays the current player's board as well as the ones of the other players
      * @param {array} board The initial configuration for the current player
      * @param {number} duration The game duration
      * @param {number} options The number of different choices available at the board for the player
      * @param {string} myName The current player's name
      * @param {object} otherPlayers The initial configuration for each of the other players
+     * @param {number} showCodeTime The amount of time the code will be shown to the player
      */
-    function startGame(board, duration, options, myName, otherPlayers) {
+    function startGame(board, duration, options, myName, otherPlayers, showCodeTime) {
         playerConfig = board;
         playerBoard.drawBoard(board, options, myName);
         otherPlayersBoard.displayBoards(otherPlayers);
+        var $remainingTime = $(".remaining-time");
+        $remainingTime.css('visibility', 'hidden');
         main.toggleScreen(this);
-        main.displayCountdown(duration, $("#game-time"));
+        main.displayCountdown(showCodeTime, $(".initial-countdown"));
+        //When the initial countdown ends, allow the player to start moving
+        setTimeout(function() {
+            main.displayCountdown(duration, $("#game-time"));
+            $remainingTime.css('visibility', 'visible');
+            playerBoard.allowMoves();
+        }, showCodeTime * 1000);
     }
 };

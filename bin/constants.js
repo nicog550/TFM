@@ -10,14 +10,16 @@ module.exports = {
              degree: number, //Number of connections of each player
              options: number, //Number of different options for each box at the game
              rewiring: number, //Rewiring probability
+             showCodeTime: 4, //Time before the code is hidden to the player
              wordLength: number //Length of the word at each game
          }
          */
         {
-            duration: 3,
+            duration: 600,
             degree: 4,
             options: 4,
             rewiring: .5,
+            showCodeTime: 10,
             wordLength: 10
         },
         {
@@ -25,6 +27,7 @@ module.exports = {
             degree: 4,
             options: 4,
             rewiring: .5,
+            showCodeTime: 5,
             wordLength: 10
         },
         {
@@ -32,6 +35,7 @@ module.exports = {
             degree: 4,
             options: 4,
             rewiring: .5,
+            showCodeTime: 4,
             wordLength: 10
         }
     ],

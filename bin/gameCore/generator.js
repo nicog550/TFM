@@ -76,30 +76,34 @@ var Generator = function() {
         return formattedConnections;
     }
 
-    function _generateGameForPlayer(gameWord, lettersToShow) {
-        var positionsThatPlayerWillSee = _setPositionsToShow(gameWord.length, lettersToShow);
-        gameWord.forEach(function(element, index) {
-            if (positionsThatPlayerWillSee.indexOf(index) === -1) gameWord[index] = -1;
-        });
-        return gameWord;
-    }
-
     /**
-     * Chooses the random positions of the game word that the player will see
-     * @param {number} length The length of the game word
+     * Generates the word that will contain the real letters the player will see
+     * @param {Array} gameWord The game's word
      * @param {number} lettersToShow The number of positions that the player will see
-     * @returns {Array}
+     * @returns {*}
      * @private
      */
-    function _setPositionsToShow(length, lettersToShow) {
-        var positions = [],
-            choice;
-        while (positions.length < lettersToShow) {
-            choice = Math.floor(Math.random() * (length - 1));
-            //If the choice wasn't already in 'positions', append it
-            if (positions.indexOf(choice) === -1) positions.push(choice);
+    function _generateGameForPlayer(gameWord, lettersToShow) {
+        var positionsThatPlayerWillSee = setPositionsToShow();
+        gameWord.forEach(function(letter, position) {
+            if (positionsThatPlayerWillSee.indexOf(position) === -1) gameWord[position] = -1;
+        });
+        return gameWord;
+
+        /**
+         * Chooses the random positions of the game word that the player will see
+         * @returns {Array}
+         */
+        function setPositionsToShow() {
+            var positions = [],
+                choice;
+            while (positions.length < lettersToShow) {
+                choice = Math.floor(Math.random() * (gameWord.length - 1));
+                //If the choice wasn't already in 'positions', append it
+                if (positions.indexOf(choice) === -1) positions.push(choice);
+            }
+            return positions;
         }
-        return positions;
     }
 
     /**

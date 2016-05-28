@@ -60,6 +60,8 @@ input {
 #game-screen .game-board button {
   width: 100%;
   height: 100%; }
+  #game-screen .game-board button.disabled {
+    cursor: default; }
 #game-screen .game-board ul.dropdown-menu {
   min-width: 50px;
   background: transparent;
@@ -84,10 +86,11 @@ input {
     font-size: 18px;
     position: relative;
     top: 20px; }
-#game-screen .updated {
-  background-color: #ffb615; }
 #game-screen .player-data {
   margin-bottom: 10px; }
+#game-screen .initial-countdown {
+  float: left;
+  font-size: 18px; }
 #game-screen [data-background="0"] {
   background-color: #050; }
 #game-screen [data-background="1"] {
