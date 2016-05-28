@@ -1,6 +1,7 @@
 "use strict";
 /**
  * Class responsible for the end of game screen
+ * @constructor
  */
 var GameOver = function(){
     var main,

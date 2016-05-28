@@ -4,6 +4,7 @@
  * @param {boolean} debugGame Game mode: debug or not
  * @param {function} setPlayerConfig Reference to the setter of the playerConfig variable
  * @param {jQuery} $otherPlayersBoard The container of the other players boards
+ * @constructor
  */
 var PlayerBoard = function(debugGame, setPlayerConfig, $otherPlayersBoard) {
     var $gameBoardContainer = $("#own-game-container"),

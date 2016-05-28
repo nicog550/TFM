@@ -1,6 +1,7 @@
 "use strict";
 /**
  * Main class, application launcher
+ * @constructor
  */
 var Main = function() {
     var game = new Game(),

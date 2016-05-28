@@ -1,6 +1,7 @@
 "use strict";
 /**
  * Class responsible for the creation of a new game
+ * @constructor
  */
 var Generator = function() {
     var game,

@@ -1,4 +1,8 @@
 "use strict";
+/**
+ * Class responsible for the management of the game scores
+ * @constructor
+ */
 var Scores = function() {
     var bonusOnCompletedWord,
         getWord,

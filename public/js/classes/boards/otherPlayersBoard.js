@@ -2,6 +2,7 @@
 /**
  * Class responsible for drawing the other players boards
  * @param {boolean} debugGame Game mode: debug or not
+ * @constructor
  */
 var OtherPlayersBoard = function(debugGame) {
     var $otherPlayersBoard = $("#other-players-container");

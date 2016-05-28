@@ -1,6 +1,7 @@
 "use strict";
 /**
  * Class responsible for the sockets
+ * @constructor
  */
 var Sockets = function() {
     var ioSocket = io(),

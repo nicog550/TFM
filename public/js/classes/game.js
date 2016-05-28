@@ -1,6 +1,7 @@
 "use strict";
 /**
  * Class responsible for the game logic
+ * @constructor
  */
 var Game = function() {
     var debugGame = false,

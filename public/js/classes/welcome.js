@@ -1,6 +1,7 @@
 "use strict";
 /**
  * Class responsible for the welcome screen
+ * @constructor
  */
 var Welcome = function() {
     var $button = $("#play-button"),

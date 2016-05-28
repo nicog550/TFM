@@ -1,0 +1,604 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="generator" content="JsDoc Toolkit" />
+		
+		<title>JsDoc Reference - PlayerBoard</title>
+
+		<style type="text/css">
+			/* default.css */
+body
+{
+	font: 12px "Lucida Grande", Tahoma, Arial, Helvetica, sans-serif;
+	width: 800px;
+}
+
+.header
+{
+	clear: both;
+	background-color: #ccc;
+	padding: 8px;
+}
+
+h1
+{
+	font-size: 150%;
+	font-weight: bold;
+	padding: 0;
+	margin: 1em 0 0 .3em;
+}
+
+hr
+{
+	border: none 0;
+	border-top: 1px solid #7F8FB1;
+	height: 1px;
+}
+
+pre.code
+{
+	display: block;
+	padding: 8px;
+	border: 1px dashed #ccc;
+}
+
+#index
+{
+	margin-top: 24px;
+	float: left;
+	width: 160px;
+	position: absolute;
+	left: 8px;
+	background-color: #F3F3F3;
+	padding: 8px;
+}
+
+#content
+{
+	margin-left: 190px;
+	width: 600px;
+}
+
+.classList
+{
+	list-style-type: none;
+	padding: 0;
+	margin: 0 0 0 8px;
+	font-family: arial, sans-serif;
+	font-size: 1em;
+	overflow: auto;
+}
+
+.classList li
+{
+	padding: 0;
+	margin: 0 0 8px 0;
+}
+
+.summaryTable { width: 100%; }
+
+h1.classTitle
+{
+	font-size:170%;
+	line-height:130%;
+}
+
+h2 { font-size: 110%; }
+caption, div.sectionTitle
+{
+	background-color: #7F8FB1;
+	color: #fff;
+	font-size:130%;
+	text-align: left;
+	padding: 2px 6px 2px 6px;
+	border: 1px #7F8FB1 solid;
+}
+
+div.sectionTitle { margin-bottom: 8px; }
+.summaryTable thead { display: none; }
+
+.summaryTable td
+{
+	vertical-align: top;
+	padding: 4px;
+	border-bottom: 1px #7F8FB1 solid;
+	border-right: 1px #7F8FB1 solid;
+}
+
+/*col#summaryAttributes {}*/
+.summaryTable td.attributes
+{
+	border-left: 1px #7F8FB1 solid;
+	width: 140px;
+	text-align: right;
+}
+
+td.attributes, .fixedFont
+{
+	line-height: 15px;
+	color: #002EBE;
+	font-family: "Courier New",Courier,monospace;
+	font-size: 13px;
+}
+
+.summaryTable td.nameDescription
+{
+	text-align: left;
+	font-size: 13px;
+	line-height: 15px;
+}
+
+.summaryTable td.nameDescription, .description
+{
+	line-height: 15px;
+	padding: 4px;
+	padding-left: 4px;
+}
+
+.summaryTable { margin-bottom: 8px; }
+
+ul.inheritsList
+{
+	list-style: square;
+	margin-left: 20px;
+	padding-left: 0;
+}
+
+.detailList {
+	margin-left: 20px; 
+	line-height: 15px;
+}
+.detailList dt { margin-left: 20px; }
+
+.detailList .heading
+{
+	font-weight: bold;
+	padding-bottom: 6px;
+	margin-left: 0;
+}
+
+.light, td.attributes, .light a:link, .light a:visited
+{
+	color: #777;
+	font-style: italic;
+}
+
+.fineprint
+{
+	text-align: right;
+	font-size: 10px;
+}
+		</style>
+	</head>
+
+	<body>
+<!-- ============================== header ================================= -->	
+		<!-- begin static/header.html -->
+		<div id="header">
+</div>
+		<!-- end static/header.html -->
+
+<!-- ============================== classes index ============================ -->
+		<div id="index">
+			<!-- begin publish.classesIndex -->
+			<div align="center"><a href="../index.html">Class Index</a>
+| <a href="../files.html">File Index</a></div>
+<hr />
+<h2>Classes</h2>
+<ul class="classList">
+	
+	<li><i><a href="../symbols/_global_.html">_global_</a></i></li>
+	
+	<li><a href="../symbols/Game.html">Game</a></li>
+	
+	<li><a href="../symbols/GameOver.html">GameOver</a></li>
+	
+	<li><a href="../symbols/Loading.html">Loading</a></li>
+	
+	<li><a href="../symbols/Main.html">Main</a></li>
+	
+	<li><a href="../symbols/OtherPlayersBoard.html">OtherPlayersBoard</a></li>
+	
+	<li><a href="../symbols/PlayerBoard.html">PlayerBoard</a></li>
+	
+	<li><a href="../symbols/Sockets.html">Sockets</a></li>
+	
+	<li><a href="../symbols/WaitingRoom.html">WaitingRoom</a></li>
+	
+	<li><a href="../symbols/Welcome.html">Welcome</a></li>
+	
+</ul>
+<hr />
+			<!-- end publish.classesIndex -->
+		</div>
+		
+		<div id="content">
+<!-- ============================== class title ============================ -->
+			<h1 class="classTitle">
+				
+				Class PlayerBoard
+			</h1>
+
+<!-- ============================== class summary ========================== -->			
+			<p class="description">
+				
+				
+			
+				
+				
+				
+					<br /><i>Defined in: </i> <a href="../symbols/src/public_js_classes_boards_playerBoard.js.html">playerBoard.js</a>.
+				
+			</p>
+
+<!-- ============================== constructor summary ==================== -->			
+			
+			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class PlayerBoard.">
+				<caption>Class Summary</caption>
+				<thead>
+					<tr>
+						<th scope="col">Constructor Attributes</th>
+						<th scope="col">Constructor Name and Description</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td class="attributes">&nbsp;</td>
+						<td class="nameDescription" >
+							<div class="fixedFont">
+								<b><a href="../symbols/PlayerBoard.html#constructor">PlayerBoard</a></b>(debugGame, setPlayerConfig, $otherPlayersBoard)
+							</div>
+							<div class="description">Class responsible for drawing the current player's board</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			
+
+<!-- ============================== properties summary ===================== -->
+			
+
+<!-- ============================== methods summary ======================== -->
+			
+				
+				
+				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class PlayerBoard.">
+					<caption>Method Summary</caption>
+					<thead>
+						<tr>
+							<th scope="col">Method Attributes</th>
+							<th scope="col">Method Name and Description</th>
+						</tr>
+					</thead>
+					<tbody>
+					
+						<tr>
+							<td class="attributes">&lt;private&gt; &lt;inner&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/PlayerBoard.html#-_createDropdown">_createDropdown</a></b>($baseTemplate, boardValue, boardPosition, options)
+								</div>
+								<div class="description">Creates the list of choices for the player</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;inner&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/PlayerBoard.html#-allowMoves">allowMoves</a></b>()
+								</div>
+								<div class="description">When a new game starts, the player is shown the board for a period of time and cannot perform any moves.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;inner&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/PlayerBoard.html#-drawBoard">drawBoard</a></b>(board, options, myName)
+								</div>
+								<div class="description">Empties the board if it already had content and populates it again</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;inner&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/PlayerBoard.html#-performMove">performMove</a></b>()
+								</div>
+								<div class="description">Listens for a player clicking on a choice and updates the value at the corresponding box</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;inner&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/PlayerBoard.html#-submitMove">submitMove</a></b>(sockets)
+								</div>
+								<div class="description">Submits the player's board to the other players</div>
+							</td>
+						</tr>
+					
+					</tbody>
+				</table>
+				
+				
+				
+			
+<!-- ============================== events summary ======================== -->
+			
+
+<!-- ============================== constructor details ==================== -->		
+			
+			<div class="details"><a name="constructor"> </a>
+				<div class="sectionTitle">
+					Class Detail
+				</div>
+				
+				<div class="fixedFont">
+						<b>PlayerBoard</b>(debugGame, setPlayerConfig, $otherPlayersBoard)
+				</div>
+				
+				<div class="description">
+					Class responsible for drawing the current player's board
+					
+				</div>
+				
+				
+				
+				
+					
+						<dl class="detailList">
+						<dt class="heading">Parameters:</dt>
+						
+							<dt>
+								<span class="light fixedFont">{boolean}</span>  <b>debugGame</b>
+								
+							</dt>
+								<dd>Game mode: debug or not</dd>
+						
+							<dt>
+								<span class="light fixedFont">{function}</span>  <b>setPlayerConfig</b>
+								
+							</dt>
+								<dd>Reference to the setter of the playerConfig variable</dd>
+						
+							<dt>
+								<span class="light fixedFont">{jQuery}</span>  <b>$otherPlayersBoard</b>
+								
+							</dt>
+								<dd>The container of the other players boards</dd>
+						
+						</dl>
+					
+					
+					
+					
+					
+					
+					
+
+			</div>
+			
+
+<!-- ============================== field details ========================== -->		
+			
+
+<!-- ============================== method details ========================= -->		
+			
+				<div class="sectionTitle">
+					Method Detail
+				</div>
+				
+					<a name="-_createDropdown"> </a>
+					<div class="fixedFont">&lt;private&gt; &lt;inner&gt; 
+					
+					<span class="light">{jQuery}</span>
+					<b>_createDropdown</b>($baseTemplate, boardValue, boardPosition, options)
+					
+					</div>
+					<div class="description">
+						Creates the list of choices for the player
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{jQuery}</span> <b>$baseTemplate</b>
+									
+								</dt>
+								<dd>The template for creating a box with value plus the available choices</dd>
+							
+								<dt>
+									<span class="light fixedFont">{number}</span> <b>boardValue</b>
+									
+								</dt>
+								<dd>The value for the current box</dd>
+							
+								<dt>
+									<span class="light fixedFont">{number}</span> <b>boardPosition</b>
+									
+								</dt>
+								<dd>The position of the current box at the board</dd>
+							
+								<dt>
+									<span class="light fixedFont">{number}</span> <b>options</b>
+									
+								</dt>
+								<dd>The number of different choices available at the board for the player</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{jQuery}</span> </dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="-allowMoves"> </a>
+					<div class="fixedFont">&lt;inner&gt; 
+					
+					
+					<b>allowMoves</b>()
+					
+					</div>
+					<div class="description">
+						When a new game starts, the player is shown the board for a period of time and cannot perform any moves. This
+function allows the player to start moving
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="-drawBoard"> </a>
+					<div class="fixedFont">&lt;inner&gt; 
+					
+					
+					<b>drawBoard</b>(board, options, myName)
+					
+					</div>
+					<div class="description">
+						Empties the board if it already had content and populates it again
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Array}</span> <b>board</b>
+									
+								</dt>
+								<dd>The values for the player's board (initial configuration)</dd>
+							
+								<dt>
+									<span class="light fixedFont">{number}</span> <b>options</b>
+									
+								</dt>
+								<dd>The number of different choices available at the board for the player</dd>
+							
+								<dt>
+									<span class="light fixedFont">{string}</span> <b>myName</b>
+									
+								</dt>
+								<dd>The player's name</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="-performMove"> </a>
+					<div class="fixedFont">&lt;inner&gt; 
+					
+					
+					<b>performMove</b>()
+					
+					</div>
+					<div class="description">
+						Listens for a player clicking on a choice and updates the value at the corresponding box
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="-submitMove"> </a>
+					<div class="fixedFont">&lt;inner&gt; 
+					
+					
+					<b>submitMove</b>(sockets)
+					
+					</div>
+					<div class="description">
+						Submits the player's board to the other players
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{object}</span> <b>sockets</b>
+									
+								</dt>
+								<dd>Instance of Sockets</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					
+				
+			
+			
+<!-- ============================== event details ========================= -->		
+			
+			
+			<hr />
+		</div>
+
+		
+<!-- ============================== footer ================================= -->
+		<div class="fineprint" style="clear:both">
+			
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Sat May 28 2016 19:59:48 GMT+0200 (CEST)
+		</div>
+	</body>
+</html>

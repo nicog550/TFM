@@ -1,6 +1,7 @@
 "use strict";
 /**
  * Class responsible for the waiting room screen
+ * @constructor
  */
 var WaitingRoom = function() {
     var game,
