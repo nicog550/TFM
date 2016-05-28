@@ -13,5 +13,6 @@ DEPLOYMENT STEPS
     2. `npm install -g bower`
     3. `bower install`
     4. `cd ..`
-5. Run: `/usr/bin/node bin/www`. Make sure that 80 is the used port at
+5. Create the directory for the logs: `mkdir gameLogs` 
+6. Run: `./run_server.sh`. Make sure that 80 is the used port at
  bin/www (the default one is 3000).
