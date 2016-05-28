@@ -7,7 +7,7 @@ var Game = function() {
         gameOver,
         main,
         otherPlayersBoard = new OtherPlayersBoard(debugGame),
-        playerBoard = new PlayerBoard(debugGame, _setPlayerConfig, otherPlayersBoard.getBoard()),
+        playerBoard = new PlayerBoard(debugGame, setPlayerConfig, otherPlayersBoard.getBoard()),
         playerConfig,
         sockets,
         waitingRoom;
@@ -37,11 +37,8 @@ var Game = function() {
         main.toggleScreen(gameOver);
     }
 
-    /**
-     * Setter
-     * @protected
-     */
-    function _setPlayerConfig(index, value) {
+    /** Setter */
+    function setPlayerConfig(index, value) {
         playerConfig[index] = parseInt(value);
     }
 
