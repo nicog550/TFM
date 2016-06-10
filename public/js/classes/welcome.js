@@ -6,17 +6,15 @@
 var Welcome = function() {
     var $button = $("#play-button"),
         $errorMessage = $("#invalid-login"),
+        $form = $("#login-form"),
         $input = $("#username"),
         main,
-        game,
         sockets;
     return {
-        init: function(mainRef, gameRef, socketsRef) {
+        init: function(mainRef, socketsRef) {
             main = mainRef;
-            game = gameRef;
             sockets = socketsRef;
-            $button.on('click', _logPlayerIn);
-            _loginOnEnter();
+            _logPlayerIn();
         },
         selector: "welcome-screen",
         invalidLogin: invalidLogin
@@ -34,40 +32,20 @@ var Welcome = function() {
     }
 
     /**
-     * Creates a random username
-     * @returns {string}
-     */
-    function createUsername() {
-        var text = "";
-        var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-        for (var i = 0; i < 5; i++) text += possible.charAt(Math.floor(Math.random() * possible.length));
-        return text;
-    }
-
-    /**
      * Checks if the player has inserted a name and, if so, notifies the socket to perform a login
      * @private
      */
     function _logPlayerIn() {
-        var username = $input.val();
-        if (username == "") {
-            if (game.debug()) username = createUsername();
-            else return;
-        }
-        $errorMessage.addClass('hidden');
-        $button.attr('disabled', 'disabled');
-        $button.addClass('disabled');
-        main.setUsername(username);
-        sockets.login();
-    }
+        $form.on('submit', function(event) {
+            event.preventDefault(); //Prevent the form from being submitted, what would cause the page to refresh
+            var username = $input.val();
+            if (username == "") return;
 
-    /**
-     * Triggers the _logPlayerIn function when the player presses enter at the username input
-     * @private
-     */
-    function _loginOnEnter() {
-        $input.on("keyup", function(event) {
-            if (event.which == 13 && $(this).val() !== '') _logPlayerIn();
+            $errorMessage.addClass('hidden');
+            $button.attr('disabled', 'disabled');
+            $button.addClass('disabled');
+            main.setUsername(username);
+            sockets.login();
         });
     }
 };

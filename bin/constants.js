@@ -39,7 +39,7 @@ var constants = {
             wordLength: 10
         }
     ],
-    intervalBetweenGames: 3, //Time lapse between a game ends and the following one starts (in seconds),
+    intervalBetweenGames: 300, //Time lapse between a game ends and the following one starts (in seconds),
     players: 5, //Number of players needed for the game
     scores: {
         pointsPerHit: 10, //Points for each correct letter

@@ -18,7 +18,7 @@ var Main = function() {
             sockets.init(this, game, gameOver, waitingRoom, welcomeScreen);
             game.init(this, sockets, gameOver, waitingRoom);
             waitingRoom.init(this, game);
-            welcomeScreen.init(this, game, sockets);
+            welcomeScreen.init(this, sockets);
             toggleScreen(welcomeScreen, function() {
                 $("#username").trigger("focus");
             });

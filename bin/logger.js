@@ -131,6 +131,9 @@ var Logger = function() {
      * @param {string|number} userId The player's ID
      */
     function logAbandonment(round, userId) {
+        if (logFile === undefined) {
+            logFile = _createFileName(0);
+        }
         fs.appendFileSync(logFile.replace('.', ': abandonments.'),
                           'userID,round,actiontime\n' + [userId, round, _getDateTime()].join(',') + '\n');
     }

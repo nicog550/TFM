@@ -29,7 +29,10 @@ button {
     button.btn:focus {
       outline: none !important; }
 
-input {
+input[type=checkbox] {
+  margin: 15px 10px 0 0; }
+
+input[type=text] {
   padding: 0;
   width: 180px;
   height: 64px;
@@ -42,6 +45,11 @@ input {
   border: none;
   border-bottom: 2px #797979 solid;
   outline: none; }
+
+p {
+  text-align: left;
+  max-width: 600px;
+  margin: 40px auto; }
 
 .error {
   color: #a94442;

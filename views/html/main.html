@@ -33,8 +33,24 @@
         <label for="username" class="lead">Insert your name to start the game:</label>
         <br>
         <span id="invalid-login" class="error hidden"><br></span>
-        <input id="username" type="text" maxlength="12">
-        <button id="play-button" class="btn">Play</button>
+        <form id="login-form">
+            <div class="col-xs-12">
+                <div class="col-xs-12">
+                    <input id="username" type="text" maxlength="12" required>
+                    <button id="play-button" type="submit" class="btn">Play</button>
+                </div>
+                <div class="col-xs-12">
+                    <input type="checkbox" id="accept-rules" required>
+                    <label for="accept-rules">I agree with the rules of the game</label>
+                </div>
+                <div class="col-xs-12">
+                    <p>
+                        RULES OF THE GAME:<br>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam sodales suscipit ornare. Mauris sodales congue tellus, sed vestibulum orci fermentum at.<br>Cras consectetur nibh a elit maximus ullamcorper. Aliquam tempus vel leo in tempus. Nulla facilisi. Duis vitae odio eu nisi sollicitudin auctor eget nec odio.<br>Fusce quis consequat odio. Nullam pellentesque orci dignissim luctus semper. Etiam quis auctor sapien, quis luctus mi.<br>Suspendisse ullamcorper congue consectetur. Morbi tristique tristique imperdiet. Proin in luctus sem. Duis rhoncus finibus tortor eu consectetur. Duis tincidunt et urna et tempor.
+                    </p>
+                </div>
+            </div>
+        </form>
     </div>
     <!-- Waiting room screen -->
     <div id="waiting-room-screen" class="screen hidden">
