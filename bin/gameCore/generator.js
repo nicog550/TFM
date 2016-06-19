@@ -38,7 +38,8 @@ var Generator = function() {
         for (var i = 0; i < players; i++) {
             generatedGames.push(_generateGameForPlayer(gameWord.slice(), shownLetters));
         }
-        var playersWords = _sendGamesToPlayers(generatedGames, connections);
+        var css = _generateGameColors(game.options),
+            playersWords = _sendGamesToPlayers(generatedGames, connections, css);
         logger.startGame(round + 1, gameWord, playersWords, players, game.degree, game.rewiring, game.options,
                          wordLength, shownLetters, game.duration, game.showCodeTime);
         return playersWords;
@@ -107,6 +108,34 @@ var Generator = function() {
     }
 
     /**
+     * Generates the CSS sheet with the colors that players will see for each choice
+     * @param {number} options The number of different choices
+     * @private
+     */
+    function _generateGameColors(options) {
+        var colors = [],
+            values = ['0', '5', 'B', 'F'];
+        values.forEach(function(val1) {
+            values.forEach(function(val2) {
+                values.forEach(function(val3) {
+                    colors.push('#' + val1 + val2 + val3);
+                });
+            });
+        });
+        colors.shift(); //Remove the first element (#000), which would be confused with the background color
+        var finalValues = [];
+        for (var i = 0; i < options; i++) {
+            finalValues.push(colors.splice(Math.floor(Math.random() * colors.length), 1));
+        }
+        return finalValues.reduce(function(accum, current, index) {
+            return accum +
+                '[data-background="' + index + '"], [data-background="' + index + '"]:hover {' +
+                'background-color: ' + current + ';' +
+                '}\n';
+        }, '');
+    }
+
+    /**
      * Sends to each player their game plus the games of the other players. The used structure is the following one:
      * <pre><code>
      * {
@@ -115,15 +144,17 @@ var Generator = function() {
      *      board: [...],
      *      myName: string,
      *      otherPlayers: {username1: [...], username2: [...], ...},
-     *      showDuring: number
+     *      showDuring: number,
+     *      css: string
      * }
      * </code></pre>
      * @private
      * @param {Array} generatedGames The games generated for all players
      * @param {Array} connections The connections generated for all players
      * @return {Array} The games generated for each player, indexed by their name
+     * @param {string} css The CSS sheet with the colors for each option
      */
-    function _sendGamesToPlayers(generatedGames, connections) {
+    function _sendGamesToPlayers(generatedGames, connections, css) {
         var sockets = getSockets(),
             initialGames = [];
         sockets.forEach(function(socket, index) {
@@ -133,7 +164,8 @@ var Generator = function() {
                 board: generatedGames[index],
                 myName: socket.username,
                 otherPlayers: getOtherPlayersBoards(connections[index]),
-                showDuring: game.showCodeTime
+                showDuring: game.showCodeTime,
+                css: css
             });
             initialGames.push({
                 player: socket.username,

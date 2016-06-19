@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap-theme.min.css" type="text/css" media="screen" charset="utf-8">
     <link rel="stylesheet" href="css/roboto.css" type="text/css" media="screen" charset="utf-8">
     <link rel="stylesheet" href="css/styles.css" type="text/css" media="screen" charset="utf-8">
+    <style id="dynamic-css" type="text/css" media="screen"></style><!-- Will be filled during the game -->
     <script src="bower_components/jquery/dist/jquery.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="bower_components/bootstrap/dist/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="/socket.io/socket.io.js"></script>
@@ -40,7 +41,7 @@
                     <button id="play-button" type="submit" class="btn">Play</button>
                 </div>
                 <div class="col-xs-12">
-                    <input type="checkbox" id="accept-rules" required>
+                    <input type="checkbox" id="accept-rules"><!-- TODO: required -->
                     <label for="accept-rules">I agree with the rules of the game</label>
                 </div>
                 <div class="col-xs-12">

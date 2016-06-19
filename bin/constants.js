@@ -15,7 +15,7 @@ var constants = {
          }
          */
         {
-            duration: 15,
+            duration: 30,
             degree: 4,
             options: 4,
             rewiring: .5,
@@ -39,7 +39,7 @@ var constants = {
             wordLength: 10
         }
     ],
-    intervalBetweenGames: 300, //Time lapse between a game ends and the following one starts (in seconds),
+    intervalBetweenGames: 5, //Time lapse between a game ends and the following one starts (in seconds),
     players: 5, //Number of players needed for the game
     scores: {
         pointsPerHit: 10, //Points for each correct letter

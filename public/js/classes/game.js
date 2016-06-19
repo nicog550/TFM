@@ -51,8 +51,10 @@ var Game = function() {
      * @param {string} myName The current player's name
      * @param {object} otherPlayers The initial configuration for each of the other players
      * @param {number} showCodeTime The amount of time the code will be shown to the player
+     * @param {string} css The content of the CSS sheet that will set the colors for each option
      */
-    function startGame(board, duration, options, myName, otherPlayers, showCodeTime) {
+    function startGame(board, duration, options, myName, otherPlayers, showCodeTime, css) {
+        $('#dynamic-css').html(css);
         playerConfig = board;
         playerBoard.drawBoard(board, options, myName);
         otherPlayersBoard.displayBoards(otherPlayers);
