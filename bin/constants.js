@@ -15,11 +15,11 @@ var constants = {
          }
          */
         {
-            duration: 30,
+            duration: 20,
             degree: 4,
             options: 4,
             rewiring: .5,
-            showCodeTime: 10,
+            showCodeTime: 20,
             wordLength: 10
         },
         {

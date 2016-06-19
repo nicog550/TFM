@@ -128,9 +128,10 @@ var Generator = function() {
             finalValues.push(colors.splice(Math.floor(Math.random() * colors.length), 1));
         }
         return finalValues.reduce(function(accum, current, index) {
+            //E.g.: [data-background="1"], [data-background="1"]:hover { background-color: #5FB !important; }
             return accum +
                 '[data-background="' + index + '"], [data-background="' + index + '"]:hover {' +
-                'background-color: ' + current + ';' +
+                ' background-color: ' + current + ' !important; ' +
                 '}\n';
         }, '');
     }
