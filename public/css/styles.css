@@ -64,7 +64,7 @@ p {
   height: 50px;
   display: inline-block; }
   #game-screen .box.transparent {
-    background: transparent; }
+    background: transparent !important; }
 #game-screen .game-board button {
   width: 100%;
   height: 100%; }

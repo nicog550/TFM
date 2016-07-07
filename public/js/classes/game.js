@@ -67,6 +67,7 @@ var Game = function() {
             main.displayCountdown(duration, $("#game-time"));
             $remainingTime.css('visibility', 'visible');
             playerBoard.allowMoves();
+            otherPlayersBoard.hideInitialWords();
         }, showCodeTime * 1000);
     }
 };

@@ -9,7 +9,8 @@ var OtherPlayersBoard = function(debugGame) {
     return {
         getBoard: function() { return $otherPlayersBoard; },
         displayBoards: displayBoards,
-        drawMove: drawMove
+        drawMove: drawMove,
+        hideInitialWords: hideInitialWords
     };
 
     /**
@@ -67,5 +68,9 @@ var OtherPlayersBoard = function(debugGame) {
         board.forEach(function(element) {
             $playerBoard.find("[data-position=" + element[0] + "]").attr('data-background', element[1]);
         });
+    }
+
+    function hideInitialWords() {
+        $otherPlayersBoard.find('.box').attr('data-background', '-1');
     }
 };
