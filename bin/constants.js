@@ -15,7 +15,7 @@ var constants = {
          }
          */
         {
-            duration: 9999,
+            duration: 60,
             degree: 4,
             options: 4,
             rewiring: .5,
