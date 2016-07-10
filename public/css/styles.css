@@ -56,6 +56,9 @@ p {
   display: block;
   margin-bottom: 10px; }
 
+#waiting-room-screen .lead {
+  text-align: center; }
+
 #game-screen .remaining-time {
   margin-bottom: 20px; }
 #game-screen .box {
