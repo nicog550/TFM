@@ -180,7 +180,13 @@ var Generator = function() {
         function getOtherPlayersBoards(playerConnections) {
             var board = {};
             playerConnections.forEach(function(player) {
-                board[sockets[player].username] = generatedGames[player];
+                var username;
+                try {
+                    username = sockets[player].username;
+                } catch (TypeError) { //If a player abandoned, an exception will be thrown here
+                    username = '__fake_user__';
+                }
+                board[username] = generatedGames[player];
             });
             return board;
         }
